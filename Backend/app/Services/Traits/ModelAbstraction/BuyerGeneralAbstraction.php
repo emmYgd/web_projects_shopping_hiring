@@ -3,7 +3,6 @@
 namespace App\Services\Traits\ModelAbstraction;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
 
 use App\Models\Buyer;
 use App\Services\ModelCRUD\BuyerCRUD;
@@ -20,18 +19,6 @@ trait BuyerGeneralAbstraction
 	use CartCRUD;
 	use ComputeUniqueIDService;
 	use CommentRateAbstraction;
-
-	private function BuyerEncryptDetails(string $paramToEncrypt) : string
-	{
-		return Crypt::encryptString($paramToEncrypt);
-		
-	}
-
-	private function BuyerDecryptDetails(string $paramToDecrypt) : string
-	{
-		return Crypt::decryptString($paramToEncrypt);
-	} //catch(DecryptException $ex) in the main Controller implementing this facade...
-
 
 	protected function BuyerSearchAllBuyersService() : array
 	{

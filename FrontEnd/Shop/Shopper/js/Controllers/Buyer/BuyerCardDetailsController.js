@@ -17,6 +17,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		is_all_null:false,
 		fetch_success:false,
 		clicked_state:false,
+		upload_success: false,
 
 		RefreshCardDetails()
 		{
@@ -77,14 +78,25 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				this.Collectibles();
 
 				if(
-					this.uniquePendingID==""
-				){
+					this.buyer_card_type == null ||
+					this.buyer_card_number == "" ||
+					this.buyer_card_cvv == "" ||
+					this.buyer_card_exp_month == "" ||
+					this.buyer_card_exp_year == ""
+				)
+				{
 					console.log("Empty!");
 					//lets the default handle this...
+					this.is_all_null = true;
+					this.FetchIsAllNullUI();
 				}
 				else
 				{
 					event.preventDefault();
+
+					this.is_all_null = false;
+					this.FetchIsAllNullUI();
+
 					//set state to true for watchers
 					this.clicked_state = true;
 
@@ -104,26 +116,26 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 						//now start conditionals:
 						if( 
 							(this.serverSyncModel.code === 1) &&
-							(this.serverSyncModel.serverStatus === 'FetchSuccess!')
+							(this.serverSyncModel.serverStatus === 'UploadSuccess!')
 						)
 						{
 							console.log("Success");
 							//Upload state:
-							this.fetch_each_success = true;
+							this.upload_success = true;
 							//call reactors:
-							this.FetchEachUI();
+							this.UploadUI();
 						}
 						else if
 						( 
 							(this.serverSyncModel.code === 0) &&
-							(this.serverSyncModel.serverStatus === 'FetchError!')
+							(this.serverSyncModel.serverStatus === 'UploadError!')
 						)
 						{
 							console.log("Error");
 							//Upload state:
-							this.fetch_each_success = false;
+							this.upload_success = false;
 							//call reactors:
-							this.FetchEachUI();
+							this.UploadUI();
 						}
 					});
 				}
@@ -140,19 +152,17 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			$('div#refreshCardDetails').hide();
 			$('div#errorSuccessNotifyCardDetails').hide();
 			
-			/*$('div#eachCardDetailsDetails').hide();
-			$('div#eachCardDetailsLoadingIcon').hide();
-			$('div#errorSuccessNotifyEachCardDetails').hide();*/
+			$('div#cardDetailsUploadLoadingIcon').hide();
 		},
 
 		Collectibles()
 		{
 			//set values:
-			/*this.buyer_card_number = $().val();
-			this.buyer_card_cvv:"",
-			this.buyer_card_exp_month:"",
-			this.buyer_card_exp_year:"",;
-	 		console.log(this.uniquePendingID);*/
+			this.buyer_card_type = $('select#card_type').val();
+			this.buyer_card_number = $('input#card_number_edit').val(),
+			this.buyer_card_cvv = $('input#card_cvv_edit').val(),
+			this.buyer_card_exp_month = $('input#card_exp_month_edit').val();
+			this.buyer_card_exp_year = $('input#card_exp_year_edit').val();
 		},
 
 		SyncFetchCardDetailsModel()
@@ -173,13 +183,16 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		SyncUploadCardDetailsModel()
 		{
 			let method = "POST";
-			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/admin/dashboard/utils/fetch/each/cart/details';
+			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/buyer/dashboard/utils/upload/card/details';
 			//prepare the JSON model:
 			let jsonRequestModel = 
 			{
-				'token_id' : this.admin_id,
-				'unique_cart_id' : this.uniquePendingID,
-				'payment_status' : 'pending',
+				'unique_buyer_id' : this.buyer_id,
+				'buyer_bank_card_type' : this.buyer_card_type,
+				'buyer_bank_card_number' : this.buyer_card_number,
+				'buyer_bank_card_cvv' : this.buyer_card_cvv,
+				'buyer_bank_card_expiry_month' : this.buyer_card_exp_month,
+				'buyer_bank_card_expiry_year': this.buyer_card_exp_year,
 			}
 
 			let serverModel = AbstractModel(method, UploadServerUrl, jsonRequestModel);
@@ -191,75 +204,46 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		{
 			if(this.clicked_state)
 			{
-				$('button#viewCardDetailsDetails').hide();
-				$('div#eachCardDetailsLoadingIcon').show();
-				$('div#errorSuccessNotifyEachCardDetails').hide();
+				$('button#uploadCardDetailsBtn').hide();
+				$('div#cardDetailsUploadLoadingIcon').show();
 			}
 			else if(!this.clicked_state)
 			{
-				$('div#eachCardDetailsLoadingIcon').hide();
-				$('button#viewCardDetailsDetails').show();
+				$('div#cardDetailsUploadLoadingIcon').hide();
+				$('button#uploadCardDetailsBtn').show();
 
-				$('div#errorSuccessNotifyEachCardDetails').show();
+				$('div#errorSuccessNotifyUploadCardDetails').show();
 			}
 		},
 		
-		FetchEachUI()
+		UploadUI()
 		{	
-			if(this.fetch_each_success)
+			if(this.upload_success)
 			{
 				//clear all forms:
-				$('form#searchCartForm').trigger('reset');
+				$('form#allCardDetailsUpload').trigger('reset');
 
 				//clear first:
-				$('div#errorSuccessNotifyEachCardDetails').show();
-				$('div#fetchSuccessEachCardDetails').text("");
-				$('div#fetchErrorEachCardDetails').text("");
-				$('div#fetchErrorDetailsEachCardDetails').text("");
+				$('div#errorSuccessNotifyUploadCardDetails').show();
+				$('div#cardDetailsUploadSuccess').text("");
+				$('div#cardDetailsUploadError').text("");
+				$('div#cardDetailsUploadErrorDetails').text("");
 				//Upload Success Message:
-				$('div#fetchSuccessEachCardDetails').text("Pending Cart Details Found!");
-
-				//show the form:
-				$('div#eachCardDetailsDetails').show();
-
-				$('span#dispCardDetailsID').text('');
-				$('span#dispCardDetailsID').text(this.uniquePendingID);
-
-				$('span#dispDateCreated').text('');
-				$('span#dispDateCreated').text(this.serverSyncModel.cart_details.cart_created_at);
-
-				$('span#dispDateUpdated').text('');
-				$('span#dispDateUpdated').text(this.serverSyncModel.cart_details.cart_updated_at);
-
-				$('span#dispPendingCurrency').text('');
-				$('span#dispPendingCurrency').text(this.serverSyncModel.cart_details.purchase_currency);
-				
-				$('span#dispTotalPendingCost').text('');
-				$('span#dispTotalPendingCost').text(this.serverSyncModel.cart_details.purchase_price);
-
-				$('span#dispBuyerID').text('');
-				$('span#dispBuyerID').text(this.serverSyncModel.cart_details.unique_buyer_id);
-
-				$('span#dispBuyerEmail').text('');
-				$('span#dispBuyerEmail').text(this.serverSyncModel.cart_details.buyer_email);
-
-				$('span#dispBuyerPhoneNumber').text('');
-				$('span#dispBuyerPhoneNumber').text(this.serverSyncModel.cart_details.buyer_phone_number);
-				
+				$('div#cardDetailsUploadSuccess').text("Card Details Uploaded successfully!");
 			}
-			else if(!this.fetch_each_success)
+			else if(!this.upload_success)
 			{
 				//console.log("Cool Right!");
 				$('div#eachCardDetailsDetails').hide();
 				//clear first:
-				$('div#errorSuccessNotifyEachCardDetails').show();
-				$('div#fetchSuccessEachCardDetails').text("");
-				$('div#fetchErrorEachCardDetails').text("");
-				$('div#fetchErrorDetailsEachCardDetails').text("");
+				$('div#errorSuccessNotifyUploadCardDetails').show();
+				$('div#cardDetailsUploadSuccess').text("");
+				$('div#cardDetailsUploadError').text("");
+				$('div#cardDetailsUploadErrorDetails').text("");
 
 				//Upload Error Message:
-				$('div#fetchErrorEachCardDetails').text("Fetch Error!");
-				$('div#fetchErrorDetailsEachCardDetails').text(this.serverSyncModel.short_description);
+				$('div#cardDetailsUploadError').text("Upload Error!");
+				$('div#cardDetailsUploadErrorDetails').text(this.serverSyncModel.short_description);
 				//console.log(this.serverSyncModel.short_description);
 			}
 		},
@@ -313,7 +297,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			{
 				$('div#cardDetailsViewLoadingIcon').hide();
 				$('div#allCardDetails').hide();
-				$('button#refreshCardDetails').show();
+				$('div#refreshCardDetails').show();
 
 				$('div#errorSuccessNotifyCardDetails').show();
 				$('div#cardDetailsFetchSuccess').text('');
@@ -321,9 +305,27 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				$('div#cardDetailsFetchErrorDetails').text('');
 
 				$('div#cardDetailsFetchError').text('Fetch Error!');
-				$('div#cardDetailsFetchError').text(this.serverSyncModel.short_description);
+				$('div#cardDetailsFetchErrorDetails').text(this.serverSyncModel.short_description);
 			}
 		},
+
+		FetchIsAllNullUI()
+		{
+			if(this.is_all_null)
+			{
+				$('div#errorSuccessNotifyUploadCardDetails').show();
+				$('div#cardDetailsUploadSuccess').text('');
+				$('div#cardDetailsUploadError').text('');
+				$('div#cardDetailsUploadErrorDetails').text('');
+
+				$('div#cardDetailsUploadError').text('Upload Error!');
+				$('div#cardDetailsUploadErrorDetails').text('Please fill up all fields!');
+			}
+			else if(!this.is_all_null)
+			{
+				$('div#errorSuccessNotifyUploadCardDetails').hide();
+			}
+		}
 	}
 		
 

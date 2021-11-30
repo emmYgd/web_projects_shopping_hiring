@@ -54,7 +54,13 @@ trait AdminGeneralAbstraction {
 			//query and new Keys and values:
 			$queryKeysValues = ['product_token_id' => $product_token_id];
 			//this is the image file uploads:
-			$newKeysValues = $request->except(['token_id', 'product_token_id']);
+			//$newKeysValues = $request->except(['token_id', 'product_token_id']);
+			$newKeysValues = [
+				'main_image_1' => $request->file('main_image_1'),
+				'main_image_2' => $request->file('main_image_2'),
+				'logo_1' => $request->file('logo_1'),
+				'logo_2' => $request->file('logo_2')
+			];
 
 			$product_image_has_updated = $this->ProductUpdateSpecificService($queryKeysValues, $newKeysValues);
 

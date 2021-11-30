@@ -453,17 +453,51 @@
 								    		<div class="col-lg-6">
 								    			<div class="card card-dashboard w3-card-4 w3-margin w3-deep-purple">
 								    				<div class="card-body w3-center">
-								    					<h3 class="card-title w3-text-white w3-myfont">Billing Address</h3><!-- End .card-title -->
+								    					<h3 class="card-title w3-text-white w3-myfont">Billing Address</h3>
+                                                        <!-- End .card-title -->
                                                         <hr/>
-														<p class="w3-myfont w3-text-white">User Name<br>
-														User Company<br>
-														John str<br>
-														New York, NY 10001<br>
-														1-234-987-6543<br>
-														yourmail@mail.com<br>
-                                                        <hr/>
+														<div class="w3-myfont w3-text-white">   
 
-														<a href="#editBillingAddress" data-toggle="modal" class="w3-card-4 w3-padding w3-margin w3-border w3-round-xxlarge w3-white w3-text-khaki w3-border-lime w3-ripple"><span class="w3-medium w3-myfont"><b>Edit</b></span> <i class="icon-edit"></i></a></p>
+                                                            <div id="dispAllBilling">
+                                                                <span id="billingName">User Name</span>
+                                                                <br>
+														        <span id="billingCompany">User Company</span>
+                                                                <br>
+														        <span id="billingCountry">John str</span>
+                                                                <br>
+                                                                <span id="billingState">New York, NY 10001</span><br>
+                                                                <span id="cityOrTown">New York, NY 10001</span><br>
+                                                                <span id="billingStreetOrClose">New York, NY 10001</span>
+                                                                <br>
+                                                                <span id="billingHomeApartmentSuiteUnit">New York, NY 10001</span>
+														        <br>
+                                                                <span id="billingPhoneNumber">1-234-987-6543</span>
+														        <br>
+                                                                <span id="billingEmail">yourmail@mail.com</span>
+                                                                <br>
+                                                                <hr/>
+                                                            </div>
+
+                                                            <div class="w3-center">
+                                                                <div class="spinner-grow text-primary" id="billingViewLoadingIcon" role="status">
+                                                                    <span class="sr-only">Loading...</span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div id="errorSuccessNotifyBillingDetails">
+                                                                <b><div class="w3-center w3-text-green" id="billingFetchSuccess"></div></b>
+                                                                <b><div class="w3-center w3-text-red" id="billingFetchError"></div></b>
+                                                                <div class="w3-center w3-text-red" id="billingFetchErrorDetails"></div>
+                                                            </div>
+
+                                                            <a href="#" id="refreshBillingDetails" class="w3-card-4 w3-padding w3-margin w3-border w3-round-xxlarge w3-white w3-text-khaki w3-border-lime w3-ripple">
+                                                                <span class="w3-medium w3-myfont"><b>Refresh</b></span> <i class="icon-edit"></i>
+                                                            </a><br/><br/>
+
+														   <a href="#editBillingAddress" data-toggle="modal" class="w3-card-4 w3-padding w3-margin w3-border w3-round-xxlarge w3-white w3-text-khaki w3-border-lime w3-ripple">
+                                                                <span class="w3-medium w3-myfont"><b>Edit</b></span> <i class="icon-edit"></i>
+                                                            </a>
+                                                    </div>
 
 								    				</div><!-- End .card-body -->
 								    			</div><!-- End .card-dashboard -->
@@ -1146,7 +1180,7 @@
                     </button><br/>
                     <div class="w3-container w3-padding w3-margin w3-topbar w3-bottombar w3-border-left w3-border-right w3-border-deep-purple w3-round-large">
                         
-                        <form action="#">
+                        <form action="#" id="allCardDetailsUpload">
                             <div class="form-group">
 
                                 <div class="w3-center w3-card-4 w3-deep-purple w3-padding w3-margin"><b>PLS NOTE: Your information is encrypted which makes it safe and protected!</b></div>
@@ -1170,10 +1204,21 @@
 
                                 <input type="number" class="form-control" id="card_exp_year_edit" placeholder="Edit Card Expiry Year" required/><br/>
 
-                                <button id="uploadCardDetailsBtn" type="submit" class="w3-center w3-btn w3-deep-purple w3-ripple">
-                                    <b><span>SAVE</span></b>
-                                    <i class="icon-cloud"></i>
-                                </button>
+                                <div id="errorSuccessNotifyUploadCardDetails">
+                                    <b><div class="w3-center w3-text-green" id="cardDetailsUploadSuccess"></div></b>
+                                    <b><div class="w3-center w3-text-red" id="cardDetailsUploadError"></div></b>
+                                    <div class="w3-center w3-text-red" id="cardDetailsUploadErrorDetails"></div>
+                                </div>
+
+                                 <div class="w3-center">
+                                    <div class="spinner-grow text-primary" id="cardDetailsUploadLoadingIcon" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <button id="uploadCardDetailsBtn" type="submit" class="w3-center w3-btn w3-deep-purple w3-ripple">
+                                        <b><span>SAVE</span></b>
+                                        <i class="icon-cloud"></i>
+                                    </button>
+                                </div>            
                             </div><!-- End .form-group -->
                             
                         </form>

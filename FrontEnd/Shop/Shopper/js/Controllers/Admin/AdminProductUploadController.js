@@ -174,8 +174,10 @@ import AbstractFileModel from "./../../Models/AbstractFileModel.js";
 	 		this.productAddInfo = $('textarea#product_add_info').val();
 	 		this.productShipGuaranteeInfo = $('textarea#product_ship_guarantee_info').val();
 
-	 		console.log(this.productMainImage1);
-	 		console.log(this.productMainImage2);
+	 		console.log(this.productMainImage1[0]);
+	 		console.log(this.productMainImage2[0]);
+	 		console.log(this.productLogo1[0]);
+	 		console.log(this.productLogo2[0]);
 		},
 
 		IsAllNullUI()

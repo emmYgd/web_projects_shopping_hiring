@@ -95,7 +95,7 @@ final class AdminGeneralController extends Controller //implements AdminGeneralI
             $status = [
                 'code' => 1,
                 'serverStatus' => 'imageDetailsSaved!',
-                'requestLists' => $request->all()
+                'requestLists' => $request->file('main_image_1')
             ];
 
         }

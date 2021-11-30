@@ -14,12 +14,16 @@ trait BuyerPaymentRequestRules {
         return $rules;
     }
 
-    protected function fetchEachBuyerDetailsRules(): array
+    protected function uploadCardDetailsRules(): array
     {
         //set validation rules:
         $rules = [
-            'token_id' => 'required | exists:admins',
-            'unique_buyer_id' => 'required | exists:buyers'
+            'unique_buyer_id' => 'required | exists:buyers',
+            'buyer_bank_card_type' => 'required',
+            'buyer_bank_card_number'=> 'required',
+            'buyer_bank_card_cvv' => 'required',
+            'buyer_bank_card_expiry_month' => 'required',
+            'buyer_bank_card_expiry_year' => 'required'
         ];
 
         return $rules;

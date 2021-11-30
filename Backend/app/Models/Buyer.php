@@ -12,7 +12,7 @@ class Buyer extends Model
     public $hidden = ['id','unique_buyer_id', 'buyer_password', 'buyer_bank_card_number','buyer_bank_card_cvv', 'buyer_bank_expiry_month', 'buyer_bank_expiry_year', 'created_at', 'updated_at'];
     //public $visible = [];
 
-    protected $guarded = ['id', 'unique_buyer_id', 'buyer_password', 'buyer_bank_card_number', 'buyer_bank_card_cvv', 'buyer_bank_expiry_month', 'buyer_bank_expiry_year', 'created_at', 'updated_at'];
+    protected $guarded = ['id', 'unique_buyer_id', 'buyer_password', 'buyer_bank_card_type', 'buyer_bank_card_number', 'buyer_bank_card_cvv', 'buyer_bank_card_expiry_month', 'buyer_bank_card_expiry_year', 'created_at', 'updated_at'];
     //protected $fillable = [];
 
 }

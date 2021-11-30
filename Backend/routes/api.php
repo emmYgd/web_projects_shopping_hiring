@@ -88,6 +88,23 @@ Route::group(['prefix' => 'v1/buyer/', /*'middleware' => ''*/], function(){
     		'uses' => 'BuyerPaymentController@FetchAllCardDetails'
 		]);
 
+		Route::post('upload/card/details', [
+			//'as' => 'init', 
+			//'middleware' => 'init',
+    		'uses' => 'BuyerPaymentController@UploadCardDetails'
+		]);
+
+		Route::post('fetch/billing/details', [
+			//'as' => 'init', 
+			//'middleware' => 'init',
+    		'uses' => 'BuyerBillingAndShippingController@FetchBillingDetails'
+		]);
+
+		Route::post('upload/billing/details', [
+			//'as' => 'init', 
+			//'middleware' => 'init',
+    		'uses' => 'BuyerBillingAndShippingController@UploadBillingDetails'
+		]);
 
 		//this will include their pricing with or without shipping...
 		Route::get('view/all/goods/for/sale', [

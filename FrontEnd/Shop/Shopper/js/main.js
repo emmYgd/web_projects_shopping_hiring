@@ -16,6 +16,8 @@ import BuyerLoginLogout from "./Controllers/Buyer/BuyerLoginLogoutController.js"
 import BuyerDashboardSecurity from "./Controllers/Buyer/BuyerDashboardSecurityController.js";
 
 import BuyerCardDetails from "./Controllers/Buyer/BuyerCardDetailsController.js";
+import BuyerBillingDetails from "./Controllers/Buyer/BuyerBillingDetailsController.js";
+//import BuyerShippingDetails from "./Controllers/Buyer/BuyerShippingDetailsController.js";
 
 //Now start the app with IIFE main():
 const main = (()=> {
@@ -90,6 +92,10 @@ const main = (()=> {
 			BuyerCardDetails.FetchCardDetails();
 			BuyerCardDetails.RefreshCardDetails();
 			BuyerCardDetails.UploadCardDetails('button#uploadCardDetailsBtn');
+
+			BuyerBillingDetails.FetchBillingDetails();
+			//BuyerCardDetails.RefreshBillingDetails();
+			//BuyerCardDetails.UploadBillingDetails('button#uploadBillingDetailsBtn');
 		}
 
 	});

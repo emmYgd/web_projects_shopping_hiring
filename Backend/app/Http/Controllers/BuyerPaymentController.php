@@ -21,7 +21,7 @@ final class BuyerPaymentController extends Controller //implements BuyerCartInte
         //$this->createBuyerDefault();
    }
 
-    //first display the summary of all pending(not paid yet) or cleared cart(paid)
+   //first display the summary of all pending(not paid yet) or cleared cart(paid)
    public function FetchAllCardDetails(Request $request): JsonResponse
    {
       $status = array();
@@ -68,6 +68,54 @@ final class BuyerPaymentController extends Controller //implements BuyerCartInte
          return response()->json($status, 200);
       //}
    }
+
+
+   public function UploadCardDetails(Request $request): JsonResponse
+   {
+      $status = array();
+
+      try
+      {
+         //get rules from validator class:
+         $reqRules = $this->uploadCardDetailsRules();
+
+         //validate here:
+         $validator = Validator::make($request->all(), $reqRules);
+
+         if($validator->fails())
+         {
+            throw new \Exception("Access Error, Not logged in yet!");
+         }
+         
+         //this should return in chunks or paginate:
+         $detailsSaved = $this->BuyerUploadCardDetailsService($request);
+         if(!$detailsSaved)
+         {
+            throw new \Exception("Card Details not uploaded successfully!");
+         }
+
+         $status = [
+            'code' => 1,
+            'serverStatus' => 'UploadSuccess!',
+         ];
+
+      }
+      catch(\Exception $ex)
+      {
+
+         $status = [
+            'code' => 0,
+            'serverStatus' => 'UploadError!',
+            'short_description' => $ex->getMessage()
+         ];
+
+      }
+      /*finally
+      {*/
+         return response()->json($status, 200);
+      //}
+   }
+
   
    //first display the summary of all pending(not paid yet) or cleared cart(paid)
    public function FetchEachBuyerDetails(Request $request): JsonResponse

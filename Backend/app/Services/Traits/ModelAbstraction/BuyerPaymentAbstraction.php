@@ -2,6 +2,8 @@
 
 namespace App\Services\Traits\ModelAbstraction;
 
+use Illuminate\Support\Facades\Crypt;
+
 use Illuminate\Http\Request;
 
 use App\Services\Traits\ModelCRUD\CartCRUD;
@@ -25,8 +27,8 @@ trait BuyerPaymentAbstraction
 		$buyer_card_details['card_type'] = $each_buyer_detail->buyer_bank_card_type;
 		$buyer_card_details['card_number'] = $each_buyer_detail->buyer_bank_card_number;
 		$buyer_card_details['card_cvv'] = $each_buyer_detail->buyer_bank_card_cvv;
-		$buyer_card_details['exp_month'] = $each_buyer_detail->buyer_bank_expiry_month;
-		$buyer_card_details['exp_year'] = $each_buyer_detail->buyer_bank_expiry_year;
+		$buyer_card_details['exp_month'] = $each_buyer_detail->buyer_bank_card_expiry_month;
+		$buyer_card_details['exp_year'] = $each_buyer_detail->buyer_bank_card_expiry_year;
 
 		//check for null:
 		$all_array_values = array_values($buyer_card_details);
@@ -36,10 +38,41 @@ trait BuyerPaymentAbstraction
 		}
 		else
 		{
+			foreach($buyer_card_details as $cardKey => $cardValue)
+			{
+				$decryptedValue = Crypt::decryptString($cardValue);
+				//set decrypted value equivalent:
+				$buyer_card_details[$cardKey] = $decryptedValue;
+			}
 			$card_details = $buyer_card_details;
+			//$card_details = Crypt::decryptString($buyer_card_details['card_number']);
 		}
 
 		return $card_details;
+	}
+
+	protected function BuyerUploadCardDetailsService(Request $request): bool
+	{
+		$is_card_details_saved = null;
+
+		$buyer_id = $request->unique_buyer_id;
+		if($buyer_id !== "")
+		{
+			$queryKeysValues = ['unique_buyer_id' => $buyer_id];
+			$newKeysValues = $request->except('unique_buyer_id');
+
+			foreach($newKeysValues as $cardKey=>$cardValue)
+			{
+				//encrypt each values:
+				$encCardValue = Crypt::encryptString($cardValue);
+				$newKeywithEncValue = [$cardKey => $encCardValue];
+				//save where:
+				$is_card_details_saved = $this->BuyerUpdateSpecificService($queryKeysValues, $newKeywithEncValue);
+				$is_card_details_saved = true; 
+			}
+		}
+		
+		return $is_card_details_saved;
 	}
 
 

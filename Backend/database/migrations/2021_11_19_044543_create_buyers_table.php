@@ -35,12 +35,12 @@ class CreateBuyersTable extends Migration
             $table->string('buyer_bank_middle_name')->nullable();
             $table->string('buyer_bank_last_name')->nullable();
 
-            $table->enum('buyer_bank_card_type', ['MasterCard', 'Visa'])->nullable();
-            //On the frontend: (MasterCard - Debit, Visa - Debit)
-            $table->string('buyer_bank_card_number')->unique()->nullable();
-            $table->string('buyer_bank_card_cvv')->unique()->nullable();
-            $table->integer('buyer_bank_expiry_month')->nullable();
-            $table->integer('buyer_bank_expiry_year')->nullable();
+             //On the frontend: (MasterCard - Debit, Visa - Debit)They will all be encrypted...
+            $table->longText('buyer_bank_card_type')->nullable();
+            $table->longText('buyer_bank_card_number')->unique()->nullable();
+            $table->longText('buyer_bank_card_cvv')->unique()->nullable();
+            $table->longText('buyer_bank_card_expiry_month')->nullable();
+            $table->longText('buyer_bank_card_expiry_year')->nullable();
 
             $table->string('buyer_email')->unique();
             $table->string('buyer_phone_number')->unique()->nullable();
