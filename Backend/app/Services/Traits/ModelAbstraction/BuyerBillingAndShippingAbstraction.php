@@ -18,15 +18,13 @@ trait BuyerBillingAndShippingAbstraction
 		$details_saved_status = false;
 
 		//first get if Business Details table is not empty:
-		$adminBankDetails = $this->BuyerBillingReadAllService();
-		if( $adminBankDetails->count() !== 0 )
+		$buyerBillingDetails = $this->BuyerBillingReadAllService();
+		if( $buyerBillingDetails->count() !== 0 )
 		{
 			//return "Cool";
-			//now first get the admin token id:
-			$token_id = $request->token_id;
-
-			//then update thus:
-			$queryKeysValues = ['token_id' => $token_id];
+			//now first get the buyer token id:
+			//then update thus: 
+			$queryKeysValues = ['unique_buyer_id' => $request->unique_buyer_id];
 			$newKeysValues = $request->except('token_id');
 
 			//call the update function:
@@ -35,7 +33,7 @@ trait BuyerBillingAndShippingAbstraction
 			$details_saved_status = $is_details_saved;
 		}
 		else
-		//if( $adminBankDetails->count() == 0 )
+		//if( $buyerBankDetails->count() == 0 )
 		{
 			//return "Cool Thingy";
 			//else:
@@ -64,16 +62,14 @@ trait BuyerBillingAndShippingAbstraction
 		$details_saved_status = false;
 
 		//first get if Business Details table is not empty:
-		$adminBankDetails = $this->BuyerShippingReadAllService();
-		if( $adminBankDetails->count() !== 0 )
+		$buyerShippingDetails = $this->BuyerShippingReadAllService();
+		if( $buyerShippingDetails->count() !== 0 )
 		{
 			//return "Cool";
-			//now first get the admin token id:
-			$token_id = $request->token_id;
-
+			//now first get the buyer token id:
 			//then update thus:
-			$queryKeysValues = ['token_id' => $token_id];
-			$newKeysValues = $request->except('token_id');
+			$queryKeysValues = ['unique_buyer_id' => $request->unique_buyer_id];
+			$newKeysValues = $request->except('unique_buyer_id');
 
 			//call the update function:
 			$is_details_saved = $this->BuyerShippingUpdateSpecificService($queryKeysValues, $newKeysValues);
@@ -81,7 +77,7 @@ trait BuyerBillingAndShippingAbstraction
 			$details_saved_status = $is_details_saved;
 		}
 		else
-		//if( $adminBankDetails->count() == 0 )
+		//if( $buyerBankDetails->count() == 0 )
 		{
 			//return "Cool Thingy";
 			//else:
