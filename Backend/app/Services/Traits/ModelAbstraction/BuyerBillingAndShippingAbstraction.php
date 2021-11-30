@@ -3,24 +3,22 @@
 namespace App\Services\Traits\ModelAbstraction;
 
 use Illuminate\Http\Request;
-//use Illuminate\Database\Eloquent\Collection;
 
-use App\Services\Traits\ModelCRUD\PaymentCRUD;
 use App\Services\Traits\ModelCRUD\BillingCRUD;
 use App\Services\Traits\ModelCRUD\ShippingDRUD;
 
 
-trait AdminBankandPaymentAbstraction
+trait BuyerBillingAndShippingAbstraction
 {
-	use PaymentCRUD;
-	use AdminBankDetailsCRUD;
+	use BuyerBillingCRUD;
+	use BuyerShippingCRUD;
 
-	protected function AdminSaveBankDetailsService(Request $request) //: bool
+	protected function BuyerSaveBillingDetailsService(Request $request) //: bool
 	{
 		$details_saved_status = false;
 
 		//first get if Business Details table is not empty:
-		$adminBankDetails = $this->AdminBankDetailsReadAllService();
+		$adminBankDetails = $this->BuyerBillingReadAllService();
 		if( $adminBankDetails->count() !== 0 )
 		{
 			//return "Cool";
@@ -32,7 +30,7 @@ trait AdminBankandPaymentAbstraction
 			$newKeysValues = $request->except('token_id');
 
 			//call the update function:
-			$is_details_saved = $this->AdminBankDetailsUpdateSpecificService($queryKeysValues, $newKeysValues);
+			$is_details_saved = $this->BuyerBillingUpdateSpecificService($queryKeysValues, $newKeysValues);
 
 			$details_saved_status = $is_details_saved;
 		}
@@ -43,7 +41,7 @@ trait AdminBankandPaymentAbstraction
 			//else:
 			$params_to_be_saved = $request->all();
 			//save all using mass assignment:
-			$is_details_saved = $this->AdminBankDetailsCreateAllService($params_to_be_saved);
+			$is_details_saved = $this->BuyerBillingDetailsCreateAllService($params_to_be_saved);
 
 			$details_saved_status = $is_details_saved;
 		}
@@ -52,12 +50,58 @@ trait AdminBankandPaymentAbstraction
 	}
 
 
-	protected function AdminFetchBankDetailsService(Request $request)
+	protected function BuyerFetchBillingDetailsService(Request $request)
 	{
-		$queryKeysValues = ['token_id' => $request->token_id];
-		$allBizDetails = $this->AdminBankDetailsReadSpecificService($queryKeysValues);
+		$queryKeysValues = ['unique_buyer_id' => $request->unique_buyer_id];
+		$allBillingDetails = $this->BuyerBillingReadSpecificService($queryKeysValues);
 
-		return $allBizDetails;
+		return $allBillingDetails;
+	}
+
+
+	protected function BuyerSaveShippingDetailsService(Request $request) //: bool
+	{
+		$details_saved_status = false;
+
+		//first get if Business Details table is not empty:
+		$adminBankDetails = $this->BuyerShippingReadAllService();
+		if( $adminBankDetails->count() !== 0 )
+		{
+			//return "Cool";
+			//now first get the admin token id:
+			$token_id = $request->token_id;
+
+			//then update thus:
+			$queryKeysValues = ['token_id' => $token_id];
+			$newKeysValues = $request->except('token_id');
+
+			//call the update function:
+			$is_details_saved = $this->BuyerShippingUpdateSpecificService($queryKeysValues, $newKeysValues);
+
+			$details_saved_status = $is_details_saved;
+		}
+		else
+		//if( $adminBankDetails->count() == 0 )
+		{
+			//return "Cool Thingy";
+			//else:
+			$params_to_be_saved = $request->all();
+			//save all using mass assignment:
+			$is_details_saved = $this->BuyerShippingDetailsCreateAllService($params_to_be_saved);
+
+			$details_saved_status = $is_details_saved;
+		}
+
+		return $details_saved_status;	
+	}
+
+
+	protected function BuyerFetchShippingDetailsService(Request $request)
+	{
+		$queryKeysValues = ['unique_buyer_id' => $request->unique_buyer_id];
+		$allShippingDetails = $this->BuyerShippingReadSpecificService($queryKeysValues);
+
+		return $allShippingDetails;
 	}
 }
 

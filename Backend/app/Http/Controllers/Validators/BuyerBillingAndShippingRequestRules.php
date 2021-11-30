@@ -29,7 +29,7 @@ trait BuyerBillingAndPaymentRequestRules {
     {
         //set validation rules:
         $rules = [
-            //'token_id'=> 'required | string | size:10 | exists:admins'
+            'unique_buyer_id'=> 'required | string | exists:admins'
         ];
 
         return $rules;

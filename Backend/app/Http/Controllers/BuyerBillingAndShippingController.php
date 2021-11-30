@@ -79,7 +79,7 @@ final class BuyerBillingAndShippingController extends Controller //implements Bu
 
             if($validator->fails())
             {
-                throw new \Exception("Access Error, can't connect!");
+                throw new \Exception("Access Error, not a logged-in user!");
             }
 
             $biz_details_fetched = $this->BuyerFetchBillingDetailsService($request);
