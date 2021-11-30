@@ -283,7 +283,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 
 				//Upload Error Message:
 				$('div#billingUploadFetchError').text("Upload Error!");
-				$('div#billingUploadFetchErrorDetails').text(this.short_description.short_description);
+				$('div#billingUploadFetchErrorDetails').text(this.serverSyncModel.short_description);
 			}
 		},
 

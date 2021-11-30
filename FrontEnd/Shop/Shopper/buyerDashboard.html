@@ -1365,32 +1365,31 @@
 
                     <div class="w3-container w3-padding w3-margin w3-topbar w3-bottombar w3-border-left w3-border-right w3-border-deep-purple w3-round-large">
 
-                         <form action="#">
+                         <form action="#" id="shippingDetailsUpload">
                             <div class="form-group"><br/>
-                                <input type="text" class="form-control" id="billing_username_edit" placeholder="Shipping Username" required/><br/>
+                                <input type="text" class="form-control" id="shipping_username_edit" placeholder="Shipping Username" required/><br/>
 
-                                <input type="text" class="form-control" id="user_company_edit" placeholder="Edit User Company" required/><br/>
+                                <input type="text" class="form-control" id="shipping_company_edit" placeholder="Company Address (Optional)" required/><br/>
 
                                 <div class="row">
 
                                     <div class="col-sm-4 form-group">
-                                        <label for="register-lastname">Country *</label>
-                                        <input type="text" class="form-control" id="register-country" name="register-country" required>
+                                        <label for="register-lastname">Country (Optional)</label>
+                                        <input type="text" class="form-control" id="shipping_country_edit" name="register-country">
                                     </div>
                                             
                                             
                                     <div class="col-sm-4 form-group">        
                                         <label for="register-lastname">State *</label>
-                                        <input type="text" class="form-control" id="register-country" name="register-country" required>
+                                        <input type="text" class="form-control" id="shipping_state_edit" name="register-country" required>
                                     </div>
 
                                     <div class="col-sm-4 form-group">
-                                                 <label for="register-lastname">City/Town *</label>
-                                        <input type="text" class="form-control" id="register-country" name="register-country" required>
+                                        <label for="register-lastname">City/Town *</label>
+                                        <input type="text" class="form-control" id="shipping_city_or_town_edit" name="register-country" required>
                                     </div>
 
                                 </div>
-
 
                                 <div class="form-group">   
                                     <div class="w3-center">
@@ -1398,23 +1397,36 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <textarea type="text" class="form-control" id="register" name="register-email" placeholder="Street or Close" required></textarea>
+                                            <textarea type="text" class="form-control" id="shipping_street_or_close_edit" name="register-email" placeholder="Street or Close" required></textarea>
                                         </div>
                                         <div class="col-sm-6">
-                                            <textarea type="text" class="form-control" id="register-ad" name="register-email" placeholder="Home, Apartment, Suite or Unit " required></textarea>
+                                            <textarea type="text" class="form-control" id="shipping_home_apartment_suite_unit_edit" name="register-email" placeholder="Home, Apartment, Suite or Unit (Optional)" required></textarea>
                                         </div>
                                     </div>
                                 </div><!-- End .form-group -->
 
-                                <input type="number" class="form-control" id="billing_phone_number" placeholder="Shipping Phone Number" required/><br/>
+                                <input type="number" class="form-control" id="shipping_phone_number_edit" placeholder="Shipping Phone Number" required/><br/>
 
-                                <input type="email" class="form-control" id="billing_email" placeholder="Shipping Email Address" required/><br/>
+                                <input type="email" class="form-control" id="shipping_email_edit" placeholder="Shipping Email Address" required/><br/>
 
-                                <button type="submit" class="w3-center w3-btn w3-deep-purple w3-ripple">
+                                <div class="w3-center">
+                                    <div class="spinner-grow text-primary" id="shippingUploadLoadingIcon" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+
+                                <div id="errorSuccessNotifyShippingUploadDetails">
+                                    <b><div class="w3-center w3-text-green" id="shippingUploadFetchSuccess"></div></b>
+                                    <b><div class="w3-center w3-text-red" id="shippingUploadFetchError"></div></b>
+                                    <div class="w3-center w3-text-red" id="shippingUploadFetchErrorDetails"></div>
+                                </div>
+
+                                <button type="submit" id="shippingUploadDetailsBtn" class="w3-center w3-btn w3-deep-purple w3-ripple">
                                     <b><span>SAVE</span></b>
                                     <i class="icon-cloud"></i>
                                 </button>
-                            </div>
+
+                            </div><!-- End .form-group -->
                         </form>
                     </div>
                 </div>

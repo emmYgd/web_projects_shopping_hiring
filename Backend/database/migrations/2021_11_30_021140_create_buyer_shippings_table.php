@@ -19,7 +19,7 @@ class CreateBuyerShippingsTable extends Migration
             $table->string('unique_buyer_id')->unique();
 
             $table->string('shipping_username')->unique();
-            $table->string('shipping_user_company');
+            $table->string('shipping_user_company')->nullable();
             $table->string('shipping_country');
             $table->string('shipping_state');
             $table->string('shipping_city_or_town');

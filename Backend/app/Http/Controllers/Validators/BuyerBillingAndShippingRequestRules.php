@@ -37,18 +37,16 @@ trait BuyerBillingAndShippingRequestRules {
     {
         //set validation rules:
         $rules = [
-            'token_id'=> 'required | string | size:10 | exists:admins',
-            /*'bank_acc_first_name'=> 'required | string',
-            'bank_acc_middle_name'=> 'string',
-            'bank_acc_last_name'=> 'required | string',
-            'bank_acc_email'=> 'required | string',
-            'bank_acc_password'=> 'string',
-            'bank_acc_phone_num'=> 'string',
-            'country_of_opening' =>'required',
-            'currency_of_operation'=> 'required | string',
-            'bank_account_type' => 'required | string',
-            'bank_account_number' => 'required | string',
-            'bank_acc_additional_info' => 'string'*/
+             'unique_buyer_id'=> 'required | string | size:10 | exists:buyers',
+            'shipping_username' => 'required | string ',
+            'shipping_user_company' => 'string', 
+            'shipping_country' => 'required | string', 
+            'shipping_state'  => 'required | string',
+            'shipping_city_or_town'  => 'required | string',
+            'shipping_street_or_close'  => 'required | string',
+            'shipping_home_apartment_suite_or_unit'  => 'required | string',
+            'shipping_phone_number'  => 'required | string',
+            'shipping_email'  => 'required | string',
         ];
 
         return $rules;
@@ -58,7 +56,7 @@ trait BuyerBillingAndShippingRequestRules {
     {
         //set validation rules:
         $rules = [
-            'unique_buyer_id'=> 'required | string | exists:admins'
+            'unique_buyer_id'=> 'required | string | exists:buyers'
         ];
 
         return $rules;

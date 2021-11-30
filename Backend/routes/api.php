@@ -106,6 +106,19 @@ Route::group(['prefix' => 'v1/buyer/', /*'middleware' => ''*/], function(){
     		'uses' => 'BuyerBillingAndShippingController@UploadBillingDetails'
 		]);
 
+		Route::post('fetch/shipping/details', [
+			//'as' => 'init', 
+			//'middleware' => 'init',
+    		'uses' => 'BuyerBillingAndShippingController@FetchShippingDetails'
+		]);
+
+		Route::post('upload/shipping/details', [
+			//'as' => 'init', 
+			//'middleware' => 'init',
+    		'uses' => 'BuyerBillingAndShippingController@UploadShippingDetails'
+		]);
+
+
 		//this will include their pricing with or without shipping...
 		Route::get('view/all/goods/for/sale', [
 			'as' => 'goods_for_sale', 

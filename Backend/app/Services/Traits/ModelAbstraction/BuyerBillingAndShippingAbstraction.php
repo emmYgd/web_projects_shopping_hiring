@@ -83,7 +83,7 @@ trait BuyerBillingAndShippingAbstraction
 			//else:
 			$params_to_be_saved = $request->all();
 			//save all using mass assignment:
-			$is_details_saved = $this->BuyerShippingDetailsCreateAllService($params_to_be_saved);
+			$is_details_saved = $this->BuyerShippingCreateAllService($params_to_be_saved);
 
 			$details_saved_status = $is_details_saved;
 		}

@@ -283,7 +283,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 
 				//Upload Error Message:
 				$('div#shippingUploadFetchError').text("Upload Error!");
-				$('div#shippingUploadFetchErrorDetails').text(this.short_description.short_description);
+				$('div#shippingUploadFetchErrorDetails').text(this.serverSyncModel.short_description);
 			}
 		},
 
@@ -292,6 +292,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			if(this.fetch_success)
 			{
 				$('div#shippingViewLoadingIcon').hide();
+				$('div#dispNoteImportant').hide();
 				$('div#dispAllShipping').show();
 				$('div#errorSuccessNotifyShippingDetails').show();
 				$('a#refreshShippingDetails').show();
@@ -326,7 +327,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				$('span#shippingHomeApartmentSuiteUnit').text('');
 				$('span#shippingHomeApartmentSuiteUnit').text(this.serverSyncModel.shippingDetails.shipping_home_apartment_suite_or_unit);
 
-				$('span#shippingPhoneNumber').text('Cool');
+				$('span#shippingPhoneNumber').text('');
 				$('span#shippingPhoneNumber').text(this.serverSyncModel.shippingDetails.shipping_phone_number);
 
 				$('span#shippingEmail').text('');
