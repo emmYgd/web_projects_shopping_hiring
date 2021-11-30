@@ -503,17 +503,64 @@
 								    			</div><!-- End .card-dashboard -->
 								    		</div><!-- End .col-lg-6 -->
 
-								    		<div class="col-lg-6">
-								    			<div class="card card-dashboard w3-card-4 w3-margin w3-deep-purple">
-								    				<div class="card-body w3-center">
-								    					<h3 class="card-title w3-text-white w3-myfont">Shipping Address</h3><!-- End .card-title -->
+                                            <div class="col-lg-6">
+                                                <div class="card card-dashboard w3-card-4 w3-margin w3-deep-purple">
+                                                    <div class="card-body w3-center">
+                                                        <h3 class="card-title w3-text-white w3-myfont">Shipping Address</h3>
+                                                        <!-- End .card-title -->
                                                         <hr/>
-														<p class="w3-myfont w3-text-white">You have not set up this type of address yet. Note that the Billing Adrress will be used as your default shipping address unless changed here.<br/>
-                                                        <hr/>
-														<a class="w3-card-4 w3-padding w3-margin w3-border w3-round-xxlarge w3-white w3-text-khaki w3-border-lime w3-ripple" href="#editShippingAddress" data-toggle="modal"><span class="w3-medium w3-myfont"><b>Edit </b><i class="icon-edit"></i></span></a></p>
-								    				</div><!-- End .card-body -->
-								    			</div><!-- End .card-dashboard -->
-								    		</div><!-- End .col-lg-6 -->
+                                                        <div class="w3-myfont w3-text-white"> 
+
+                                                            <div id="dispNoteImportant">
+                                                                Note that if your Shipping Address has not been set, the Billing Adrress will be used as your default Shipping Address committed here...
+                                                            </div>  
+
+                                                            <div id="dispAllShipping">
+                                                                <span id="shippingName">User Name</span>
+                                                                <br>
+                                                                <span id="shippingCompany">User Company</span>
+                                                                <br>
+                                                                <span id="shippingCountry">John str</span>
+                                                                <br>
+                                                                <span id="shippingState">New York, NY 10001</span><br>
+                                                                <span id="shippingCityOrTown">New York, NY 10001</span><br>
+                                                                <span id="shippingStreetOrClose">New York, NY 10001</span>
+                                                                <br>
+                                                                <span id="shippingHomeApartmentSuiteUnit">New York, NY 10001</span>
+                                                                <br>
+                                                                <span id="shippingPhoneNumber">1-234-987-6543</span>
+                                                                <br>
+                                                                <span id="shippingEmail">yourmail@mail.com</span>
+                                                                <br>
+                                                                <hr/>
+                                                            </div>
+
+                                                            <div class="w3-center">
+                                                                <div class="spinner-grow text-primary" id="shippingViewLoadingIcon" role="status">
+                                                                    <span class="sr-only">Loading...</span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div id="errorSuccessNotifyShippingDetails">
+                                                                <b><div class="w3-center w3-text-green" id="shippingFetchSuccess"></div></b>
+                                                                <b><div class="w3-center w3-text-red" id="shippingFetchError"></div></b>
+                                                                <div class="w3-center w3-text-red" id="shippingFetchErrorDetails"></div>
+                                                            </div>
+
+                                                            <a href="#" id="refreshShippingDetails" class="w3-card-4 w3-padding w3-margin w3-border w3-round-xxlarge w3-white w3-text-khaki w3-border-lime w3-ripple">
+                                                                <span class="w3-medium w3-myfont"><b>Refresh</b></span> <i class="icon-edit"></i>
+                                                            </a><br/><br/>
+
+                                                           <a href="#editShippingAddress" data-toggle="modal" class="w3-card-4 w3-padding w3-margin w3-border w3-round-xxlarge w3-white w3-text-khaki w3-border-lime w3-ripple">
+                                                                <span class="w3-medium w3-myfont"><b>Edit</b></span> <i class="icon-edit"></i>
+                                                            </a>
+                                                    </div>
+
+                                                    </div><!-- End .card-body -->
+                                                </div><!-- End .card-dashboard -->
+                                            </div><!-- End .col-lg-6 -->
+
+
 								    	</div><!-- End .row -->
 								    </div><!-- .End .tab-pane -->
 
