@@ -94,8 +94,8 @@ const main = (()=> {
 			BuyerCardDetails.UploadCardDetails('button#uploadCardDetailsBtn');
 
 			BuyerBillingDetails.FetchBillingDetails();
-			//BuyerCardDetails.RefreshBillingDetails();
-			BuyerCardDetails.UploadBillingDetails('button#uploadBillingDetailsBtn');
+			BuyerBillingDetails.RefreshBillingDetails();
+			BuyerBillingDetails.UploadBillingDetails('button#billingUploadDetailsBtn');
 		}
 
 	});

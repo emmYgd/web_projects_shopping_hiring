@@ -7,20 +7,21 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 
 		//values:
 		serverSyncModel:null,
-		businessName:"",
-	 	companyName:"",
-	 	billingCountry:"",
-	 	billingState:"",
-	 	billingCityOrTown:"",
-	 	billingStreetOrClose:"",
-	 	billingApartmentSuiteOrUnit:"",
-	 	billingPhoneNumber:"",
-	 	billingEmail:"",
-
+		userName : "",
+	 	companyName : "",
+	 	billingCountry : "",
+	 	billingState : "",
+	 	billingCityOrTown : "",
+	 	billingStreetOrClose : "",
+	 	billingApartmentSuiteOrUnit : "",
+	 	billingPhoneNumber : "",
+	 	billingEmail : "",
+	 		
 		//states:
 		fetch_success:false,
 		clicked_state:false,
 		upload_success:false,
+		is_all_null:false,
 
 		RefreshBillingDetails()
 		{
@@ -29,7 +30,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				event.preventDefault();
 
 				//then calls to server:
-				this.FetchBusinessAddress();
+				this.FetchBillingDetails();
 			});
 		},
 
@@ -80,21 +81,36 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			{
 				
 				this.Collectibles();
+				event.preventDefault();
 
+				console.log("Billing Clicked")
+				console.log(this.userName);
+				console.log(this.companyName);
+				console.log(this.billingState);
+				console.log(this.billingCityOrTown);
+				console.log(this.billingStreetOrClose);
+				console.log(this.billingPhoneNumber);
+				console.log(this.billingEmail);
 				if(
-					this.businessName!==null &&
-					this.companyName!==null &&
-					this.businessCountry!==null &&
-					this.businessState!==null &&
-					this.businessCityOrTown!==null &&
-					this.businessStreetOrClose!==null &&
-					this.businessApartmentSuiteOrUnit!==null &&
-					this.businessPhoneNumber!==null &&
-					this.businessEmail!==null
+					this.userName=="" ||
+					this.companyName=="" ||
+					this.billingState=="" ||
+					this.billingCityOrTown=="" ||
+					this.billingStreetOrClose==""  ||
+					this.billingPhoneNumber=="" ||
+					this.billingEmail==""
 				)
 				{
-					event.preventDefault();
-					
+					//console.log("Billing Clicked")
+					this.is_all_null = true;
+					this.UploadIsAllNullUI();
+				}
+				else
+				{
+					console.log('I am here?');
+					this.is_all_null = false;
+					this.UploadIsAllNullUI();
+
 					//set state to true for watchers
 					this.clicked_state = true;
 					//UI loading function:
@@ -113,7 +129,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 						//now start conditionals:
 						if( 
 							(this.serverSyncModel.code === 1) &&
-							(this.serverSyncModel.serverStatus === 'bizDetailsSaved!')
+							(this.serverSyncModel.serverStatus === 'DetailsSaved!')
 						)
 						{
 							console.log("Success");
@@ -125,7 +141,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 						else if
 						( 
 							(this.serverSyncModel.code === 0) &&
-							(this.serverSyncModel.serverStatus === 'bizDetailsNotSaved!')
+							(this.serverSyncModel.serverStatus === 'DetailsNotSaved!')
 						)
 						{
 							console.log("Error");
@@ -151,25 +167,24 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			$('div#billingViewLoadingIcon').show();
 
 
-			/*$('b#biz_details_show').hide();
-			$('div#biz_disp_message').hide();
-			$('a#biz_details_refresh').hide();*/
+			$('div#billingUploadLoadingIcon').hide();
+			$('div#errorSuccessNotifyBillingUploadDetails').hide();
 		},
 
 		Collectibles()
 		{
 			//set values:
 			//console.log( new FormData(this) );
-			this.businessName = $('input#biz_name').val();
-	 		this.companyName = $('input#comp_name').val();
-	 		this.businessCountry = $('input#biz_country').val();
-	 		this.businessState = $('input#biz_state').val();
-	 		this.businessCityOrTown = $('input#biz_city_town').val();
-	 		this.businessStreetOrClose = $('textarea#biz_street_close').val();
-	 		this.businessApartmentSuiteOrUnit = $('textarea#biz_apartment_suite_unit').val()
-	 		this.businessPhoneNumber = $('input#biz_phone_number').val();
-	 		this.businessEmail = $('input#biz_email').val();
-	 		console.log(this.businessEmail);
+			this.userName = $('input#billing_username_edit').val();
+	 		this.companyName = $('input#billing_company_edit').val();
+	 		this.billingCountry = $('input#billing_country_edit').val();
+	 		this.billingState = $('input#billing_state_edit').val();
+	 		this.billingCityOrTown = $('input#billing_city_or_town_edit').val();
+	 		this.billingStreetOrClose = $('textarea#billing_street_or_close_edit').val();
+	 		this.billingApartmentSuiteOrUnit = $('textarea#billing_home_apartment_suite_unit_edit').val()
+	 		this.billingPhoneNumber = $('input#billing_phone_number_edit').val();
+	 		this.billingEmail = $('input#billing_email_edit').val();
+	 		
 		},
 
 		SyncFetchBillingDetailsModel()
@@ -194,34 +209,52 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			//prepare the JSON model:
 			let jsonRequestModel = 
 			{
-				'token_id' : this.buyer_id,
-				'business_name' : this.businessName,
-				'company_name' : this.companyName,
-				'business_country' : this.businessCountry,
-				'business_state' : this.businessState,
-				'business_city_or_town' : this.businessCityOrTown,
-				'business_street_or_close' : this.businessStreetOrClose,
-				'business_apartment_suite_or_unit' : this.businessApartmentSuiteOrUnit,
-				'business_phone_number' : this.businessPhoneNumber,
-				'business_email' : this.businessEmail
-			}
-
-			let serverModel = AbstractModel(method, UploadServerUrl, jsonRequestModel);
-			return serverModel;
-			//this.serverSyncModel = serverModel;
+				'unique_buyer_id' : this.buyer_id,
+				'billing_username' : this.userName,
+	 			'billing_user_company' : this.companyName,
+	 			'billing_country' : this.billingCountry,
+	 			'billing_state' : this.billingState,
+	 			'billing_city_or_town' : this.billingCityOrTown,
+	 			'billing_street_or_close' : this.billingStreetOrClose,
+	 			'billing_home_apartment_suite_or_unit' : this.billingApartmentSuiteOrUnit,
+	 			'billing_phone_number': this.billingPhoneNumber,
+           		'billing_email' : this.billingEmail,
+	 		};
+				let serverModel = AbstractModel(method, UploadServerUrl, jsonRequestModel);
+				return serverModel;
+				//this.serverSyncModel = serverModel;
 		},
 
 		LoadingUI()
 		{
 			if(this.clicked_state)
 			{
-				$('button#saveBizDetails').hide();
-				$('div#uploadBizLoadingIcon').show();
+				$('button#billingUploadDetailsBtn').hide();
+				$('div#billingUploadLoadingIcon').show();
 			}
 			else if(!this.clicked_state)
 			{
-				$('div#uploadBizLoadingIcon').hide();
-				$('button#saveBizDetails').show();
+				$('div#billingUploadLoadingIcon').hide();
+				$('button#billingUploadDetailsBtn').show();
+			}
+		},
+
+		UploadIsAllNullUI()
+		{
+			if(this.is_all_null)
+			{
+				//console.log("Here am I!!")
+				$('div#errorSuccessNotifyBillingUploadDetails').show();
+				$('div#billingUploadFetchSuccess').text('');
+				$('div#billingUploadFetchError').text('');
+				$('div#billingUploadFetchErrorDetails').text('');
+
+				$('div#billingUploadFetchError').text('Upload Error!');
+				$('div#billingUploadFetchErrorDetails').text('Please fill up all non-optional fields!');
+			}
+			else if(!this.is_all_null)
+			{
+				$('div#errorSuccessNotifyBillingUploadDetails').hide();
 			}
 		},
 		
@@ -230,25 +263,27 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			if(this.upload_success)
 			{
 				//clear all forms:
-				$('form#biz_info_upload').trigger('reset');
+				$('form#billingDetailsUpload').trigger('reset');
 
 				//clear first:
-				$('div#buyerBizSuccess').text("");
-				$('div#buyerBizError').text("");
-				$('div#buyerBizErrorDetails').text("");
+				$('div#errorSuccessNotifyBillingUploadDetails').show();
+				$('div#billingUploadFetchSuccess').text('');
+				$('div#billingUploadFetchError').text('');
+				$('div#billingUploadFetchErrorDetails').text('');
 				//Upload Success Message:
-				$('div#buyerBizSuccess').text("Business Details Updated Successfully!");
+				$('div#billingUploadFetchSuccess').text("Billing Details Updated Successfully!");
 			}
 			else if(!this.upload_success)
 			{
 				//clear first:
-				$('div#buyerBizSuccess').text("");
-				$('div#buyerBizError').text("");
-				$('div#buyerBizErrorDetails').text("");
+				$('div#errorSuccessNotifyBillingUploadDetails').show();
+				$('div#billingUploadFetchSuccess').text('');
+				$('div#billingUploadFetchError').text('');
+				$('div#billingUploadFetchErrorDetails').text('');
 
 				//Upload Error Message:
-				$('div#buyerBizError').text("Update Error!");
-				$('div#buyerBizErrorDetails').text("Ensure you fill all apprpriate fields!");
+				$('div#billingUploadFetchError').text("Upload Error!");
+				$('div#billingUploadFetchErrorDetails').text(this.short_description.short_description);
 			}
 		},
 
@@ -256,40 +291,46 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		{
 			if(this.fetch_success)
 			{
-				$('div#biz_disp_message').hide();
-				$('div#load_biz_details').hide();
+				$('div#billingViewLoadingIcon').hide();
+				$('div#dispAllBilling').show();
+				$('div#errorSuccessNotifyBillingDetails').show();
+				$('a#refreshBillingDetails').show();
 
-				$('b#biz_details_show').show();
-				$('a#biz_details_refresh').show();
+
+				$('div#billingFetchSuccess').text('');
+				$('div#billingFetchError').text('');
+				$('div#billingFetchErrorDetails').text('');
+
+				$('div#billingFetchSuccess').text('Fetch Success!');
 
 				//console.log(this.serverSyncModel);
 				//begin insert:
-				$('span#buyer_biz_name').text('');
-				$('span#buyer_biz_name').text(this.serverSyncModel.bizDetails.company_name);
+				$('span#billingName').text('');
+				$('span#billingName').text(this.serverSyncModel.billingDetails.billing_username);
 
-				$('span#buyer_biz_company').text('');
-				$('span#buyer_biz_company').text(this.serverSyncModel.bizDetails.business_name);
+				$('span#billingCompany').text('');
+				$('span#billingCompany').text(this.serverSyncModel.billingDetails.billing_user_company);
 
-				$('span#buyer_biz_street_or_close').text('');
-				$('span#buyer_biz_street_or_close').text(this.serverSyncModel.bizDetails.business_street_or_close);
+				$('span#billingCountry').text('');
+				$('span#billingCountry').text(this.serverSyncModel.billingDetails.billing_country);
 
-				$('span#buyer_biz_suite_unit').text('');
-				$('span#buyer_biz_suite_unit').text(this.serverSyncModel.bizDetails.business_apartment_suite_or_unit);
+				$('span#billingState').text('');
+				$('span#billingState').text(this.serverSyncModel.billingDetails.billing_state);
 
-				$('span#buyer_biz_country').text('');
-				$('span#buyer_biz_country').text(this.serverSyncModel.bizDetails.business_country);
+				$('span#billingCityOrTown').text('');
+				$('span#billingCityOrTown').text(this.serverSyncModel.billingDetails.billing_city_or_town);
 
-				$('span#buyer_biz_state').text('');
-				$('span#buyer_biz_state').text(this.serverSyncModel.bizDetails.business_state);
+				$('span#billingStreetOrClose').text('');
+				$('span#billingStreetOrClose').text(this.serverSyncModel.billingDetails.billing_street_or_close);
 
-				$('span#buyer_biz_city_town').text('');
-				$('span#buyer_biz_city_town').text(this.serverSyncModel.bizDetails.business_city_or_town);
+				$('span#billingHomeApartmentSuiteUnit').text('');
+				$('span#billingHomeApartmentSuiteUnit').text(this.serverSyncModel.billingDetails.billing_home_apartment_suite_or_unit);
 
-				$('span#buyer_biz_phone_num').text('Cool');
-				$('span#buyer_biz_phone_num').text(this.serverSyncModel.bizDetails.business_phone_number);
+				$('span#billingPhoneNumber').text('Cool');
+				$('span#billingPhoneNumber').text(this.serverSyncModel.billingDetails.billing_phone_number);
 
-				$('span#buyer_biz_email').text('');
-				$('span#buyer_biz_email').text(this.serverSyncModel.bizDetails.business_email);
+				$('span#billingEmail').text('');
+				$('span#billingEmail').text(this.serverSyncModel.billingDetails.billing_email);
 				
 			}
 			else if(!this.fetch_success)

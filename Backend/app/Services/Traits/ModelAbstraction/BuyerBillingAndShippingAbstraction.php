@@ -13,7 +13,7 @@ trait BuyerBillingAndShippingAbstraction
 	use BuyerBillingCRUD;
 	use BuyerShippingCRUD;
 
-	/*protected function BuyerSaveBillingDetailsService(Request $request) //: bool
+	protected function BuyerSaveBillingDetailsService(Request $request) //: bool
 	{
 		$details_saved_status = false;
 
@@ -39,13 +39,13 @@ trait BuyerBillingAndShippingAbstraction
 			//else:
 			$params_to_be_saved = $request->all();
 			//save all using mass assignment:
-			$is_details_saved = $this->BuyerBillingDetailsCreateAllService($params_to_be_saved);
+			$is_details_saved = $this->BuyerBillingCreateAllService($params_to_be_saved);
 
 			$details_saved_status = $is_details_saved;
 		}
 
 		return $details_saved_status;	
-	}*/
+	}
 
 
 	protected function BuyerFetchBillingDetailsService(Request $request)
@@ -57,7 +57,7 @@ trait BuyerBillingAndShippingAbstraction
 	}
 
 
-	/*protected function BuyerSaveShippingDetailsService(Request $request) //: bool
+	protected function BuyerSaveShippingDetailsService(Request $request) //: bool
 	{
 		$details_saved_status = false;
 
@@ -98,7 +98,7 @@ trait BuyerBillingAndShippingAbstraction
 		$allShippingDetails = $this->BuyerShippingReadSpecificService($queryKeysValues);
 
 		return $allShippingDetails;
-	}*/
+	}
 }
 
 ?>

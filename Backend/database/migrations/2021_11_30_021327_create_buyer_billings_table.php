@@ -18,8 +18,8 @@ class CreateBuyerBillingsTable extends Migration
 
             $table->string('unique_buyer_id')->unique();
 
-            $table->string('billing_username')->unique();
-            $table->string('billing_user_company')->unique();
+            $table->string('billing_username');
+            $table->string('billing_user_company')->nullable();
             $table->string('billing_country')->nullable();
             $table->string('billing_state');
             $table->string('billing_city_or_town');

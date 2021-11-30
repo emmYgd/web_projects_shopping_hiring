@@ -28,7 +28,7 @@ final class BuyerBillingAndShippingController extends Controller //implements Bu
         try
         {
             //get rules from validator class:
-            $reqRules = $this->updateBillingDetailsRules();
+            $reqRules = $this->uploadBillingDetailsRules();
 
             //validate here:
             $validator = Validator::make($request->all(), $reqRules);
@@ -47,7 +47,7 @@ final class BuyerBillingAndShippingController extends Controller //implements Bu
 
              $status = [
                 'code' => 1,    
-                'serverStatus' => 'bankDetailsSaved!',
+                'serverStatus' => 'DetailsSaved!',
             ];
 
         }
@@ -56,7 +56,7 @@ final class BuyerBillingAndShippingController extends Controller //implements Bu
 
              $status = [
                 'code' => 0,
-                'serverStatus' => 'bankDetailsNotSaved!',
+                'serverStatus' => 'DetailsNotSaved!',
                 'short_description' => $ex->getMessage(),
             ];
 

@@ -466,7 +466,7 @@
 														        <span id="billingCountry">John str</span>
                                                                 <br>
                                                                 <span id="billingState">New York, NY 10001</span><br>
-                                                                <span id="cityOrTown">New York, NY 10001</span><br>
+                                                                <span id="billingCityOrTown">New York, NY 10001</span><br>
                                                                 <span id="billingStreetOrClose">New York, NY 10001</span>
                                                                 <br>
                                                                 <span id="billingHomeApartmentSuiteUnit">New York, NY 10001</span>
@@ -1238,7 +1238,7 @@
                     </button><br/>
                       <div class="w3-container w3-padding w3-margin w3-topbar w3-bottombar w3-border-left w3-border-right w3-border-deep-purple w3-round-large">
                         
-                        <form action="#">
+                        <form action="#" id="billingDetailsUpload">
                             <div class="form-group"><br/>
                                 <input type="text" class="form-control" id="billing_username_edit" placeholder="Billing Username" required/><br/>
 
@@ -1247,7 +1247,7 @@
                                 <div class="row">
 
                                     <div class="col-sm-4 form-group">
-                                        <label for="register-lastname">Country *</label>
+                                        <label for="register-lastname">Country (Optional)</label>
                                         <input type="text" class="form-control" id="billing_country_edit" name="register-country" required>
                                     </div>
                                             
@@ -1273,12 +1273,12 @@
                                             <textarea type="text" class="form-control" id="billing_street_or_close_edit" name="register-email" placeholder="Street or Close" required></textarea>
                                         </div>
                                         <div class="col-sm-6">
-                                            <textarea type="text" class="form-control" id="billing_home_apartment_suite_unit_edit" name="register-email" placeholder="Home, Apartment, Suite or Unit " required></textarea>
+                                            <textarea type="text" class="form-control" id="billing_home_apartment_suite_unit_edit" name="register-email" placeholder="Home, Apartment, Suite or Unit (Optional)" required></textarea>
                                         </div>
                                     </div>
                                 </div><!-- End .form-group -->
 
-                                <input type="number" class="form-control" id="billing_phone_number" placeholder="Billing Phone Number" required/><br/>
+                                <input type="number" class="form-control" id="billing_phone_number_edit" placeholder="Billing Phone Number" required/><br/>
 
                                 <input type="email" class="form-control" id="billing_email_edit" placeholder="Billing Email Address" required/><br/>
 

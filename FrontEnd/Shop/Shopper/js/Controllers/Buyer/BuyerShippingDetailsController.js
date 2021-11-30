@@ -2,47 +2,45 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 	
 	const BuyerShippingDetails = 
 	{	
-		//admin token:
-		admin_id:null,
+		//buyer token:
+		buyer_id:null,
 
 		//values:
 		serverSyncModel:null,
-		businessName:null,
-	 	companyName:null,
-	 	businessCountry:null,
-	 	businessState:null,
-	 	businessCityOrTown:null,
-	 	businessStreetOrClose:null,
-	 	businessApartmentSuiteOrUnit:null,
-	 	businessPhoneNumber:null,
-	 	businessEmail:null,
-
+		userName : "",
+	 	companyName : "",
+	 	shippingCountry : "",
+	 	shippingState : "",
+	 	shippingCityOrTown : "",
+	 	shippingStreetOrClose : "",
+	 	shippingApartmentSuiteOrUnit : "",
+	 	shippingPhoneNumber : "",
+	 	shippingEmail : "",
+	 		
 		//states:
 		fetch_success:false,
 		clicked_state:false,
 		upload_success:false,
+		is_all_null:false,
 
-		RefreshFetchBusinessAddress()
+		RefreshShippingDetails()
 		{
-			$('a#biz_details_refresh').click((event)=>
+			$('a#refreshShippingDetails').click((event)=>
 			{
 				event.preventDefault();
 
-				//first show loading icon:
-				$('div#load_biz_details').show();
-
 				//then calls to server:
-				this.FetchBusinessAddress();
+				this.FetchShippingDetails();
 			});
 		},
 
 
-		FetchBusinessAddress()
+		FetchShippingDetails()
 		{
 			//initialize:
 			this.Init();
 			//first call the Sync Model:
-			this.SyncFetchBusinessDetailsModel().then((serverModel)=>
+			this.SyncFetchShippingDetailsModel().then((serverModel)=>
 			{
 				//sync model:
 				this.serverSyncModel = serverModel;
@@ -74,7 +72,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			});
 		},
 		
-		UpdateBusinessAddress(targetClickElem)
+		UploadShippingDetails(targetClickElem)
 		{
 			//initialize:
 			this.Init();
@@ -83,28 +81,43 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			{
 				
 				this.Collectibles();
+				event.preventDefault();
 
+				console.log("Shipping Clicked")
+				console.log(this.userName);
+				console.log(this.companyName);
+				console.log(this.shippingState);
+				console.log(this.shippingCityOrTown);
+				console.log(this.shippingStreetOrClose);
+				console.log(this.shippingPhoneNumber);
+				console.log(this.shippingEmail);
 				if(
-					this.businessName!==null &&
-					this.companyName!==null &&
-					this.businessCountry!==null &&
-					this.businessState!==null &&
-					this.businessCityOrTown!==null &&
-					this.businessStreetOrClose!==null &&
-					this.businessApartmentSuiteOrUnit!==null &&
-					this.businessPhoneNumber!==null &&
-					this.businessEmail!==null
+					this.userName=="" ||
+					this.companyName=="" ||
+					this.shippingState=="" ||
+					this.shippingCityOrTown=="" ||
+					this.shippingStreetOrClose==""  ||
+					this.shippingPhoneNumber=="" ||
+					this.shippingEmail==""
 				)
 				{
-					event.preventDefault();
-					
+					//console.log("Shipping Clicked")
+					this.is_all_null = true;
+					this.UploadIsAllNullUI();
+				}
+				else
+				{
+					console.log('I am here?');
+					this.is_all_null = false;
+					this.UploadIsAllNullUI();
+
 					//set state to true for watchers
 					this.clicked_state = true;
 					//UI loading function:
 					this.LoadingUI();
 
 					//call the server sync:
-					this.SyncUpdateBusinessDetailsModel().then((serverModel)=>
+					this.SyncUploadShippingDetailsModel().then((serverModel)=>
 					{
 						//sync model:
 						this.serverSyncModel = serverModel;
@@ -116,7 +129,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 						//now start conditionals:
 						if( 
 							(this.serverSyncModel.code === 1) &&
-							(this.serverSyncModel.serverStatus === 'bizDetailsSaved!')
+							(this.serverSyncModel.serverStatus === 'DetailsSaved!')
 						)
 						{
 							console.log("Success");
@@ -128,7 +141,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 						else if
 						( 
 							(this.serverSyncModel.code === 0) &&
-							(this.serverSyncModel.serverStatus === 'bizDetailsNotSaved!')
+							(this.serverSyncModel.serverStatus === 'DetailsNotSaved!')
 						)
 						{
 							console.log("Error");
@@ -144,44 +157,44 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 
 		Init()
 		{
-			//first get admin id:
-			this.admin_id = window.localStorage.getItem('adminID');
-			//hide loading icon:
-			$('div#uploadBizLoadingIcon').hide();
-			//clear text:
-			$('div#adminBizSuccess').text('');
-			$('div#adminBizError').text('');
-			$('div#adminBizErrorDetails').text('');
+			//first get buyer id:
+			this.buyer_id = window.localStorage.getItem('buyerID');
 
-			$('b#biz_details_show').hide();
-			$('div#biz_disp_message').hide();
-			$('a#biz_details_refresh').hide();
+			$('div#dispAllShipping').hide()
+			$('div#errorSuccessNotifyShippingDetails').hide();
+			$('a#refreshShippingDetails').hide();
+
+			$('div#shippingViewLoadingIcon').show();
+
+
+			$('div#shippingUploadLoadingIcon').hide();
+			$('div#errorSuccessNotifyShippingUploadDetails').hide();
 		},
 
 		Collectibles()
 		{
 			//set values:
 			//console.log( new FormData(this) );
-			this.businessName = $('input#biz_name').val();
-	 		this.companyName = $('input#comp_name').val();
-	 		this.businessCountry = $('input#biz_country').val();
-	 		this.businessState = $('input#biz_state').val();
-	 		this.businessCityOrTown = $('input#biz_city_town').val();
-	 		this.businessStreetOrClose = $('textarea#biz_street_close').val();
-	 		this.businessApartmentSuiteOrUnit = $('textarea#biz_apartment_suite_unit').val()
-	 		this.businessPhoneNumber = $('input#biz_phone_number').val();
-	 		this.businessEmail = $('input#biz_email').val();
-	 		console.log(this.businessEmail);
+			this.userName = $('input#shipping_username_edit').val();
+	 		this.companyName = $('input#shipping_company_edit').val();
+	 		this.shippingCountry = $('input#shipping_country_edit').val();
+	 		this.shippingState = $('input#shipping_state_edit').val();
+	 		this.shippingCityOrTown = $('input#shipping_city_or_town_edit').val();
+	 		this.shippingStreetOrClose = $('textarea#shipping_street_or_close_edit').val();
+	 		this.shippingApartmentSuiteOrUnit = $('textarea#shipping_home_apartment_suite_unit_edit').val()
+	 		this.shippingPhoneNumber = $('input#shipping_phone_number_edit').val();
+	 		this.shippingEmail = $('input#shipping_email_edit').val();
+	 		
 		},
 
-		SyncFetchBusinessDetailsModel()
+		SyncFetchShippingDetailsModel()
 		{
 			let method = "POST";
-			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/admin/dashboard/utils/fetch/business/details';
+			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/buyer/dashboard/utils/fetch/shipping/details';
 			//prepare the JSON model:
 			let jsonRequestModel = 
 			{
-				'token_id' : this.admin_id,
+				'unique_buyer_id' : this.buyer_id,
 			}
 
 			let serverModel = AbstractModel(method, UploadServerUrl, jsonRequestModel);
@@ -189,41 +202,59 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			//this.serverSyncModel = serverModel;
 		},
 			
-		SyncUpdateBusinessDetailsModel()
+		SyncUploadShippingDetailsModel()
 		{
 			let method = "POST";
-			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/admin/dashboard/utils/update/business/details';
+			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/buyer/dashboard/utils/upload/shipping/details';
 			//prepare the JSON model:
 			let jsonRequestModel = 
 			{
-				'token_id' : this.admin_id,
-				'business_name' : this.businessName,
-				'company_name' : this.companyName,
-				'business_country' : this.businessCountry,
-				'business_state' : this.businessState,
-				'business_city_or_town' : this.businessCityOrTown,
-				'business_street_or_close' : this.businessStreetOrClose,
-				'business_apartment_suite_or_unit' : this.businessApartmentSuiteOrUnit,
-				'business_phone_number' : this.businessPhoneNumber,
-				'business_email' : this.businessEmail
-			}
-
-			let serverModel = AbstractModel(method, UploadServerUrl, jsonRequestModel);
-			return serverModel;
-			//this.serverSyncModel = serverModel;
+				'unique_buyer_id' : this.buyer_id,
+				'shipping_username' : this.userName,
+	 			'shipping_user_company' : this.companyName,
+	 			'shipping_country' : this.shippingCountry,
+	 			'shipping_state' : this.shippingState,
+	 			'shipping_city_or_town' : this.shippingCityOrTown,
+	 			'shipping_street_or_close' : this.shippingStreetOrClose,
+	 			'shipping_home_apartment_suite_or_unit' : this.shippingApartmentSuiteOrUnit,
+	 			'shipping_phone_number': this.shippingPhoneNumber,
+           		'shipping_email' : this.shippingEmail,
+	 		};
+				let serverModel = AbstractModel(method, UploadServerUrl, jsonRequestModel);
+				return serverModel;
+				//this.serverSyncModel = serverModel;
 		},
 
 		LoadingUI()
 		{
 			if(this.clicked_state)
 			{
-				$('button#saveBizDetails').hide();
-				$('div#uploadBizLoadingIcon').show();
+				$('button#shippingUploadDetailsBtn').hide();
+				$('div#shippingUploadLoadingIcon').show();
 			}
 			else if(!this.clicked_state)
 			{
-				$('div#uploadBizLoadingIcon').hide();
-				$('button#saveBizDetails').show();
+				$('div#shippingUploadLoadingIcon').hide();
+				$('button#shippingUploadDetailsBtn').show();
+			}
+		},
+
+		UploadIsAllNullUI()
+		{
+			if(this.is_all_null)
+			{
+				//console.log("Here am I!!")
+				$('div#errorSuccessNotifyShippingUploadDetails').show();
+				$('div#shippingUploadFetchSuccess').text('');
+				$('div#shippingUploadFetchError').text('');
+				$('div#shippingUploadFetchErrorDetails').text('');
+
+				$('div#shippingUploadFetchError').text('Upload Error!');
+				$('div#shippingUploadFetchErrorDetails').text('Please fill up all non-optional fields!');
+			}
+			else if(!this.is_all_null)
+			{
+				$('div#errorSuccessNotifyShippingUploadDetails').hide();
 			}
 		},
 		
@@ -232,25 +263,27 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			if(this.upload_success)
 			{
 				//clear all forms:
-				$('form#biz_info_upload').trigger('reset');
+				$('form#shippingDetailsUpload').trigger('reset');
 
 				//clear first:
-				$('div#adminBizSuccess').text("");
-				$('div#adminBizError').text("");
-				$('div#adminBizErrorDetails').text("");
+				$('div#errorSuccessNotifyShippingUploadDetails').show();
+				$('div#shippingUploadFetchSuccess').text('');
+				$('div#shippingUploadFetchError').text('');
+				$('div#shippingUploadFetchErrorDetails').text('');
 				//Upload Success Message:
-				$('div#adminBizSuccess').text("Business Details Updated Successfully!");
+				$('div#shippingUploadFetchSuccess').text("Shipping Details Updated Successfully!");
 			}
 			else if(!this.upload_success)
 			{
 				//clear first:
-				$('div#adminBizSuccess').text("");
-				$('div#adminBizError').text("");
-				$('div#adminBizErrorDetails').text("");
+				$('div#errorSuccessNotifyShippingUploadDetails').show();
+				$('div#shippingUploadFetchSuccess').text('');
+				$('div#shippingUploadFetchError').text('');
+				$('div#shippingUploadFetchErrorDetails').text('');
 
 				//Upload Error Message:
-				$('div#adminBizError').text("Update Error!");
-				$('div#adminBizErrorDetails').text("Ensure you fill all apprpriate fields!");
+				$('div#shippingUploadFetchError').text("Upload Error!");
+				$('div#shippingUploadFetchErrorDetails').text(this.short_description.short_description);
 			}
 		},
 
@@ -258,49 +291,60 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		{
 			if(this.fetch_success)
 			{
-				$('div#biz_disp_message').hide();
-				$('div#load_biz_details').hide();
+				$('div#shippingViewLoadingIcon').hide();
+				$('div#dispAllShipping').show();
+				$('div#errorSuccessNotifyShippingDetails').show();
+				$('a#refreshShippingDetails').show();
 
-				$('b#biz_details_show').show();
-				$('a#biz_details_refresh').show();
+
+				$('div#shippingFetchSuccess').text('');
+				$('div#shippingFetchError').text('');
+				$('div#shippingFetchErrorDetails').text('');
+
+				$('div#shippingFetchSuccess').text('Fetch Success!');
 
 				//console.log(this.serverSyncModel);
 				//begin insert:
-				$('span#admin_biz_name').text('');
-				$('span#admin_biz_name').text(this.serverSyncModel.bizDetails.company_name);
+				$('span#shippingName').text('');
+				$('span#shippingName').text(this.serverSyncModel.shippingDetails.shipping_username);
 
-				$('span#admin_biz_company').text('');
-				$('span#admin_biz_company').text(this.serverSyncModel.bizDetails.business_name);
+				$('span#shippingCompany').text('');
+				$('span#shippingCompany').text(this.serverSyncModel.shippingDetails.shipping_user_company);
 
-				$('span#admin_biz_street_or_close').text('');
-				$('span#admin_biz_street_or_close').text(this.serverSyncModel.bizDetails.business_street_or_close);
+				$('span#shippingCountry').text('');
+				$('span#shippingCountry').text(this.serverSyncModel.shippingDetails.shipping_country);
 
-				$('span#admin_biz_suite_unit').text('');
-				$('span#admin_biz_suite_unit').text(this.serverSyncModel.bizDetails.business_apartment_suite_or_unit);
+				$('span#shippingState').text('');
+				$('span#shippingState').text(this.serverSyncModel.shippingDetails.shipping_state);
 
-				$('span#admin_biz_country').text('');
-				$('span#admin_biz_country').text(this.serverSyncModel.bizDetails.business_country);
+				$('span#shippingCityOrTown').text('');
+				$('span#shippingCityOrTown').text(this.serverSyncModel.shippingDetails.shipping_city_or_town);
 
-				$('span#admin_biz_state').text('');
-				$('span#admin_biz_state').text(this.serverSyncModel.bizDetails.business_state);
+				$('span#shippingStreetOrClose').text('');
+				$('span#shippingStreetOrClose').text(this.serverSyncModel.shippingDetails.shipping_street_or_close);
 
-				$('span#admin_biz_city_town').text('');
-				$('span#admin_biz_city_town').text(this.serverSyncModel.bizDetails.business_city_or_town);
+				$('span#shippingHomeApartmentSuiteUnit').text('');
+				$('span#shippingHomeApartmentSuiteUnit').text(this.serverSyncModel.shippingDetails.shipping_home_apartment_suite_or_unit);
 
-				$('span#admin_biz_phone_num').text('Cool');
-				$('span#admin_biz_phone_num').text(this.serverSyncModel.bizDetails.business_phone_number);
+				$('span#shippingPhoneNumber').text('Cool');
+				$('span#shippingPhoneNumber').text(this.serverSyncModel.shippingDetails.shipping_phone_number);
 
-				$('span#admin_biz_email').text('');
-				$('span#admin_biz_email').text(this.serverSyncModel.bizDetails.business_email);
+				$('span#shippingEmail').text('');
+				$('span#shippingEmail').text(this.serverSyncModel.shippingDetails.shipping_email);
 				
 			}
 			else if(!this.fetch_success)
 			{
-				$('b#biz_details_show').hide();
-				$('div#load_biz_details').hide();
+				$('div#shippingViewLoadingIcon').hide();
+				$('div#errorSuccessNotifyShippingDetails').show();
+				$('a#refreshShippingDetails').show();
 
-				$('div#biz_disp_message').show();
-				$('a#biz_details_refresh').show();
+				$('div#shippingFetchSuccess').text('');
+				$('div#shippingFetchError').text('');
+				$('div#shippingFetchErrorDetails').text('');
+
+				$('div#shippingFetchError').text('Fetch Error!');
+				$('div#shippingFetchErrorDetails').text(this.serverSyncModel.short_description);
 			}
 		},
 	}
