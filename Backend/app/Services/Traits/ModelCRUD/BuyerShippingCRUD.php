@@ -2,7 +2,6 @@
 
 namespace App\Services\Traits\ModelCRUD;
 
-use App\Models\BuyerBilling;
 use App\Models\BuyerShipping;
 
 use Illuminate\Http\Request;

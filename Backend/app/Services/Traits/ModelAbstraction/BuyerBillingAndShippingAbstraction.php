@@ -4,8 +4,8 @@ namespace App\Services\Traits\ModelAbstraction;
 
 use Illuminate\Http\Request;
 
-use App\Services\Traits\ModelCRUD\BillingCRUD;
-use App\Services\Traits\ModelCRUD\ShippingDRUD;
+use App\Services\Traits\ModelCRUD\BuyerBillingCRUD;
+use App\Services\Traits\ModelCRUD\BuyerShippingCRUD;
 
 
 trait BuyerBillingAndShippingAbstraction
@@ -13,7 +13,7 @@ trait BuyerBillingAndShippingAbstraction
 	use BuyerBillingCRUD;
 	use BuyerShippingCRUD;
 
-	protected function BuyerSaveBillingDetailsService(Request $request) //: bool
+	/*protected function BuyerSaveBillingDetailsService(Request $request) //: bool
 	{
 		$details_saved_status = false;
 
@@ -45,7 +45,7 @@ trait BuyerBillingAndShippingAbstraction
 		}
 
 		return $details_saved_status;	
-	}
+	}*/
 
 
 	protected function BuyerFetchBillingDetailsService(Request $request)
@@ -57,7 +57,7 @@ trait BuyerBillingAndShippingAbstraction
 	}
 
 
-	protected function BuyerSaveShippingDetailsService(Request $request) //: bool
+	/*protected function BuyerSaveShippingDetailsService(Request $request) //: bool
 	{
 		$details_saved_status = false;
 
@@ -98,7 +98,7 @@ trait BuyerBillingAndShippingAbstraction
 		$allShippingDetails = $this->BuyerShippingReadSpecificService($queryKeysValues);
 
 		return $allShippingDetails;
-	}
+	}*/
 }
 
 ?>

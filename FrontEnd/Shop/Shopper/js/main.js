@@ -95,7 +95,7 @@ const main = (()=> {
 
 			BuyerBillingDetails.FetchBillingDetails();
 			//BuyerCardDetails.RefreshBillingDetails();
-			//BuyerCardDetails.UploadBillingDetails('button#uploadBillingDetailsBtn');
+			BuyerCardDetails.UploadBillingDetails('button#uploadBillingDetailsBtn');
 		}
 
 	});

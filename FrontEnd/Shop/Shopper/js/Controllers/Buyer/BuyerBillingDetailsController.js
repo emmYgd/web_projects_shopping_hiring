@@ -7,15 +7,15 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 
 		//values:
 		serverSyncModel:null,
-		businessName:null,
-	 	companyName:null,
-	 	businessCountry:null,
-	 	businessState:null,
-	 	businessCityOrTown:null,
-	 	businessStreetOrClose:null,
-	 	businessApartmentSuiteOrUnit:null,
-	 	businessPhoneNumber:null,
-	 	businessEmail:null,
+		businessName:"",
+	 	companyName:"",
+	 	billingCountry:"",
+	 	billingState:"",
+	 	billingCityOrTown:"",
+	 	billingStreetOrClose:"",
+	 	billingApartmentSuiteOrUnit:"",
+	 	billingPhoneNumber:"",
+	 	billingEmail:"",
 
 		//states:
 		fetch_success:false,
@@ -294,11 +294,16 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			}
 			else if(!this.fetch_success)
 			{
-				$('b#biz_details_show').hide();
-				$('div#load_biz_details').hide();
+				$('div#billingViewLoadingIcon').hide();
+				$('div#errorSuccessNotifyBillingDetails').show();
+				$('a#refreshBillingDetails').show();
 
-				$('div#biz_disp_message').show();
-				$('a#biz_details_refresh').show();
+				$('div#billingFetchSuccess').text('');
+				$('div#billingFetchError').text('');
+				$('div#billingFetchErrorDetails').text('');
+
+				$('div#billingFetchError').text('Fetch Error!');
+				$('div#billingFetchErrorDetails').text(this.serverSyncModel.short_description);
 			}
 		},
 	}

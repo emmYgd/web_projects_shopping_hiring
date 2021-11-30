@@ -92,7 +92,7 @@ final class BuyerBillingAndShippingController extends Controller //implements Bu
             $status = [
                 'code' => 1,
                 'serverStatus' => 'FetchSuccess!',
-                'bankDetails' => $biz_details_fetched
+                'billingDetails' => $biz_details_fetched
             ];
 
         }
