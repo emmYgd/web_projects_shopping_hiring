@@ -31,6 +31,13 @@ Route::get('cool', function() {
 //Buyer Group:
 Route::group(['prefix' => 'v1/buyer/', /*'middleware' => ''*/], function(){
 
+	//when a new user clicks the unique referral link generated:
+		Route::get('referral/{unique_buyer_id}', [
+			//'as' => '', 
+			//'middleware' => 'init',
+    		'uses' => 'BuyerReferralController@ReferralLinkUse'
+		]);
+
 	Route::group(['prefix' => 'auth/', /*'middleware' => ''*/], function() 
 	{
 		Route::post('register', [
@@ -226,26 +233,20 @@ Route::group(['prefix' => 'v1/buyer/', /*'middleware' => ''*/], function(){
 		]);
 
 		//first check if referral program has been activated by the admin before proceeding:
-		Route::post('generate/referral/link', [
+		Route::post('generate/unique/referral/link', [
 			'as' => 'referral_link', 
 			//'middleware' => 'init',
-    		'uses' => 'BuyerReferralController@GenReferralLinks'
+    		'uses' => 'BuyerReferralController@GenUniqueReferralLink'
 		]);
 
 		//first check if referral program has been activated by the admin before proceeding:
-		Route::post('get/referral/total/bonus', [
+		Route::post('fetch/referral/bonus', [
 			//'as' => 'referral_bonus', 
 			//'middleware' => 'init',
-    		'uses' => 'BuyerReferralController@ReferralTotalBonus'
+    		'uses' => 'BuyerReferralController@ReferralBonus'
 		]);
 
-		//when a new user clicks the unique referral link generated:
-		/*/public/api/v1/buyers/{buyer_id}*/
-		Route::get('{buyer_id}', [
-			//'as' => 'referral_bonus', 
-			//'middleware' => 'init',
-    		'uses' => 'BuyerReferralController@ReferralLinkUse'
-		]);
+		
 
 	});
 

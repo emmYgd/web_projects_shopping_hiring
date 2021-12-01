@@ -25,7 +25,7 @@ trait AdminCRUD
 	}
 
 
-	protected function AdminReadAllService(): array
+	protected function AdminReadAllService(): Collection
 	{
 		$readAllModel = Admin::get();
 		return $readAllModel;

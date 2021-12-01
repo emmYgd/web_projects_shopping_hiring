@@ -23,7 +23,7 @@ import BuyerShippingDetails from "./Controllers/Buyer/BuyerShippingDetailsContro
 import BuyerAccountDetails from "./Controllers/Buyer/BuyerAccountDetailsController.js";
 import BuyerLocationsTracks from "./Controllers/Buyer/BuyerLocationsTracksController.js";
 
-import BuyerReferral from "./Controllers/Admin/AdminReferralController.js"; 
+import BuyerReferral from "./Controllers/Buyer/BuyerReferralController.js"; 
 
 //Now start the app with IIFE main():
 const main = (()=> {
@@ -113,6 +113,12 @@ const main = (()=> {
 
 			//Track Bought Goods: Use Admin module to avoid repitions:
 			BuyerLocationsTracks.FetchCartLocation();
+
+			BuyerReferral.RefreshFetchReferral();
+			BuyerReferral.FetchReferralAmount();
+			BuyerReferral.GenerateReferralLink("button#genRefLinkBtn");
+			
+
 
 		}
 

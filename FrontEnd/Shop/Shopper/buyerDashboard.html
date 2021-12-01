@@ -628,26 +628,45 @@
                                     </div> <!-- .End .tab-pane --> 
 
                                     <div class="tab-pane fade" id="tab-referral" role="tabpanel" aria-labelledby="tab-referral-link">
-                                        <div class="w3-container w3-padding w3-margin">
+
                                             <div class=" w3-center w3-border w3-padding w3-margin">
-                                                <b>Generate your unique referral link, refer us and earn bonus:</b>
+                                                <b>Generate your unique referral link, refer us and earn bonus which represents discounts on goods bought:</b>
                                             </div>
-                                            <div class="w3-left">
-                                                <span id="generate_link"></span>
-                                                <button class="w3-btn w3-border w3-round-xxlarge w3-ripple w3-deep-purple">   
-                                                    <b>Generate Link</b>
-                                                    <span class="icon-position"></span>
-                                                </button>
+
+                                            <div>
+                                                <b><div id="dispUniqueRefLinkHere" class="w3-center w3-deep-purple w3-padding-top w3-padding-bottom w3-margin-top w3-margin-bottom w3-tiny"></div></b>
                                             </div>
-                                            <div class="w3-right">
-                                                <span id="ref_bonus"></span>
-                                                <button class="w3-btn w3-border w3-round-xxlarge w3-deep-purple">   
-                                                    <b>Referral Bonus</b>
-                                                    <span class="icon-position"></span><br/>
-                                                    <span id="">0 </span>USD
-                                                </button>
-                                            </div>
-                                        </div>
+                                            <br/>
+                                                <div class="w3-center">
+                                                    <div id="errorSuccessNotifyReferralDetails">
+                                                        <b><div class="w3-center w3-text-green" id="referralFetchSuccess"></div></b>
+                                                        <b><div class="w3-center w3-text-red" id="referralFetchError"></div></b>
+                                                        <div class="w3-center w3-text-red" id="referralFetchErrorDetails"></div>
+                                                    </div>
+                                                </div><br/>
+
+                                                <div class="w3-left">
+                                                    <div class="spinner-grow text-primary" id="referralViewLoadingIcon" role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                    </div>
+
+                                                    <button id="genRefLinkBtn" class="w3-left w3-btn w3-border w3-round-xxlarge w3-ripple w3-deep-purple">
+                                                        <b>Generate Link</b>
+                                                        <span class="icon-position"></span>
+                                                    </button>
+                                                </div>
+
+                                                <div class="w3-right">
+                                                    <span id="ref_bonus"></span>
+                                                    <button class="w3-btn w3-border w3-card-4 w3-round-xxlarge w3-deep-purple w3-ripple" id="refreshRefDetails">   
+                                                        <b>Referral Bonus</b>
+                                                        <span class="icon-position"></span><br/>
+                                                        <b><span id="ref_bonus_currency">USD</span>
+                                                            <span id="ref_bonus_amount">0</span>
+                                                        </b>
+                                                    </button>
+                                                </div>
+
                                     </div> <!-- .End .tab-pane --> 
 
 								</div>
