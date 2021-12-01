@@ -25,15 +25,15 @@ class CreateBuyersTable extends Migration
             $table->string('buyer_middle_name')->nullable();
             $table->string('buyer_last_name');
 
-            /*$table->string('buyer_country');
-            $table->string('buyer_state');
-            $table->string('buyer_city_or_town');
-            $table->string('buyer_street_or_close');
-            $table->string('buyer_home_apartment_suite_unit');*/
+            /*$table->string('buyer_country')->nullable();
+            $table->string('buyer_state')->nullable();
+            $table->string('buyer_city_or_town')->nullable();
+            $table->string('buyer_street_or_close')->nullable();
+            $table->string('buyer_home_apartment_suite_unit')->nullable();*/
 
-            $table->string('buyer_bank_first_name')->nullable();
+            /*$table->string('buyer_bank_first_name')->nullable();
             $table->string('buyer_bank_middle_name')->nullable();
-            $table->string('buyer_bank_last_name')->nullable();
+            $table->string('buyer_bank_last_name')->nullable();*/
 
              //On the frontend: (MasterCard - Debit, Visa - Debit)They will all be encrypted...
             $table->longText('buyer_bank_card_type')->nullable();

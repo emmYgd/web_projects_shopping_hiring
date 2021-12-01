@@ -439,7 +439,7 @@
                                                     <span></span>
                                                 </div>
                                                 <div class="w3-right w3-btn w3-border w3-round-xxlarge w3-ripple w3-deep-purple" data-toggle="modal" data-target="#editPaymentDetails">    
-                                                    <b>Create / Edit</b>
+                                                    <b>Update</b>
                                                     <span class="icon-edit"></span>
                                                 </div>
                                             </div>
@@ -495,7 +495,7 @@
                                                             </a><br/><br/>
 
 														   <a href="#editBillingAddress" data-toggle="modal" class="w3-card-4 w3-padding w3-margin w3-border w3-round-xxlarge w3-white w3-text-khaki w3-border-lime w3-ripple">
-                                                                <span class="w3-medium w3-myfont"><b>Edit</b></span> <i class="icon-edit"></i>
+                                                                <span class="w3-medium w3-myfont"><b>Update</b></span> <i class="icon-edit"></i>
                                                             </a>
                                                     </div>
 
@@ -552,7 +552,7 @@
                                                             </a><br/><br/>
 
                                                            <a href="#editShippingAddress" data-toggle="modal" class="w3-card-4 w3-padding w3-margin w3-border w3-round-xxlarge w3-white w3-text-khaki w3-border-lime w3-ripple">
-                                                                <span class="w3-medium w3-myfont"><b>Edit</b></span> <i class="icon-edit"></i>
+                                                                <span class="w3-medium w3-myfont"><b>Update</b></span> <i class="icon-edit"></i>
                                                             </a>
                                                     </div>
 
@@ -583,7 +583,7 @@
                                             <hr/></b>
                                         </div>
                                         <div class="w3-center w3-btn w3-border w3-round-xxlarge w3-ripple w3-deep-purple" data-toggle="modal" data-target="#editGeneralAccountInfo">    
-                                            <b>Edit Existing </b>
+                                            <b>Update </b>
                                             <span class="icon-edit"></span>
                                         </div>
 								    </div><!-- .End .tab-pane -->
@@ -1434,7 +1434,7 @@
         </div>             
     </section>
 
-    <!--General Account Info-->
+    <!--Edit Shipping Address Modal-->
     <section class="modal fade" id="editGeneralAccountInfo" tabindex="-1" role="page" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
@@ -1444,35 +1444,43 @@
                     </button><br/>
 
                     <div class="w3-container w3-padding w3-margin w3-topbar w3-bottombar w3-border-left w3-border-right w3-border-deep-purple w3-round-large">
-                    <form action="#">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" placeholder="First Name" required>
-                            </div><!-- End .col-sm-6 -->
 
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" placeholder="Last Name" required>
-                            </div><!-- End .col-sm-6 -->
-                        </div><!-- End .row -->
-                        <div>
-                            <input type="text" class="form-control" placeholder="Username" required>
-                        </div>
-                        <div>
-                            <input type="email" class="form-control" placeholder="Email" required>
-                        </div>
-                        <div>
-                            <label>Password (leave blank to remain unchanged)</label>
-                            <input type="password" class="form-control">
-                        </div>
+                         <form action="#" id="accountDetailsUpload">
+                            <div class="form-group"><br/>
+                
+                                <input type="text" class="form-control" id="account_firstname_edit" placeholder="First Name" required/><br/>
 
-                        <button type="submit" class="w3-btn w3-deep-purple">
-                            <span><b>SAVE CHANGES</b></span>
-                        </button>
-                    </form>
+                                <input type="text" class="form-control" id="account_middlename_edit" placeholder="Middle Name (Optional)" required/><br/>
+                                
+                                <input type="text" class="form-control" id="account_lastname_edit" placeholder="Last Name (Optional)">
+                                                
+                                <input type="text" class="form-control" id="account_phonenumber_edit" placeholder="Phone Number(Optional)"  required/>
+
+                                <input type="text" class="form-control" id="account_username_edit" placeholder="Phone Number(Optional)" required/>
+                                
+                                <div class="w3-center">
+                                    <div class="spinner-grow text-primary" id="accountUploadLoadingIcon" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+
+                                <div id="errorSuccessNotifyAccountUploadDetails">
+                                    <b><div class="w3-center w3-text-green" id="accountUploadFetchSuccess"></div></b>
+                                    <b><div class="w3-center w3-text-red" id="accountUploadFetchError"></div></b>
+                                    <div class="w3-center w3-text-red" id="accountUploadFetchErrorDetails"></div>
+                                </div>
+
+                                <button type="submit" id="accountUploadDetailsBtn" class="w3-center w3-btn w3-deep-purple w3-ripple">
+                                    <b><span>SAVE</span></b>
+                                    <i class="icon-cloud"></i>
+                                </button>
+
+                            </div><!-- End .form-group -->
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>             
     </section>
     
     <!--View Track Info Modal-->

@@ -7,11 +7,6 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		buyer_first_name: "",
 		buyer_middle_name: "",
 		buyer_last_name: "",
-		buyer_country:"",
-	 	buyer_state:"",
-	 	buyer_city_or_town:"",
-	 	buyer_street_or_close:"",
-	 	buyer_home_apartment_suite_unit:"",
 	 	buyer_phone_number:"",
 	 	buyer_email:"",
 	 	buyer_password:"",
@@ -34,11 +29,6 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				if(
 					this.buyer_first_name == "" ||
 					this.buyer_last_name == "" ||
-					this.buyer_country == "" ||
-	 				this.buyer_state == ""|| 
-	 				this.buyer_city_or_town == "" ||
-	 				this.buyer_street_or_close == "" ||
-	 				this.buyer_home_apartment_suite_unit == "" ||
 	 				this.buyer_email == "" ||
 	 				this.buyer_password == ""
 				)
@@ -118,11 +108,6 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			this.buyer_first_name = $('input#register_first_name').val();
 			this.buyer_middle_name = $('input#register_middle_name').val();
 	 		this.buyer_last_name = $('input#register_middle_name').val();
-			this.buyer_country = $('input#register_country').val();
-	 		this.buyer_state = $('input#register_state ').val();
-	 		this.buyer_city_or_town = $('input#register_city_or_town ').val();
-	 		this.buyer_street_or_close = $('textarea#register_street_or_close ').val();
-	 		this.buyer_home_apartment_suite_unit = $('textarea#register_home_apartment_suite_unit').val();
 	 		this.buyer_phone_number = $('input#register_phone_number').val();
 	 		this.buyer_email = $('input#register_email').val();
 	 		this.buyer_password = $('input#register_password').val();
@@ -139,11 +124,6 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				'buyer_first_name' : this.buyer_first_name, 
 				'buyer_middle_name' : this.buyer_middle_name, 
 	 			'buyer_last_name' : this.buyer_last_name,
-				'buyer_country' : this.buyer_country,
-	 			'buyer_state' : this.buyer_state,
-	 			'buyer_city_or_town' : this.buyer_city_or_town,
-	 			'buyer_street_or_close' : this.buyer_street_or_close,
-	 			'buyer_home_apartment_suite_unit' : this.buyer_home_apartment_suite_unit,
 	 			'buyer_phone_number' : this.buyer_phone_number,
 	 			'buyer_email' : this.buyer_email,
 	 			'buyer_password' : this.buyer_password,

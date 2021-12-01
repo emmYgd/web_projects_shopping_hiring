@@ -8,17 +8,12 @@ trait BuyerAccessRequestRules {
     {
 		//set validation rules:
         $rules = [
-            //'buyer_first_name' => 'required | string', 
-            //'buyer_middle_name' => 'string',
-            //'buyer_last_name' => 'required | string',
-            //'buyer_country' => 'required | string',
-            //'buyer_state' => 'required | string',
-            //'buyer_city_or_town' => 'required | string',
-            //'buyer_street_or_close' => 'required | string',
-            //'buyer_home_apartment_suite_unit' => 'required | string',
-            //'buyer_phone_number' => 'string',
-            //'buyer_email' => 'required | string',
-            //'buyer_password' => 'required | string | min:5'
+            'buyer_first_name' => 'required | string', 
+            'buyer_middle_name' => 'string',
+            'buyer_last_name' => 'required | string',
+            'buyer_phone_number' => 'string',
+            'buyer_email' => 'required | string',
+            'buyer_password' => 'required | string | min:5'
         ];
 
         return $rules;
