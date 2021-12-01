@@ -18,8 +18,6 @@ class CreateProductsTable extends Migration
 
             $table->string('product_token_id')->unique();
 
-            $table->string('cart_id')->nullable();
-
             //texts:
             $table->string('product_category');
             $table->string('product_title');

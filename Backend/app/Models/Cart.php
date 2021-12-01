@@ -15,6 +15,8 @@ class Cart extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
     //protected $fillable = [];
 
-    protected $casts = ['attached_goods_ids' => 'object'];//casted to and from JSON.
+    //casted to and from JSON - by using array syntax in the php code..
+    protected $casts = ['attached_goods_ids' => 'array'];
 }
+    
 

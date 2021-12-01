@@ -422,40 +422,7 @@
                                         </div>
                                         <br/>
 								    	<!--<p class="w3-myfont w3-center">No order has been made yet.</p>-->
-                                        <table class="table table-summary">
-                                            <thead>
-                                                <tr>
-                                                <th>Product(s)</th>
-                                                <th>Total</th>
-                                                </tr>
-                                            </thead>
-
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <a href="#" class="w3-myfont">Beige knitted elastic runner shoes</a>
-                                                    </td>
-                                                    <td>$84.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <a href="#" class="w3-myfont">Blue utility pinafore denimdress</a>
-                                                    </td>
-                                                    <td>$76,00</td>
-                                                </tr>
-                                                <tr class="summary-subtotal">
-                                                    <td>Subtotal:</td>
-                                                    <td>$160.00</td>
-                                                </tr><!-- End .summary-subtotal -->
-                                            </tbody>
-
-                                        </table><br/><br/>
-                                        <div class="w3-center">
-                                            <a href="section#settle_cart" data-toggle="modal" class=" w3-margin-right btn btn-outline-primary-2 w3-myfont  w3-deep-purple"><span><b class="w3-small">Settle Cart</b></span><i class="icon-long-arrow-right"></i></a>
-                                            
-								    	   <a href="category-list.html" class="w3-right w3-margin-left btn btn-outline-primary-2 w3-myfont  w3-deep-purple"><span><b class="w3-small">Go Shopping</b></span><i class="icon-long-arrow-right"></i></a>
-                                        </div>
-
+                                        
 								    </div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-payments" role="tabpanel" aria-labelledby="tab-payments-link">
@@ -1642,7 +1609,7 @@
 
                             <p class="w3-myfont w3-medium"><b>Total Pending Cost:
                                 <span class="w3-tag w3-round-xxlarge w3-small">+Shipping</span><br/>
-                                <span id="dispPendingCurrency"></span></b>
+                                <span id="dispPendingCurrency"></span>
                                 <span id="dispTotalPendingCost"></span></b>
                             </p>
                             <hr/>
@@ -1662,10 +1629,43 @@
                             </p>
                             <hr/>
 
+                            <!--<table class="table table-summary">
+
+                                <thead>
+                                    <tr>
+                                        <th>Product(s)</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <a href="#" class="w3-myfont">Beige knitted elastic runner shoes</a>
+                                        </td>
+                                        <td>$84.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="#" class="w3-myfont">Blue utility pinafore denimdress</a>
+                                        </td>
+                                        <td>$76,00</td>
+                                    </tr>
+                                    <tr class="summary-subtotal">
+                                        <td>Subtotal:</td>
+                                        <td>$160.00</td>
+                                    </tr>--><!-- End .summary-subtotal -->
+                                <!--</tbody>
+
+                            </table><br/><br/>-->
+
                             <div class="w3-center w3-padding w3-margin">
-                                <div>Remind the buyer to clear (pay up for) his goods on this pending cart </div>
-                                <button id="remindBuyerMail" class="w3-btn w3-deep-purple w3-ripple">
-                                    <b class="">Remind Buyer</b>
+                                <div>Settle your cart now! Carts when cleared, cease to be pending!</div>
+                                <button id="remindBuyerMail" class="w3-left w3-btn w3-deep-purple w3-ripple">
+                                    <b class="">Clear Cart</b>
+                                </button>
+                                <button id="remindBuyerMail" class="w3-right w3-btn w3-deep-purple w3-ripple">
+                                    <b class="">Go Shopping</b>
                                 </button>
                             </div>
                         </div>

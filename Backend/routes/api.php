@@ -139,6 +139,18 @@ Route::group(['prefix' => 'v1/buyer/', /*'middleware' => ''*/], function(){
 		]);
 
 
+		Route::post('fetch/all/buyer/cart/ids', [
+			//'as' => 'init', 
+			//'middleware' => 'init',
+    		'uses' => 'BuyerCartController@FetchAllBuyerCartIDs'
+		]);
+
+		Route::post('fetch/each/buyer/cart/details', [
+			//'as' => 'init', 
+			//'middleware' => 'init',
+    		'uses' => 'BuyerCartController@FetchEachBuyerCartDetails'
+		]);
+
 
 		//this will include their pricing with or without shipping...
 		Route::get('view/all/goods/for/sale', [

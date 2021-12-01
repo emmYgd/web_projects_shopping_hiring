@@ -3,95 +3,103 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 
 use App\Http\Controllers\Validators\BuyerCartRequestRules;
 
 use App\Services\Interfaces\BuyerCartInterface;
 use App\Services\Traits\ModelAbstraction\BuyerCartAbstraction;
-use App\Services\Interfaces\PaymentInterface;
-use App\Services\Traits\ModelAbstraction\PaymentAbstraction;
 
 final class BuyerCartController extends Controller //implements BuyerCartInterface, PaymentInterface
 {
-   use BuyerCartAbstraction, BuyerCartRequestRules;
-   use PaymentAbstraction, PaymentAbstractionRules;
+   use BuyerCartAbstraction;
+   use BuyerCartRequestRules;
 
    public function __construct()
    {
-        //$this->createAdminDefault();
+        //$this->createBuyerDefault();
    }
-
-   public function AddGoodsToCart(Request $request): JsonResponse
+  
+  
+   public function FetchEachBuyerCartDetails(Request $request): JsonResponse
    {
       $status = array();
 
       try
       {
          //get rules from validator class:
-         $reqRules = $this->addGoodsToCartRules();
+         $reqRules = $this->fetchEachCartDetailsRules();
 
          //validate here:
          $validator = Validator::make($request->all(), $reqRules);
 
-         if($validator->fails()){
-            throw new \Exception("Invalid Input provided!");
+         if($validator->fails())
+         {
+            throw new \Exception("Invalid Cart ID provided!");
          }
-
+         
          //this should return in chunks or paginate:
-         $is_cart_created = $this->BuyerAddGoodsToCartService($request);
-         if(!$is_cart_created) {
-            throw new \Exception("Cart Not Created successfully!");
+         $detailsFound = $this->BuyerFetchEachCartDetailsService($request);
+         if( empty($detailsFound) )
+         {
+            throw new \Exception("Pending Cart Details not found! Ensure that this is not a Cleared Cart ID.");
          }
 
          $status = [
             'code' => 1,
-            'serverStatus' => 'Creation Success!',
+            'serverStatus' => 'FetchSuccess!',
+            'cart_details' => $detailsFound
          ];
 
       }
       catch(\Exception $ex)
       {
+
          $status = [
             'code' => 0,
-            'serverStatus' => 'Creation Error!',
+            'serverStatus' => 'FetchError!',
             'short_description' => $ex->getMessage()
          ];
 
       }
-      finally
-      {
+      /*finally
+      {*/
          return response()->json($status, 200);
-      }
-
+      //}
    }
 
+
+
    //first display the summary of all pending(not paid yet) or cleared cart(paid)
-   public function ViewCartsByCategory(Request $request): JsonResponse
+   public function FetchAllBuyerCartIDs(Request $request): JsonResponse
    {
       $status = array();
 
       try
       {
          //get rules from validator class:
-         $reqRules = $this->viewCartsByCategoryRules();
+         $reqRules = $this->fetchAllBuyerCartIDsRules();
 
          //validate here:
          $validator = Validator::make($request->all(), $reqRules);
 
-         if($validator->fails()){
-            throw new \Exception("Access Error, Not logged in yet!");
+         if($validator->fails())
+         {
+            throw new \Exception("Access Error, Not a logged in user!");
          }
          
          //this should return in chunks or paginate:
-         $detailsFound = $this->BuyerViewCartByCategoryService($request);
-            if( empty($detailsFound) ){
-               throw new \Exception("${ $request->is_cleared ? 'Cleared' : 'Pending'} Carts not found!");
+         $detailsFound = $this->BuyerFetchAllCartIDsService($request);
+            if( empty($detailsFound) )
+            {
+               throw new \Exception("{ $request->payment_status === 'cleared' ? 'Cleared' : 'Pending'} Carts IDs not found!");
             }
 
          $status = [
             'code' => 1,
-            'serverStatus' => 'Search Success!',
-            'employers' => $detailsFound
+            'serverStatus' => 'FetchSuccess!',
+            'allCartIDs' => $detailsFound
          ];
 
       }
@@ -100,110 +108,17 @@ final class BuyerCartController extends Controller //implements BuyerCartInterfa
 
          $status = [
             'code' => 0,
-            'serverStatus' => 'Search Error!',
+            'serverStatus' => 'FetchError!',
             'short_description' => $ex->getMessage()
          ];
 
       }
-      finally
-      {
+      /*finally
+      {*/
          return response()->json($status, 200);
-      }
-
+      //}
    }
 
-
-   public function EditPendingCartGoods(Request $request): JsonResponse
-   {
-      $status = array();
-
-      try
-      {
-         //get rules from validator class:
-         $reqRules = $this->editPendingCartGoodsRules();
-
-         //validate here:
-         $validator = Validator::make($request->all(), $reqRules);
-
-         if($validator->fails())
-         {
-            throw new \Exception("Invalid Input Provided!");
-         }
-
-         $cart_was_edited = $this->BuyerEditPendingCartGoodsService($request);
-
-         if(!$is_details_saved)
-         {
-            throw new \Exception("Wasn't able to change cart contents successfully!");
-         }
-
-         $status = [
-            'code' => 1,
-            'serverStatus' => 'Cart Contents Changed Successfully!'
-         ];
-
-      }
-      catch(\Exception $ex)
-      {
-         $status = [
-            'code' => 0,
-            'serverStatus' => 'Update Error!',
-            'short_description' => $ex->getMessage()
-         ];
-
-      }
-      finally
-      {
-         return response()->json($status, 200);
-      }
-
-   }
-
-
-   public function DeletePendingCart(Request $request): JsonResponse
-   {
-      $status = array();
-
-      try
-      {
-         //get rules from validator class:
-         $reqRules = $this->deletePendingCartRules();
-
-         //validate here:
-         $validator = Validator::make($request->all(), $reqRules);
-
-         if($validator->fails())
-         {
-            throw new \Exception("Access Error, Not logged in yet!");
-         }
-
-         //this should return in chunks or paginate:
-         $is_cart_deleted = $this->BuyerDeletePendingCartService($request);
-         if(!$is_cart_deleted)
-         {
-            throw new \Exception("Cart not deleted successfully!");
-         }
-
-         $status = [
-            'code' => 1,
-            'serverStatus' => 'Cart Deleted!',
-         ];
-
-      }catch(\Exception $ex)
-      {
-
-         $status = [
-            'code' => 0,
-            'serverStatus' => 'Cart Not Deleted Yet!',
-            'short_description' => $ex->getMessage()
-         ];
-
-      }finally
-      {
-         return response()->json($status, 200);
-      }
-
-   }
    
-   
+
 }

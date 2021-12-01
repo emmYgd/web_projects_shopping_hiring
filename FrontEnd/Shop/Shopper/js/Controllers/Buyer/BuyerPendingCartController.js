@@ -21,7 +21,6 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				event.preventDefault();
 				this.FetchPendingCartIDs();
 			});
-			
 		},
 
 		FetchPendingCartIDs()
@@ -153,7 +152,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		SyncFetchPendingCartModel()
 		{
 			let method = "POST";
-			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/admin/dashboard/utils/fetch/all/cart/ids';
+			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/buyer/dashboard/utils/fetch/all/buyer/cart/ids';
 			//prepare the JSON model:
 			let jsonRequestModel = 
 			{
@@ -169,7 +168,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		SyncFetchEachPendingCartDetailsModel()
 		{
 			let method = "POST";
-			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/admin/dashboard/utils/fetch/each/cart/details';
+			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/buyer/dashboard/utils/fetch/each/buyer/cart/details';
 			//prepare the JSON model:
 			let jsonRequestModel = 
 			{
