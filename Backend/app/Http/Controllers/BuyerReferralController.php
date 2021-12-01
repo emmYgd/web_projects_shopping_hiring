@@ -114,14 +114,14 @@ final class BuyerReferralController extends Controller //implements BuyerExtrasI
    }
 
 
-   public function ReferralLinkUse(Request $request): JsonResponse
+   public function ReferralLinkUse(Request $request, $unique_buyer_id): JsonResponse
    {
       $status = array();
 
       try
       {
          //get rules from validator class:
-         /*$reqRules = $this->referralLinkUseRules();
+         $reqRules = $this->referralLinkUseRules();
 
          //validate here:
          $validator = Validator::make($request->all(), $reqRules);
@@ -129,9 +129,9 @@ final class BuyerReferralController extends Controller //implements BuyerExtrasI
          if($validator->fails())
          {
             throw new \Exception("Access Error, Not logged in yet!");
-         }*/
+         }
 
-         //this should return in chunks or paginate:
+         
          $bonus_has_recorded = $this->BuyerReferralLinkUseService($unique_buyer_id);
          if($bonus_has_recorded)
          {
@@ -139,27 +139,27 @@ final class BuyerReferralController extends Controller //implements BuyerExtrasI
 
          }
 
-         /*$status = [
+         $status = [
             'code' => 1,
-            'serverStatus' => 'Referral Links Formed!',
-            'referral_link' => $links_has_formed
-         ];*/
+            'serverStatus' => 'UpdateSuccess!',
+            'referral_link' => $bonus_has_recorded//$unique_buyer_id,//
+         ];
 
       }catch(\Exception $ex)
       {
 
-         /*$status = [
+         $status = [
             'code' => 0,
-            'serverStatus' => 'Link Formation Error!',
+            'serverStatus' => 'UpdateError!',
             'short_description' => $ex->getMessage(),
-         ];*/
+         ];
 
-      }finally
-      {
-         //return response()->json($status, 200);
+      }/*finally
+      {*/
+         return response()->json($status, 200);
          //redirect to our homepage:
 
-      }
+      //}
       
    }
 

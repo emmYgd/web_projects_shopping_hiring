@@ -25,6 +25,10 @@ import BuyerLocationsTracks from "./Controllers/Buyer/BuyerLocationsTracksContro
 
 import BuyerReferral from "./Controllers/Buyer/BuyerReferralController.js"; 
 
+import AdminPendingCart from "./Controllers/Buyer/BuyerPendingCartController.js";
+import AdminClearedCart from "./Controllers/Buyer/BuyerClearedCartController.js";
+
+
 //Now start the app with IIFE main():
 const main = (()=> {
 
@@ -117,8 +121,17 @@ const main = (()=> {
 			BuyerReferral.RefreshFetchReferral();
 			BuyerReferral.FetchReferralAmount();
 			BuyerReferral.GenerateReferralLink("button#genRefLinkBtn");
-			
 
+			//to avoid repitions, use common admin module for user:
+			//for pending Carts:
+			BuyerPendingCart.RefreshPendingCartIDs();
+			BuyerPendingCart.FetchPendingCartIDs();
+			BuyerPendingCart.FetchEachPendingCartDetails('button#viewPendingCartDetails');
+
+			//for cleared Carts:
+			BuyerClearedCart.RefreshClearedCartIDs();
+			BuyerClearedCart.FetchClearedCartIDs();
+			BuyerClearedCart.FetchEachClearedCartDetails('button#viewClearedCartDetails');
 
 		}
 

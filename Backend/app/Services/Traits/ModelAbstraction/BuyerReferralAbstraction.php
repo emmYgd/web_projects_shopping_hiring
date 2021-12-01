@@ -116,14 +116,22 @@ trait BuyerReferralAbstraction
             throw new \Exception("Referral Program Not Activated Yet!");
         }
 
-        //get the admin bounus per click:
+        //get the admin bonus per click:
         $bonus_per_click = $admin_details->referral_bonus;
 
         //check the buyer table and add bonus acordingly:
         $queryKeysValues = ['unique_buyer_id' => $unique_buyer_id];
-        $newKeysValues = [];
-        $this->BuyerUpdateSpecificService
+        $db_ref_bonus = $this?->BuyerReadSpecificService($queryKeysValues)?->buyer_total_referral_bonus;
 
+        //cast values:
+        //add the two values together and update:
+        (float)$db_ref_bonus += (float)$bonus_per_click;
+
+        //update this new value in database:
+        $newKeysValues = ['buyer_total_referral_bonus' => $db_ref_bonus];
+        $is_new_ref_updated = $this->BuyerUpdateSpecificService($queryKeysValues, $newKeysValues);
+
+        return $is_new_ref_updated;
     }
 
 
