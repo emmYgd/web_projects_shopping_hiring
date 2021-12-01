@@ -358,6 +358,69 @@
 								    </div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade w3-container w3-padding w3-margin" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
+
+                                        <!--this section first displays all the user 
+                                            Cart details -->
+                                        <div class="row">
+
+                                            <div class="col-sm-6">
+                                                <div class="w3-card-4 w3-container w3-padding w3-margin w3-center">
+                                                    <p class="w3-large w3-myfont w3-border-bottom w3-border-deep-purple"><b>Pending Cart IDs</b></p>
+                                                    <p class="w3-border w3-myfont  w3-round-xxlarge w3-tiny">Displays all uncleared <br/>/ pending Cart IDs.</p><br/>
+                                                    <b><div id="allPendingCartIDs"></div></b>
+
+                                                    <div id="errorSuccessNotifyPendingCart">
+                                                        <b><div class="w3-center w3-text-green" id="pendingFetchSuccess"></div></b>
+                                                        <b><div class="w3-center w3-text-red" id="pendingFetchError"></div></b>
+                                                        <div class="w3-center w3-text-red" id="pendingFetchErrorDetails"></div>
+                                                    </div>
+
+                                                    <hr/>
+
+                                                    <div class="spinner-grow text-primary" id="pendingCartViewLoadingIcon" role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                    </div>
+
+                                                    <div id="pendingCartBtn">   
+                                                        <button id="refreshPendingCartIDs" class="w3-card-4 w3-btn w3-deep-purple w3-myfont w3-ripple w3-round-xxlarge"><b>Refresh</b></button>
+                                                        <br/><br/>
+
+                                                        <button class="w3-card-4 w3-btn w3-deep-purple w3-myfont w3-ripple" data-toggle="modal" data-target="#viewPendingCartDetails"><b>View Details</b></button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="col-sm-6">
+                                                <div class="w3-card-4 w3-container w3-padding w3-margin w3-center">
+                                                    <p class="w3-large w3-myfont w3-border-bottom w3-border-deep-purple"><b>Cleared Cart IDs</b></p>
+                                                    <p class="w3-border w3-myfont  w3-round-xxlarge w3-tiny">Displays all cleared Cart IDs.<br/>All items here have been paid for and already up for shipping</p><br/>
+
+                                                    <b><div id="allClearedCartIDs"></div></b>
+
+                                                    <div id="errorSuccessNotifyClearedCart">
+                                                        <b><div class="w3-center w3-text-green" id="clearedFetchSuccess"></div></b>
+                                                        <b><div class="w3-center w3-text-red" id="clearedFetchError"></div></b>
+                                                        <div class="w3-center w3-text-red" id="clearedFetchErrorDetails"></div>
+                                                    </div>
+
+                                                    <hr/>
+
+                                                    <div class="spinner-grow text-primary" id="clearedCartViewLoadingIcon" role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                    </div>
+
+                                                    <div id="pendingCartBtn">   
+                                                        <button id="refreshClearedCartIDs" class="w3-card-4 w3-btn w3-deep-purple w3-myfont w3-ripple w3-round-xxlarge"><b>Refresh</b></button>
+                                                        <br/><br/>
+
+                                                        <button class="w3-card-4 w3-btn w3-deep-purple w3-myfont w3-ripple" data-toggle="modal" data-target="#viewClearedCartDetails"><b>View Details</b></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
 								    	<!--<p class="w3-myfont w3-center">No order has been made yet.</p>-->
                                         <table class="table table-summary">
                                             <thead>
@@ -1529,6 +1592,160 @@
                 </div>
             </div>
         </div>             
+    </section>
+
+    <section class="modal fade" id="viewPendingCartDetails" tabindex="-1" role="page" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close w3-text-red" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="icon-close"></i></span>
+                    </button><br/>
+                    <div class="w3-container w3-padding w3-margin">
+                        <p class="w3-center w3-myfont">
+                            <b>Enter Pending Cart IDs here to display information</b>
+                        </p>
+
+                        <form id="searchCartForm">
+                            <input type="text" class="form-control" id="uniquePendingID" name="" placeholder="Cart ID Here" required>
+
+                            <div id="errorSuccessNotifyEachPendingCart">
+                                <b><div class="w3-center w3-text-green" id="fetchSuccessEachPendingCart"></div></b>
+                                <b><div class="w3-center w3-text-red" id="fetchErrorEachPendingCart"></div></b>
+                                <div class="w3-center w3-text-red" id="fetchErrorDetailsEachPendingCart"></div>
+                            </div>
+
+                            <button id="viewPendingCartDetails" type="submit" class="w3-card-4 w3-button w3-border w3-round-xxlarge w3-deep-purple w3-hover-deep-purple w3-ripple"><b>View</b></button>
+
+                            <div class="spinner-grow text-primary" id="eachPendingCartLoadingIcon" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+
+                        </form>
+
+                        <div id="eachPendingCartDetails" class="w3-card-4 w3-container w3-topbar w3-bottombar w3-border-right w3-border-left w3-round-large w3-border-deep-purple w3-padding w3-margin">
+                            <div class="w3-center w3-large">
+                               <b>ID: <span id="dispPendingCartID"></span></b><br/><br/>
+                            </div>
+                            <p class="w3-myfont w3-medium"><b>Date Created:<br/>
+                                <span id="dispDateCreated"></span></b>
+                            </p>
+                            <hr/>
+                             <p class="w3-myfont w3-medium"><b>Date Updated:<br/>
+                                <span id="dispDateUpdated"></span></b>
+                            </p>
+                            <hr/>
+                            <p class="w3-myfont w3-medium"><b>Status:<br/>
+                                <span id="dispStatus">Pending</span></b>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Total Pending Cost:
+                                <span class="w3-tag w3-round-xxlarge w3-small">+Shipping</span><br/>
+                                <span id="dispPendingCurrency"></span></b>
+                                <span id="dispTotalPendingCost"></span></b>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Buyer's ID:<br/>
+                                <span id="dispBuyerID"></span></b>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Buyer's Email:<br/>
+                                <span id="dispBuyerEmail"></span></b>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Buyer's Phone Number:<br/>
+                                <span id="dispBuyerPhoneNumber"></span></b>
+                            </p>
+                            <hr/>
+
+                            <div class="w3-center w3-padding w3-margin">
+                                <div>Remind the buyer to clear (pay up for) his goods on this pending cart </div>
+                                <button id="remindBuyerMail" class="w3-btn w3-deep-purple w3-ripple">
+                                    <b class="">Remind Buyer</b>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="modal fade" id="viewClearedCartDetails" tabindex="-1" role="page" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close w3-text-red" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="icon-close"></i></span>
+                    </button><br/>
+                    <div class="w3-container w3-padding w3-margin">
+                        <p class="w3-center w3-myfont">
+                            <b>Enter Cleared Cart IDs here to display information</b>
+                        </p>
+
+                        <form id="searchCartForm">
+                            <input type="text" class="form-control" id="uniqueClearedID" name="" placeholder="Cart ID Here" required>
+
+                            <div id="errorSuccessNotifyEachClearedCart">
+                                <b><div class="w3-center w3-text-green" id="fetchSuccessEachClearedCart"></div></b>
+                                <b><div class="w3-center w3-text-red" id="fetchErrorEachClearedCart"></div></b>
+                                <div class="w3-center w3-text-red" id="fetchErrorDetailsEachClearedCart"></div>
+                            </div>
+
+                            <button id="viewClearedCartDetails" type="submit" class="w3-card-4 w3-button w3-border w3-round-xxlarge w3-deep-purple w3-hover-deep-purple w3-ripple"><b>View</b></button>
+
+                            <div class="spinner-grow text-primary" id="eachClearedCartLoadingIcon" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+
+                        </form>
+
+                        <div id="eachClearedCartDetails" class="w3-card-4 w3-container w3-topbar w3-bottombar w3-border-right w3-border-left w3-round-large w3-border-deep-purple w3-padding w3-margin">
+                            <div class="w3-center w3-large">
+                               <b>ID: <span id="dispClearedCartID"></span></b><br/><br/>
+                            </div>
+
+                            <p class="w3-myfont w3-medium"><b>Date Created:<br/>
+                                <span id="dispDateCreated"></span></b>
+                            </p>
+                            <hr/>
+                        
+                            <p class="w3-myfont w3-medium"><b>Status:<br/>
+                                <span id="dispStatus">Cleared</span></b>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Total Cost:
+                                <span class="w3-tag w3-round-xxlarge w3-small">+Shipping</span><br/>
+                                <span id="dispClearedCurrency"></span></b>
+                                <span id="dispTotalClearedCost"></span></b>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Buyer's ID:<br/>
+                                <span id="dispBuyerID"></span></b>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Buyer's Email:<br/>
+                                <span id="dispBuyerEmail"></span></b>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Buyer's Phone Number:<br/>
+                                <span id="dispBuyerPhoneNumber"></span></b>
+                            </p>
+                            <hr/>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     
    <!--View Track Info Modal-->

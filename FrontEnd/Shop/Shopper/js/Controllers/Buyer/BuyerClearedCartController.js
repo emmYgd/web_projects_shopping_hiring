@@ -3,7 +3,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 	const BuyerClearedCart = 
 	{	
 		//admin token:
-		admin_id:null,
+		buyer_id:null,
 
 		//values:
 		serverSyncModel:"",
@@ -130,7 +130,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		{
 			//console.log("Onto Fetching Things")
 			//first get admin id:
-			this.admin_id = window.localStorage.getItem('adminID');
+			this.buyer_id = window.localStorage.getItem('buyerID');
 			
 			$('div#allClearedCartIDs').hide();
 			$('button#refreshClearedCartIDs').hide();
@@ -157,7 +157,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			//prepare the JSON model:
 			let jsonRequestModel = 
 			{
-				'token_id' : this.admin_id,
+				'unique_buyer_id' : this.buyer_id,
 				'payment_status': 'cleared',
 			}
 
@@ -174,7 +174,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			//prepare the JSON model:
 			let jsonRequestModel = 
 			{
-				'token_id' : this.admin_id,
+				'unique_buyer_id' : this.buyer_id,
 				'unique_cart_id' : this.uniqueClearedID,
 				'payment_status' : 'cleared',
 			}

@@ -25,8 +25,8 @@ import BuyerLocationsTracks from "./Controllers/Buyer/BuyerLocationsTracksContro
 
 import BuyerReferral from "./Controllers/Buyer/BuyerReferralController.js"; 
 
-import AdminPendingCart from "./Controllers/Buyer/BuyerPendingCartController.js";
-import AdminClearedCart from "./Controllers/Buyer/BuyerClearedCartController.js";
+import BuyerPendingCart from "./Controllers/Buyer/BuyerPendingCartController.js";
+import BuyerClearedCart from "./Controllers/Buyer/BuyerClearedCartController.js";
 
 
 //Now start the app with IIFE main():
