@@ -42,7 +42,7 @@ class CreateBuyersTable extends Migration
             $table->longText('buyer_bank_card_expiry_month')->nullable();
             $table->longText('buyer_bank_card_expiry_year')->nullable();
 
-            $table->string('buyer_email')->unique();
+            $table->string('buyer_email')->unique()->nullable();
             $table->string('buyer_phone_number')->unique()->nullable();
 
             //because it cannot be filled by mass assignment:

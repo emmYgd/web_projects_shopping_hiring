@@ -119,6 +119,20 @@ Route::group(['prefix' => 'v1/buyer/', /*'middleware' => ''*/], function(){
 		]);
 
 
+		Route::post('fetch/account/details', [
+			//'as' => 'init', 
+			//'middleware' => 'init',
+    		'uses' => 'BuyerAccountController@FetchAccountDetails'
+		]);
+
+		Route::post('upload/account/details', [
+			//'as' => 'init', 
+			//'middleware' => 'init',
+    		'uses' => 'BuyerAccountController@UploadAccountDetails'
+		]);
+
+
+
 		//this will include their pricing with or without shipping...
 		Route::get('view/all/goods/for/sale', [
 			'as' => 'goods_for_sale', 

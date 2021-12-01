@@ -22,7 +22,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		upload_success:false,
 		is_all_null:false,
 
-		FetchCartLocation()
+		FetchCartLocation(user)
 		{
 			//console.log("Onto Fetching Things");
 			//initialize:
