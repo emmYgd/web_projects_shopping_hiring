@@ -1,9 +1,9 @@
 import AbstractModel from "./../../Models/AbstractModel.js";
 	
-	const AdminLocationsTracks = 
+	const BuyerLocationsTracks = 
 	{	
 		//admin token:
-		admin_id:null,
+		buyer_id:null,
 
 		//values:
 		serverSyncModel:"",
@@ -64,84 +64,11 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				});
 			});
 		},
-		
-		UpdateCartLocation(targetClickElem)
-		{
-			//initialize:
-			this.Init();
-
-			$(targetClickElem).click((event)=>
-			{
-				
-				this.Collectibles();
-
-				event.preventDefault();
-
-				if(
-					this.cartID=="" ||
-	 				this.cartStatus==null || 
-	 				this.cartCurrentCountry=="" ||
-	 				this.cartCurrentState=="" || 
-	 				this.cartCurrentCityOrTown=="" || 
-	 				this.cartCurrentStreet=="" || 
-	 				this.cartShippedDate=="" || 
-	 				this.cartExpectedDeliveryDate==""
-				){
-					console.log("Empty!");
-					this.is_all_null = true;
-					this.LoadingUI();
-				}
-				else
-				{
-					//set state to true for watchers
-					this.clicked_state = true;
-					this.is_all_null = false;
-					//UI loading function:
-					this.LoadingUI();
-
-					//call the server sync:
-					this.SyncUpdateTrackLocationDetailsModel().then((serverModel)=>
-					{
-						//sync model:
-						this.serverSyncModel = serverModel;
-						//set state for watchers
-						this.clicked_state = false;
-						//UI loading function:
-						this.LoadingUI();
-
-						//now start conditionals:
-						if( 
-							(this.serverSyncModel.code === 1) &&
-							(this.serverSyncModel.serverStatus === 'locationDetailsSaved!')
-						)
-						{
-							console.log("Success");
-							//Upload state:
-							this.upload_success = true;
-							//call reactors:
-							this.UploadUI();
-						}
-						else if
-						( 
-							(this.serverSyncModel.code === 0) &&
-							(this.serverSyncModel.serverStatus === 'locationDetailsNotSaved!')
-						)
-						{
-							console.log("Error");
-							//Upload state:
-							this.upload_success = false;
-							//call reactors:
-							this.UploadUI();
-						}
-					});
-				}
-			});
-		},
 
 		Init()
 		{
 			//first get admin id:
-			this.admin_id = window.localStorage.getItem('adminID');
+			this.buyer_id = window.localStorage.getItem('buyerID');
 			//hide loading icon:
 			$('div#cartLocUploadLoadingIcon').hide();
 			//clear text:
@@ -180,31 +107,8 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			//prepare the JSON model:
 			let jsonRequestModel = 
 			{
-				'token_id' : this.admin_id,
+				'unique_buyer_id' : this.buyer_id,
 				'unique_cart_id' : this.cartID
-			}
-
-			let serverModel = AbstractModel(method, UploadServerUrl, jsonRequestModel);
-			return serverModel;
-			//this.serverSyncModel = serverModel;
-		},
-			
-		SyncUpdateTrackLocationDetailsModel()
-		{
-			let method = "POST";
-			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/admin/dashboard/utils/update/cleared/cart/location';
-			//prepare the JSON model:
-			let jsonRequestModel = 
-			{
-				'token_id' : this.admin_id,
-				'unique_cart_id' : this.cartID,
-				'cart_status' : this.cartStatus,
-	 			'current_country' : this.cartCurrentCountry,
-	 			'current_state' : this.cartCurrentState,
-	 			'current_city_or_town' : this.cartCurrentCityOrTown,	
-	 			'current_street' : this.cartCurrentStreet,
-	 			'shipped_date' : this.cartShippedDate,
-	 			'expected_delivery_date' : this.cartExpectedDeliveryDate
 			}
 
 			let serverModel = AbstractModel(method, UploadServerUrl, jsonRequestModel);
@@ -227,53 +131,6 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				$('button#updateCartLocationBtn').show();
 
 				$('div#errorSuccessNotify').show();
-			}
-
-			if(this.is_all_null)
-			{
-				$('div#cartLocUploadSuccess').text('');
-				$('div#cartLocUploadError').text('');
-				$('div#cartLocUploadErrorDetails').text('');
-
-				$('div#cartLocUploadError').text('Upload Error!');
-				$('div#cartLocUploadErrorDetails').text('Please fill all fields!');
-			}
-			else if(!this.is_all_null)
-			{
-				$('div#cartLocUploadSuccess').text('');
-				$('div#cartLocUploadError').text('');
-				$('div#cartLocUploadErrorDetails').text('');
-			}
-		},
-		
-		UploadUI()
-		{	
-			if(this.upload_success)
-			{
-				//clear all forms:
-				$('form#uploadBankDetails').trigger('reset');
-
-				//clear first:
-				$('div#errorSuccessNotify').show();
-				$('div#cartLocUploadSuccess').text("");
-				$('div#cartLocUploadError').text("");
-				$('div#cartLocUploadErrorDetails').text("");
-				//Upload Success Message:
-				$('div#cartLocUploadSuccess').text("Location Details Updated Successfully!");
-			}
-			else if(!this.upload_success)
-			{
-				//console.log("Cool Right!");
-				//clear first:
-				$('div#errorSuccessNotify').show();
-				$('div#cartLocUploadSuccess').text("");
-				$('div#cartLocUploadError').text("");
-				$('div#cartLocUploadErrorDetails').text("");
-
-				//Upload Error Message:
-				$('div#cartLocUploadError').text("Update Error!");
-				$('div#cartLocUploadErrorDetails').text(this.serverSyncModel.short_description);
-				//console.log(this.serverSyncModel.short_description);
 			}
 		},
 
@@ -340,7 +197,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 	}
 		
 
-export default AdminLocationsTracks;
+export default BuyerLocationsTracks;
 	
 	
 	

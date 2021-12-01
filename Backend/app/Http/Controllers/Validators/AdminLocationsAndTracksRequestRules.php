@@ -26,7 +26,8 @@ trait AdminLocationsAndTracksRequestRules {
     {
         //set validation rules:
         $rules = [
-            'token_id'=> 'required | string | exists:admins',//| size:10 
+            'token_id'=> 'required_if:uniquetoken_id,null | string | exists:admins',//| size:10 
+            'unique_buyer_id'=>'required_if:token_id,null | string | exists:buyers',
             'unique_cart_id'=> 'required | string | exists:carts',
         ];
 

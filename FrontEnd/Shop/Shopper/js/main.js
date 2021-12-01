@@ -11,6 +11,7 @@ import AdminBankAccount from "./Controllers/Admin/AdminBankAccountController.js"
 import AdminLocationsTracks from "./Controllers/Admin/AdminLocationsTracksController.js";
 import AdminReferral from "./Controllers/Admin/AdminReferralController.js"; 
 
+
 import BuyerRegister from "./Controllers/Buyer/BuyerRegisterController.js";
 import BuyerLoginLogout from "./Controllers/Buyer/BuyerLoginLogoutController.js";
 import BuyerDashboardSecurity from "./Controllers/Buyer/BuyerDashboardSecurityController.js";
@@ -20,8 +21,9 @@ import BuyerBillingDetails from "./Controllers/Buyer/BuyerBillingDetailsControll
 import BuyerShippingDetails from "./Controllers/Buyer/BuyerShippingDetailsController.js";
 
 import BuyerAccountDetails from "./Controllers/Buyer/BuyerAccountDetailsController.js";
-//import BuyerLocationsTracks from "./Controllers/Buyer/BuyerLocationsTracksController.js";
+import BuyerLocationsTracks from "./Controllers/Buyer/BuyerLocationsTracksController.js";
 
+import BuyerReferral from "./Controllers/Admin/AdminReferralController.js"; 
 
 //Now start the app with IIFE main():
 const main = (()=> {
@@ -69,7 +71,7 @@ const main = (()=> {
 			AdminBankAccount.UpdateBankAccount('button#saveBankAccDetails');
 
 			//Track Bought Goods:
-			AdminLocationsTracks.FetchCartLocation('admin');
+			AdminLocationsTracks.FetchCartLocation();
 			AdminLocationsTracks.UpdateCartLocation('button#updateCartLocationBtn');
 
 			//Referral	Program:
@@ -110,8 +112,7 @@ const main = (()=> {
 			BuyerAccountDetails.UploadAccountDetails('button#accountUploadDetailsBtn');
 
 			//Track Bought Goods: Use Admin module to avoid repitions:
-			AdminLocationsTracks.FetchCartLocation('buyer');
-			AdminLocationsTracks.UpdateCartLocation('button#updateCartLocationBtn');
+			BuyerLocationsTracks.FetchCartLocation();
 
 		}
 
