@@ -18,7 +18,6 @@ trait AdminGeneralAbstraction {
 
 	use PaymentCRUD;
 	use CartCRUD;
-	use CommodityCRUD;
 	use ProductCRUD;
 	use AdminGenBizCRUD;
 	use ComputeUniqueIDService;
@@ -55,11 +54,22 @@ trait AdminGeneralAbstraction {
 			$queryKeysValues = ['product_token_id' => $product_token_id];
 			//this is the image file uploads:
 			//$newKeysValues = $request->except(['token_id', 'product_token_id']);
+
+			//Images in laravel will be stored in a storage folder while their pointer path will be stored in a database:
+
+			//first store these images in a storage location on server:
+			//probably stored in: ../storage/app/public/uploads first
+			$main_image_1_rep = $request->file('main_image_1')->store('uploads');
+			$main_image_2_rep = $request->file('main_image_2')->store('uploads');
+			$logo_1_rep = $request->file('logo_1')->store('uploads');
+			$logo_2_rep = $request->file('logo_2')->store('uploads');
+
+			//Now store their respective links in the database:
 			$newKeysValues = [
-				'main_image_1' => $request->file('main_image_1'),
-				'main_image_2' => $request->file('main_image_2'),
-				'logo_1' => $request->file('logo_1'),
-				'logo_2' => $request->file('logo_2')
+				'main_image_1' => $main_image_1_rep,
+				'main_image_2' => $main_image_2_rep,
+				'logo_1' => $logo_1_rep,
+				'logo_2' => $logo_2_rep
 			];
 
 			$product_image_has_updated = $this->ProductUpdateSpecificService($queryKeysValues, $newKeysValues);

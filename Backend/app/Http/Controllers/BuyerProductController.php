@@ -61,6 +61,7 @@ final class BuyerProductController extends Controller //implements BuyerCartInte
 
       }/*finally
       {*/
+         //$status = mb_convert_encoding($status, "UTF-8", "auto");
          return response()->json($status, 200);
       //}
 
