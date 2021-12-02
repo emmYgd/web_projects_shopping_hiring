@@ -275,15 +275,24 @@
                             <br/>
                             <div class="toolbox">
                                 <!--<div class="toolbox-left">-->
-                                <div class="w3-center">
+                                <div>
                                     <div class="toolbox-info">
                                         <b>
-                                            <span class="icon-eye"></span> Showing <span>#</span> of <span>#</span> Products
+                                            <span class="icon-eye"></span> Showing <span>#</span> of <span id="totalProductCount">#</span> Products
                                         </b>
                                     </div><!-- End .toolbox-info -->
                                 </div><!-- End .toolbox-left -->
 
+                                <div id="errorSuccessNotifyAllProducts" class="w3-center w3-padding w3-margin w3-padding-left w3-margin-left w3-border w3-round-xxlarge">
+                                    <b><div class="w3-center w3-text-green" id="fetchSuccessAllProducts"></div></b>
+                                    <b><div class="w3-center w3-text-red" id="fetchErrorAllProducts"></div></b>
+                                    <div class="w3-center w3-text-red" id="fetchErrorDetailsAllProducts"></div>
+                                </div>
+
                                 <div class="toolbox-right">
+
+                                    <button id="refreshAllProducts" type="submit" class="w3-card-4 w3-button w3-border w3-round-xxlarge w3-deep-purple w3-hover-deep-purple w3-ripple"><b>Refresh</b></button>
+
                                     <!--<div class="toolbox-sort">
                                         <label for="sortby"><b>Sort by:</b></label>
                                         <div class="select-custom">
@@ -321,14 +330,6 @@
                             <div class="products mb-3">
 
                                 <div class="w3-center">
-
-                                    <div id="errorSuccessNotifyAllProducts">
-                                        <b><div class="w3-center w3-text-green" id="fetchSuccessAllProducts"></div></b>
-                                        <b><div class="w3-center w3-text-red" id="fetchErrorAllProducts"></div></b>
-                                        <div class="w3-center w3-text-red" id="fetchErrorDetailsAllProducts"></div>
-                                    </div>
-
-                                    <button id="refreshAllProducts" type="submit" class="w3-card-4 w3-button w3-border w3-round-xxlarge w3-deep-purple w3-hover-deep-purple w3-ripple"><b>Refresh</b></button>
 
                                     <div class="spinner-grow text-primary" id="fetchAllProductsLoadingIcon" role="status">
                                         <span class="sr-only">Loading...</span>
@@ -411,8 +412,8 @@
                                     </li>
                                     <li class="page-item active" aria-current="page"><a class="page-link" href="#"><b class="w3-myfont">1</b></a></li>
                                     <li class="page-item"><a class="page-link" href="#"><b class="w3-myfont">2</b></a></li>
-                                    <li class="page-item"><a class="page-link" href="#"><b class="w3-myfont">3</b></a></li>
-                                    <li class="page-item-total"><b class="w3-myfont">of 6</b></li>
+                                    <li class="page-item"><a class="page-link" href="#"><b class="w3-myfont">3</b></a></li> of 
+                                    <b><li class="page-item-total" id="totalProductCount" class="w3-myfont">6</li></b>
                                     <li class="page-item">
                                         <a class="page-link page-link-next w3-myfont" href="#" aria-label="Next">
                                             <b>Next</b> <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>

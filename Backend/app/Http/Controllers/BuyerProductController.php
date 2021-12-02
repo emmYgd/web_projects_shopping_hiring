@@ -45,8 +45,9 @@ final class BuyerProductController extends Controller //implements BuyerCartInte
 
          $status = [
             'code' => 1,
-            'serverStatus' => 'SearchSuccess!',
-            'products' => $detailsFound
+            'serverStatus' => 'FetchSuccess!',
+            'products' => $detailsFound,
+            'totalCount' => count($detailsFound)
          ];
 
       }
@@ -55,7 +56,7 @@ final class BuyerProductController extends Controller //implements BuyerCartInte
 
          $status = [
             'code' => 0,
-            'serverStatus' => 'SearchError!',
+            'serverStatus' => 'FetchError!',
             'short_description' => $ex->getMessage()
          ];
 

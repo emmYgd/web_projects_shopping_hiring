@@ -134,6 +134,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			$('button#refreshAllProducts').hide();
 			$('div#fetchAllProductsLoadingIcon').show();
 			$('nav#navigateIcons').hide();
+			$('div#errorSuccessNotifyAllProducts').hide();
 			
 			/*$('div#eachPendingCartDetails').hide();
 			$('div#eachPendingCartLoadingIcon').hide();
@@ -258,17 +259,36 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		{
 			if(this.fetch_success)
 			{
-				$('div#pendingCartViewLoadingIcon').hide();
-				$('div#allPendingCartIDs').show();
-				$('button#refreshPendingCartIDs').show();
+				$('div#dispAllProducts').show();
+				$('button#refreshAllProducts').show();
+				$('div#fetchAllProductsLoadingIcon').hide();
+				$('nav#navigateIcons').show();
+				$('div#errorSuccessNotifyAllProducts').show();
+				
+				$('div#fetchSuccessAllProducts').text('');
+				$('div#fetchErrorAllProducts').text('');
+				$('div#fetchErrorDetailsAllProducts').text('');
 
-				$('div#allPendingCartIDs').text('');
-				$('div#errorSuccessNotifyPendingCart').show();
-				$('div#pendingFetchSuccess').text('');
-				$('div#pendingFetchError').text('');
-				$('div#pendingFetchErrorDetails').text('');
+				$('div#fetchSuccessAllProducts').text('Search Success!');
 
-				$('div#pendingFetchSuccess').text('Fetch Success!');
+				$('span#totalProductCount').text('');
+				$('span#totalProductCount').text(this.serverSyncModel.totalCount);
+
+				//Now display all received products:
+				
+
+				if(this.serverSyncModel.totalCount<4)
+				{
+					$('li#totalProductCount').text('');
+					$('li#totalProductCount').text(1);
+				}
+				else
+				{
+					let productPages = this.serverSyncModel.totalCount/4;
+
+					$('li#totalProductCount').text('');
+					$('li#totalProductCount').text(productPages);
+				}
 
 				//get the id details:
 				let allCartIDs = this.serverSyncModel.allCartIDs;
