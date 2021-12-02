@@ -1,5 +1,4 @@
- <?php
-
+<?php
 namespace App\Http\Controllers\Validators;
 
 trait BuyerProductRequestRules 
@@ -15,5 +14,6 @@ trait BuyerProductRequestRules
         return $rules;
     }
 
-
 }
+
+?>

@@ -11,8 +11,9 @@ trait BuyerProductAbstraction
     //inherits all their methods:
     use ProductCRUD;
     
-    protected function BuyerFetchAvailableProductsService()//: string
+    protected function BuyerFetchAvailableProductsService()
 	{
-		
+		$product_details = $this->ProductReadAllLazyService();
+		return $product_details;
     }
 }

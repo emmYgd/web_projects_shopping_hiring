@@ -150,14 +150,10 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 
 		SyncFetchAllProductsModel()
 		{
-			let method = "POST";
+			let method = "GET";
 			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/buyer/dashboard/utils/fetch/all/products/details';
 			//prepare the JSON model:
-			let jsonRequestModel = 
-			{
-				'unique_buyer_id' : this.buyer_id,
-				'payment_status': 'pending',
-			}
+			let jsonRequestModel = '';
 
 			let serverModel = AbstractModel(method, UploadServerUrl, jsonRequestModel);
 			return serverModel;
