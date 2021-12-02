@@ -153,10 +153,10 @@ Route::group(['prefix' => 'v1/buyer/', /*'middleware' => ''*/], function(){
 
 
 		//this will include their pricing with or without shipping...
-		Route::get('view/all/goods/for/sale', [
+		Route::get('fetch/all/products/details', [
 			'as' => 'goods_for_sale', 
 			//'middleware' => 'init',
-    		'uses' => 'BuyerGoodsController@ViewAvailableGoods'
+    		'uses' => 'BuyerProductController@FetchAvailableProducts'
 		]);
 
 		//this is for when the buyer searches for details of the goods that he already has the summary...

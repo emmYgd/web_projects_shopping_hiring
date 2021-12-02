@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
 
             $table->string('product_token_id')->unique();
-
+            
             //texts:
             $table->string('product_category');
             $table->string('product_title');

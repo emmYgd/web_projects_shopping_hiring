@@ -18,7 +18,7 @@ class CreateCartsTable extends Migration
             $table->string('unique_cart_id');
             $table->string('unique_buyer_id')->nullable();
             //associated ids attached to this cart:
-            $table->json('attached_goods_ids')->nullable();//this is not neccessary as it will be recorded in the goods table
+            $table->json('attached_goods_ids')->nullable();
             $table->enum('purchase_currency', ['USD', 'CAD', 'EUR'])->default('USD');
             $table->float('purchase_price')->nullable();
             $table->enum('payment_status', ['pending', 'cleared'])->default('pending');

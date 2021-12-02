@@ -19,7 +19,7 @@ final class CartObserver
     public function created(Cart $cart_model)
     {
         //use buyer model to get buyer email:
-        $queryKeysValues = ['unique_buyer_id' => $cart_model->unique_buyer_id];
+        /*$queryKeysValues = ['unique_buyer_id' => $cart_model->unique_buyer_id];
         $buyer_model = $this->BuyerReadSpecificService($queryKeysValues);
         $buyer_email = $buyer_model->buyer_email;
 
@@ -38,7 +38,7 @@ final class CartObserver
         }else
         {
             echo "Mail was not sent!";
-        }
+        }*/
     }
 
     /**

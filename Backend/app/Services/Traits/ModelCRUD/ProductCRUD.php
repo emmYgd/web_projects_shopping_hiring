@@ -5,6 +5,8 @@ namespace App\Services\Traits\ModelCRUD;
 use App\Models\Product;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\LazyCollection;
 
 trait ProductCRUD 
 {
@@ -16,7 +18,7 @@ trait ProductCRUD
 	}
 
 
-	protected function ProductReadSpecificService(array $queryKeysValues): array 
+	protected function ProductReadSpecificService(array $queryKeysValues): array | null 
 	{	
 		$readModel = Product::where($queryKeysValues)->first();
 		return $readModel;
@@ -29,14 +31,14 @@ trait ProductCRUD
 		return $readAllModel;
 	}
 
-	protected function ProductReadAllLazyService(): array
+	protected function ProductReadAllLazyService(): LazyCollection
 	{
 		$readAllModel = Product::lazy();
 		return $readAllModel;
 	}
 
 
-	protected function ProductReadAllLazySpecificService(array $queryKeysValues): array
+	protected function ProductReadAllLazySpecificService(array $queryKeysValues): LazyCollection
 	{
 		$readAllModel = Product::where($queryKeysValues)->lazy();
 		return $readAllModel;

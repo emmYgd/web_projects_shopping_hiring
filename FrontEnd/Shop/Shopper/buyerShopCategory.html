@@ -274,16 +274,17 @@
                         <div class="w3-card-4 w3-round-xxlarge w3-padding col-lg-9">
                             <br/>
                             <div class="toolbox">
-                                <div class="toolbox-left">
+                                <!--<div class="toolbox-left">-->
+                                <div class="w3-center">
                                     <div class="toolbox-info">
                                         <b>
-                                            <span class="icon-eye"></span> Showing <span>9 of 56</span> Products
+                                            <span class="icon-eye"></span> Showing <span>#</span> of <span>#</span> Products
                                         </b>
                                     </div><!-- End .toolbox-info -->
                                 </div><!-- End .toolbox-left -->
 
                                 <div class="toolbox-right">
-                                    <div class="toolbox-sort">
+                                    <!--<div class="toolbox-sort">
                                         <label for="sortby"><b>Sort by:</b></label>
                                         <div class="select-custom">
                                             <select name="sortby" id="sortby" class="form-control">
@@ -292,7 +293,7 @@
                                                 <option value="date"><b>Date</b></option>
                                             </select>
                                         </div>
-                                    </div><!-- End .toolbox-sort -->
+                                    </div>--><!-- End .toolbox-sort -->
                                     <!--<div class="toolbox-layout">
                                         <a href="category-list.html" class="btn-layout active">
                                             <svg width="16" height="10">
@@ -318,11 +319,32 @@
                             <hr/>
 
                             <div class="products mb-3">
-                                <div class="product product-list">
+
+                                <div class="w3-center">
+
+                                    <div id="errorSuccessNotifyAllProducts">
+                                        <b><div class="w3-center w3-text-green" id="fetchSuccessAllProducts"></div></b>
+                                        <b><div class="w3-center w3-text-red" id="fetchErrorAllProducts"></div></b>
+                                        <div class="w3-center w3-text-red" id="fetchErrorDetailsAllProducts"></div>
+                                    </div>
+
+                                    <button id="refreshAllProducts" type="submit" class="w3-card-4 w3-button w3-border w3-round-xxlarge w3-deep-purple w3-hover-deep-purple w3-ripple"><b>Refresh</b></button>
+
+                                    <div class="spinner-grow text-primary" id="fetchAllProductsLoadingIcon" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+
+                                </div>
+
+                                <div class="product product-list" id="dispAllProducts">
                                     <div class="row">
                                         <div class="col-6 col-lg-3">
                                             <figure class="product-media">
-                                                <span class="product-label label-new w3-card-4 w3-deep-purple"><b>New</b></span>
+
+                                                <b>
+                                                    <span class="product-label label-new w3-card-4 w3-deep-purple">New</span>
+                                                </b>
+
                                                 <a href="product.html">
                                                     <img src="assets/images/products/product-4.jpg" alt="Product image" class="product-image">
                                                 </a>
@@ -355,7 +377,7 @@
                                                 <div class="product-cat">
                                                     <a href="#" class="w3-myfont"><b class="w3-large">Flavour</b></a>
                                                 </div><!-- End .product-cat -->
-                                                <h3 class="product-title"><a href="product.html" class="w3-myfont"><b class="w3-medium">Brown paperbag waist pencil skirt</b></a></h3><!-- End .product-title -->
+                                                <h3 class="product-title"><a href="#" class="w3-myfont"><b class="w3-medium">Brown paperbag waist pencil skirt</b></a></h3><!-- End .product-title -->
 
                                                 <div class="product-content">
                                                     <p class="w3-myfont">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque </p>
@@ -378,275 +400,9 @@
                                     </div><!-- End .row -->
                                 </div><!-- End .product -->
 
-                                <div class="product product-list">
-                                    <div class="row">
-                                        <div class="col-6 col-lg-3">
-                                            <figure class="product-media">
-                                                <a href="product.html">
-                                                    <img src="assets/images/products/product-5.jpg" alt="Product image" class="product-image">
-                                                </a>
-                                            </figure><!-- End .product-media -->
-                                        </div><!-- End .col-sm-6 col-lg-3 -->
-
-                                        <div class="col-6 col-lg-3 order-lg-last">
-                                            <div class="product-list-action">
-                                                <div class="product-price">
-                                                    $84.00
-                                                </div><!-- End .product-price -->
-                                                <div class="ratings-container">
-                                                    <div class="ratings">
-                                                        <div class="ratings-val" style="width: 0%;"></div><!-- End .ratings-val -->
-                                                    </div><!-- End .ratings -->
-                                                    <span class="ratings-text">( 0 Reviews )</span>
-                                                </div><!-- End .rating-container -->
-
-                                                <div class="product-action">
-                                                    <a href="popup/quickView.html" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
-                                                    <a href="#" class="btn-product btn-compare" title="Compare"><span>compare</span></a>
-                                                </div><!-- End .product-action -->
-
-                                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                                            </div><!-- End .product-list-action -->
-                                        </div><!-- End .col-sm-6 col-lg-3 -->
-
-                                        <div class="col-lg-6">
-                                            <div class="product-body product-action-inner">
-                                                <a href="#" class="btn-product btn-wishlist" title="Add to wishlist"><span>add to wishlist</span></a>
-                                                <div class="product-cat">
-                                                    <a href="#">Dresses</a>
-                                                </div><!-- End .product-cat -->
-                                                <h3 class="product-title"><a href="product.html">Dark yellow lace cut out swing dress</a></h3><!-- End .product-title -->
-
-                                                <div class="product-content">
-                                                    <p>Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. </p>
-                                                </div><!-- End .product-content -->
-                                                
-                                                <div class="product-nav product-nav-thumbs">
-                                                    <a href="#" class="active">
-                                                        <img src="assets/images/products/product-5-thumb.jpg" alt="product desc">
-                                                    </a>
-                                                    <a href="#">
-                                                        <img src="assets/images/products/product-5-2-thumb.jpg" alt="product desc">
-                                                    </a>
-                                                </div><!-- End .product-nav -->
-                                            </div><!-- End .product-body -->
-                                        </div><!-- End .col-lg-6 -->
-                                    </div><!-- End .row -->
-                                </div><!-- End .product -->
-
-                                <div class="product product-list">
-                                    <div class="row">
-                                        <div class="col-6 col-lg-3">
-                                            <figure class="product-media">
-                                                <span class="product-label label-out">Out of Stock</span>
-                                                <a href="product.html">
-                                                    <img src="assets/images/products/product-6.jpg" alt="Product image" class="product-image">
-                                                </a>
-                                            </figure><!-- End .product-media -->
-                                        </div><!-- End .col-sm-6 col-lg-3 -->
-
-                                        <div class="col-6 col-lg-3 order-lg-last">
-                                            <div class="product-list-action">
-                                                <div class="product-price">
-                                                    <span class="out-price">$120.00</span>
-                                                </div><!-- End .product-price -->
-                                                <div class="ratings-container">
-                                                    <div class="ratings">
-                                                        <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                                                    </div><!-- End .ratings -->
-                                                    <span class="ratings-text">( 6 Reviews )</span>
-                                                </div><!-- End .rating-container -->
-
-                                                <div class="product-action">
-                                                    <a href="popup/quickView.html" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
-                                                    <a href="#" class="btn-product btn-compare" title="Compare"><span>compare</span></a>
-                                                </div><!-- End .product-action -->
-
-                                                <a href="#" class="btn-product btn-cart disabled"><span>add to cart</span></a>
-                                            </div><!-- End .product-list-action -->
-                                        </div><!-- End .col-sm-6 col-lg-3 -->
-
-                                        <div class="col-lg-6">
-                                            <div class="product-body product-action-inner">
-                                                <a href="#" class="btn-product btn-wishlist" title="Add to wishlist"><span>add to wishlist</span></a>
-                                                <div class="product-cat">
-                                                    <a href="#">Jackets</a>
-                                                </div><!-- End .product-cat -->
-                                                <h3 class="product-title"><a href="product.html">Khaki utility boiler jumpsuit</a></h3><!-- End .product-title -->
-
-                                                <div class="product-content">
-                                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque </p>
-                                                </div><!-- End .product-content -->
-                                            </div><!-- End .product-body -->
-                                        </div><!-- End .col-lg-6 -->
-                                    </div><!-- End .row -->
-                                </div><!-- End .product -->
-
-                                <div class="product product-list">
-                                    <div class="row">
-                                        <div class="col-6 col-lg-3">
-                                            <figure class="product-media">
-                                                <a href="product.html">
-                                                    <img src="assets/images/products/product-7.jpg" alt="Product image" class="product-image">
-                                                </a>
-                                            </figure><!-- End .product-media -->
-                                        </div><!-- End .col-sm-6 col-lg-3 -->
-
-                                        <div class="col-6 col-lg-3 order-lg-last">
-                                            <div class="product-list-action">
-                                                <div class="product-price">
-                                                    $76.00
-                                                </div><!-- End .product-price -->
-                                                <div class="ratings-container">
-                                                    <div class="ratings">
-                                                        <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
-                                                    </div><!-- End .ratings -->
-                                                    <span class="ratings-text">( 2 Reviews )</span>
-                                                </div><!-- End .rating-container -->
-
-                                                <div class="product-action">
-                                                    <a href="popup/quickView.html" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
-                                                    <a href="#" class="btn-product btn-compare" title="Compare"><span>compare</span></a>
-                                                </div><!-- End .product-action -->
-
-                                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                                            </div><!-- End .product-list-action -->
-                                        </div><!-- End .col-sm-6 col-lg-3 -->
-
-                                        <div class="col-lg-6">
-                                            <div class="product-body product-action-inner">
-                                                <a href="#" class="btn-product btn-wishlist" title="Add to wishlist"><span>add to wishlist</span></a>
-                                                <div class="product-cat">
-                                                    <a href="#">Jeans</a>
-                                                </div><!-- End .product-cat -->
-                                                <h3 class="product-title"><a href="product.html">Blue utility pinafore denim dress</a></h3><!-- End .product-title -->
-
-                                                <div class="product-content">
-                                                    <p>Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. </p>
-                                                </div><!-- End .product-content -->
-                                            </div><!-- End .product-body -->
-                                        </div><!-- End .col-lg-6 -->
-                                    </div><!-- End .row -->
-                                </div><!-- End .product -->
-
-                                <div class="product product-list">
-                                    <div class="row">
-                                        <div class="col-6 col-lg-3">
-                                            <figure class="product-media">
-                                                <span class="product-label label-new">New</span>
-                                                <a href="product.html">
-                                                    <img src="assets/images/products/product-8.jpg" alt="Product image" class="product-image">
-                                                </a>
-                                            </figure><!-- End .product-media -->
-                                        </div><!-- End .col-sm-6 col-lg-3 -->
-
-                                        <div class="col-6 col-lg-3 order-lg-last">
-                                            <div class="product-list-action">
-                                                <div class="product-price">
-                                                    $84.00
-                                                </div><!-- End .product-price -->
-                                                <div class="ratings-container">
-                                                    <div class="ratings">
-                                                        <div class="ratings-val" style="width: 0%;"></div><!-- End .ratings-val -->
-                                                    </div><!-- End .ratings -->
-                                                    <span class="ratings-text">( 0 Reviews )</span>
-                                                </div><!-- End .rating-container -->
-
-                                                <div class="product-action">
-                                                    <a href="popup/quickView.html" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
-                                                    <a href="#" class="btn-product btn-compare" title="Compare"><span>compare</span></a>
-                                                </div><!-- End .product-action -->
-
-                                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                                            </div><!-- End .product-list-action -->
-                                        </div><!-- End .col-sm-6 col-lg-3 -->
-
-                                        <div class="col-lg-6">
-                                            <div class="product-body product-action-inner">
-                                                <a href="#" class="btn-product btn-wishlist" title="Add to wishlist"><span>add to wishlist</span></a>
-                                                <div class="product-cat">
-                                                    <a href="#">Shoes</a>
-                                                </div><!-- End .product-cat -->
-                                                <h3 class="product-title"><a href="product.html">Beige knitted elastic runner shoes</a></h3><!-- End .product-title -->
-
-                                                <div class="product-content">
-                                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque </p>
-                                                </div><!-- End .product-content -->
-                                                
-                                                <div class="product-nav product-nav-thumbs">
-                                                    <a href="#" class="active w3-myfont">
-                                                        <img src="assets/images/products/product-8-thumb.jpg" alt="product desc">
-                                                    </a>
-                                                    <a href="#">
-                                                        <img src="assets/images/products/product-8-2-thumb.jpg" alt="product desc">
-                                                    </a>
-                                                </div><!-- End .product-nav -->
-                                            </div><!-- End .product-body -->
-                                        </div><!-- End .col-lg-6 -->
-                                    </div><!-- End .row -->
-                                </div><!-- End .product -->
-
-                                <div class="product product-list">
-                                    <div class="row">
-                                        <div class="col-6 col-lg-3">
-                                            <figure class="product-media">
-                                                <a href="product.html">
-                                                    <img src="assets/images/products/product-9.jpg" alt="Product image" class="product-image">
-                                                </a>
-                                            </figure><!-- End .product-media -->
-                                        </div><!-- End .col-sm-6 col-lg-3 -->
-
-                                        <div class="col-6 col-lg-3 order-lg-last">
-                                            <div class="product-list-action">
-                                                <div class="product-price">
-                                                    $52.00
-                                                </div><!-- End .product-price -->
-                                                <div class="ratings-container">
-                                                    <div class="ratings">
-                                                        <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                                                    </div><!-- End .ratings -->
-                                                    <span class="ratings-text">( 1 Reviews )</span>
-                                                </div><!-- End .rating-container -->
-
-                                                <div class="product-action">
-                                                    <a href="popup/quickView.html" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
-                                                    <a href="#" class="btn-product btn-compare" title="Compare"><span>compare</span></a>
-                                                </div><!-- End .product-action -->
-
-                                                <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
-                                            </div><!-- End .product-list-action -->
-                                        </div><!-- End .col-sm-6 col-lg-3 -->
-
-                                        <div class="col-lg-6">
-                                            <div class="product-body product-action-inner">
-                                                <a href="#" class="btn-product btn-wishlist" title="Add to wishlist"><span>add to wishlist</span></a>
-                                                <div class="product-cat">
-                                                    <a href="#">Bags</a>
-                                                </div><!-- End .product-cat -->
-                                                <h3 class="product-title"><a href="product.html">Orange saddle lock front chain cross body bag</a></h3><!-- End .product-title -->
-
-                                                <div class="product-content">
-                                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque </p>
-                                                </div><!-- End .product-content -->
-                                                
-                                                <div class="product-nav product-nav-thumbs">
-                                                    <a href="#" class="active">
-                                                        <img src="assets/images/products/product-9-thumb.jpg" alt="product desc">
-                                                    </a>
-                                                    <a href="#">
-                                                        <img src="assets/images/products/product-9-2-thumb.jpg" alt="product desc">
-                                                    </a>
-                                                    <a href="#">
-                                                        <img src="assets/images/products/product-9-3-thumb.jpg" alt="product desc">
-                                                    </a>
-                                                </div><!-- End .product-nav -->
-                                            </div><!-- End .product-body -->
-                                        </div><!-- End .col-lg-6 -->
-                                    </div><!-- End .row -->
-                                </div><!-- End .product -->
                             </div><!-- End .products -->
 
-                            <nav aria-label="Page navigation">
+                            <nav aria-label="Page navigation" id="navigateIcons">
                                 <ul class="pagination">
                                     <li class="page-item disabled">
                                         <a class="page-link page-link-prev w3-myfont" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
@@ -664,8 +420,10 @@
                                     </li>
                                 </ul>
                             </nav>
+
                         </div><!-- End .col-lg-9 -->
-                        <aside class="col-lg-3 order-lg-first">
+
+                        <aside class="w3-container w3-center w3-padding-left"> <!--col-lg-3 order-lg-first-->
                             <div class="sidebar sidebar-shop w3-card-4 w3-padding w3-margin w3-left">
                                 <div class="widget widget-clean">
                                     <label class="w3-border w3-border-deep-purple w3-padding w3-margin w3-card-4"><b>Filters:</b></label>
@@ -679,7 +437,7 @@
                                         </a>
                                     </h3><!-- End .widget-title -->
 
-                                    <div class="collapse show" id="widget-1">
+                                    <div class="collapse" id="widget-1">
                                         <div class="widget-body">
                                             <div class="filter-items filter-items-count">
                                                 <div class="filter-item">
@@ -751,7 +509,7 @@
                                         </a>
                                     </h3><!-- End .widget-title -->
 
-                                    <div class="collapse show" id="widget-2">
+                                    <div class="collapse" id="widget-2">
                                         <div class="widget-body">
                                             <div class="filter-items">
                                                 <div class="filter-item">
@@ -770,14 +528,14 @@
 
                                                 <div class="filter-item">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" checked id="size-3">
+                                                        <input type="checkbox" class="custom-control-input" id="size-3">
                                                         <label class="custom-control-label" for="size-3">10.00</label>
                                                     </div><!-- End .custom-checkbox -->
                                                 </div><!-- End .filter-item -->
 
                                                 <div class="filter-item">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" checked id="size-4">
+                                                        <input type="checkbox" class="custom-control-input" id="size-4">
                                                         <label class="custom-control-label" for="size-4">50.00</label>
                                                     </div><!-- End .custom-checkbox -->
                                                 </div><!-- End .filter-item -->
@@ -803,11 +561,11 @@
                                 <div class="widget widget-collapsible">
                                     <h3 class="widget-title">
                                         <a data-toggle="collapse" href="#widget-4" role="button" aria-expanded="true" aria-controls="widget-4">
-                                            Brand
+                                            <b class="w3-myfont">Brand</b>
                                         </a>
                                     </h3><!-- End .widget-title -->
 
-                                    <div class="collapse show" id="widget-4">
+                                    <div class="collapse" id="widget-4">
                                         <div class="widget-body">
                                             <div class="filter-items">
                                                 <div class="filter-item">
@@ -864,26 +622,6 @@
                                     </div><!-- End .collapse -->
                                 </div><!-- End .widget -->
 
-                                <div class="widget widget-collapsible">
-                                    <h3 class="widget-title">
-                                        <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true" aria-controls="widget-5">
-                                            Price
-                                        </a>
-                                    </h3><!-- End .widget-title -->
-
-                                    <div class="collapse show" id="widget-5">
-                                        <div class="widget-body">
-                                            <div class="filter-price">
-                                                <div class="filter-price-text">
-                                                    Price Range:
-                                                    <span id="filter-price-range"></span>
-                                                </div><!-- End .filter-price-text -->
-
-                                                <div id="price-slider"></div><!-- End #price-slider -->
-                                            </div><!-- End .filter-price -->
-                                        </div><!-- End .widget-body -->
-                                    </div><!-- End .collapse -->
-                                </div><!-- End .widget -->
                             </div><!-- End .sidebar sidebar-shop -->
                         </aside><!-- End .col-lg-3 -->
                     </div><!-- End .row -->

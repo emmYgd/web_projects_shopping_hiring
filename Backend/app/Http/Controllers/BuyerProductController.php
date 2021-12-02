@@ -9,36 +9,38 @@ use App\Http\Controllers\Validators\BuyerGoodsRequestRules;
 use App\Services\Interfaces\BuyerCartInterface;
 use App\Services\Traits\ModelAbstraction\BuyerCartAbstraction;
 
-final class BuyerCartController extends Controller //implements BuyerCartInterface
+final class BuyerProductController extends Controller //implements BuyerCartInterface
 {
-   use BuyerCartAbstraction;
-   use BuyerCartRequestRules;
+   use BuyerProductAbstraction;
+   use BuyerProductRequestRules;
 
    public function __construct()
    {
         //$this->createAdminDefault();
    }
 
-    public function ViewAvailableGoods(Request $request): JsonResponse
+    public function FetchAvailableProducts(Request $request): JsonResponse
    {
       $status = array();
 
       try
       {
          //get rules from validator class:
-         $reqRules = $this->viewAllAvailableGoods();
+         $reqRules = $this->fetchAvailableProductsRules();
 
          //validate here:
          $validator = Validator::make($request->all(), $reqRules);
 
-         if($validator->fails()){
+         if($validator->fails())
+         {
             throw new \Exception("Access Error, Not logged in yet!");
          }
 
          //this should return in chunks or paginate:
-         $detailsFound = $this->BuyerViewAvailableGoodsService($request);
-         if( empty($detailsFound) ){
-            throw new \Exception("Commodities for sale not Found!");
+         $detailsFound = $this->BuyerFetchAvailableProductsService($request);
+         if( empty($detailsFound) )
+         {
+            throw new \Exception("Products Not Found!");
          }
 
          $status = [
@@ -56,10 +58,10 @@ final class BuyerCartController extends Controller //implements BuyerCartInterfa
             'short_description' => $ex->getMessage()
          ];
 
-      }finally
-      {
+      }/*finally
+      {*/
          return response()->json($status, 200);
-      }
+      //}
 
    }
 
