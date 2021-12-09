@@ -33,7 +33,9 @@ trait BuyerProductAbstraction
 
 			//add all corrections back to the main collection:
 			$init = 0;
-			for($init=0; $init<=$all_product_details->count(); $init++)
+			//because Collections count starts from 1, we subtract 1 in order to synchronize it with the array count style which starts from zero:
+			$array_count = $all_product_details->count() - 1;
+			for($init=0; $init<=$array_count; $init++)
 			{
 				$processed_product_details[$init] = $eachProductDetailModel;
 			}

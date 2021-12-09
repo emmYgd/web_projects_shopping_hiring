@@ -1,4 +1,4 @@
-import AbstractModel from "./../../Models/AbstractModel.js";
+import AbstractModel from './../../Models/AbstractModel.js';
 	
 	const BuyerFetchProducts = 
 	{	
@@ -6,8 +6,8 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		buyer_id:null,
 
 		//values:
-		serverSyncModel:"",
-		uniquePendingID:"",
+		serverSyncModel:'',
+		uniquePendingID:'',
 		
 		//states:
 		fetch_success:false,
@@ -25,7 +25,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 
 		FetchAllProducts()
 		{
-			//console.log("Onto Fetching Things");
+			//console.log('Onto Fetching Things');
 			//initialize:
 			this.Init();
 				//first call the Sync Model:
@@ -40,7 +40,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 						(this.serverSyncModel.serverStatus === 'FetchSuccess!')
 					)
 					{
-						console.log("Success");
+						console.log('Success');
 						//fetch state:
 						this.fetch_success = true;
 						//call reactors:
@@ -52,7 +52,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 						(this.serverSyncModel.serverStatus === 'FetchError!')
 					)
 					{
-						console.log("Error");
+						console.log('Error');
 						//fetch state:
 						this.fetch_success = false;
 						//call reactors:
@@ -72,10 +72,10 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				this.Collectibles();
 
 				if(
-					this.uniquePendingID==""
+					this.uniquePendingID==''
 				)
 				{
-					console.log("Empty!");
+					console.log('Empty!');
 					//lets the default handle this...
 				}
 				else
@@ -103,7 +103,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 							(this.serverSyncModel.serverStatus === 'FetchSuccess!')
 						)
 						{
-							console.log("Success");
+							console.log('Success');
 							//Upload state:
 							this.fetch_each_success = true;
 							//call reactors:
@@ -115,7 +115,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 							(this.serverSyncModel.serverStatus === 'FetchError!')
 						)
 						{
-							console.log("Error");
+							console.log('Error');
 							//Upload state:
 							this.fetch_each_success = false;
 							//call reactors:
@@ -128,7 +128,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 
 		Init()
 		{
-			//console.log("Onto Fetching Things")
+			//console.log('Onto Fetching Things')
 			
 			$('div#dispAllProducts').hide();
 			$('button#refreshAllProducts').hide();
@@ -151,7 +151,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 
 		SyncFetchAllProductsModel()
 		{
-			let method = "GET";
+			let method = 'GET';
 			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/buyer/dashboard/utils/fetch/all/products/details';
 			//prepare the JSON model:
 			let jsonRequestModel = '';
@@ -163,7 +163,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			
 		SyncFetchEachPendingCartDetailsModel()
 		{
-			let method = "POST";
+			let method = 'POST';
 			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/buyer/dashboard/utils/fetch/each/buyer/cart/details';
 			//prepare the JSON model:
 			let jsonRequestModel = 
@@ -204,11 +204,11 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 
 				//clear first:
 				$('div#errorSuccessNotifyEachPendingCart').show();
-				$('div#fetchSuccessEachPendingCart').text("");
-				$('div#fetchErrorEachPendingCart').text("");
-				$('div#fetchErrorDetailsEachPendingCart').text("");
+				$('div#fetchSuccessEachPendingCart').text('');
+				$('div#fetchErrorEachPendingCart').text('');
+				$('div#fetchErrorDetailsEachPendingCart').text('');
 				//Upload Success Message:
-				$('div#fetchSuccessEachPendingCart').text("Pending Cart Details Found!");
+				$('div#fetchSuccessEachPendingCart').text('Pending Cart Details Found!');
 
 				//show the form:
 				$('div#eachPendingCartDetails').show();
@@ -240,16 +240,16 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			}
 			else if(!this.fetch_each_success)
 			{
-				//console.log("Cool Right!");
+				//console.log('Cool Right!');
 				$('div#eachPendingCartDetails').hide();
 				//clear first:
 				$('div#errorSuccessNotifyEachPendingCart').show();
-				$('div#fetchSuccessEachPendingCart').text("");
-				$('div#fetchErrorEachPendingCart').text("");
-				$('div#fetchErrorDetailsEachPendingCart').text("");
+				$('div#fetchSuccessEachPendingCart').text('');
+				$('div#fetchErrorEachPendingCart').text('');
+				$('div#fetchErrorDetailsEachPendingCart').text('');
 
 				//Upload Error Message:
-				$('div#fetchErrorEachPendingCart').text("Fetch Error!");
+				$('div#fetchErrorEachPendingCart').text('Fetch Error!');
 				$('div#fetchErrorDetailsEachPendingCart').text(this.serverSyncModel.short_description);
 				//console.log(this.serverSyncModel.short_description);
 			}
@@ -275,7 +275,199 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				$('span#totalProductCount').text(this.serverSyncModel.totalCount);
 
 				//Now display all received products:
-				
+				/*for(let eachProductModel in this.serverSyncModel.products)*/
+				this.serverSyncModel.products.map(eachProductModel => {
+					
+					$('div#dispAllProducts').append(`
+
+						<div class="product product-list ">
+                                    <div class="row">
+                                        <div class="col-6 col-lg-3">
+                                            <figure class="product-media">
+                                                <b>
+                                                    <span class="product-label label-new w3-card-4 w3-deep-purple">New</span>
+                                                </b>
+
+                                                <a href="product.html">
+                                                    <!--<img src="assets/images/products/product-4.jpg" alt="Product image" class="product-image">-->
+                                                    <img src="data:image/*;base64, ${eachProductModel.main_image_1}" alt="Product image" class="product-image">
+                                                </a>
+                                            </figure><!-- End .product-media -->
+                                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                                        <div class="col-6 col-lg-3 order-lg-last">
+                                            <div class="product-list-action">
+                                                <div class="w3-center product-price">
+                                                    <!--<b>$60.00</b>-->
+                                                    <b>
+                                                    	${
+                                                    		(eachProductModel.product_currency_of_payment === "USD")?'<span>$</span>':'<span>'+eachProductModel.product_currency_of_payment+'</span>'
+                                                    	}
+                                                    	<span>${eachProductModel.product_price}</span>
+                                                    </b>
+                                                </div><!-- End .product-price -->
+                                                <div class="w3-border w3-round-xxlarge w3-black w3-padding w3-margin">
+                                                	<b class=" w3-center w3-small">Shipping</b>
+                                                    <b class="w3-small w3-right w3-white">
+                                                    	${
+                                                    		(eachProductModel.product_currency_of_payment === "USD")?'<span>$</span>':'<span>'+eachProductModel.product_currency_of_payment+'</span>'
+                                                    	}
+                                                    	${
+                                                    		(eachProductModel.product_shipping_cost !== "")?'<span>'+eachProductModel.product_shipping_cost+'</span>':'<span></span>'
+                                                    	}
+                                                    </b>
+                                                </div>
+                                                <!--<div class="ratings-container">
+                                                    <div class="ratings">
+                                                        <div class="ratings-val" style="width: 20%;"></div>--><!-- End .ratings-val -->
+                                                    <!--</div>--><!-- End .ratings -->
+                                                    <!--<span class="ratings-text">( 2 Reviews )</span>
+                                                </div>--><!-- End .rating-container -->
+
+                                                <div class="product-action w3-margin-left w3-padding">
+                                                    <a href="#overview_customize_modal" data-toggle="modal" class="btn-product btn-quickview" title="Quick view">
+                                                    	<span><b class="w3-myfont w3-small">Overview/Customize</b></span></a>
+                                                </div><!-- End .product-action -->
+
+                                                <div class="w3-card w3-deep-purple btn-product btn-cart w3-ripple">
+                                                	<span><b class="w3-myfont">add to cart</b></span>
+                                                </div>
+                                            </div><!-- End .product-list-action -->
+                                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                                        <div class="col-lg-6">
+                                            <div class="w3-border-right product-body product-action-inner">
+                                                <a href="#" class="btn-product btn-wishlist" title="Add to wishlist"><span>add to wishlist</span></a>
+                                                <div class="product-cat">
+                                                    <a href="#" class="w3-myfont">
+                                                    	<!--<b class="w3-large">Flavour</b>-->
+                                                    	<b class="w3-large">${eachProductModel.product_category}</b>
+                                                    </a>
+                                                </div><!-- End .product-cat -->
+                                                <!--<h3 class="product-title"><a href="#" class="w3-myfont"><b class="w3-medium">Brown paperbag waist pencil skirt</b></a></h3>--><!-- End .product-title -->
+                                                <h3 class="product-title"><a href="#" class="w3-myfont"><b class="w3-medium">${eachProductModel.product_title}</b></a></h3><!-- End .product-title -->
+                                                <div class="product-content">
+                                                    <!--<p class="w3-myfont">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque </p>-->
+                                                    <p class="w3-myfont">${eachProductModel.product_summary}</p>
+                                                </div><!-- End .product-content -->
+                                                
+                                                <div class="product-nav product-nav-thumbs">
+                                                    <a href="#" class="active">
+                                                        <!--<img src="assets/images/products/product-4-thumb.jpg" alt="product desc">-->
+                                                        <img src="data:image/*;base64, ${eachProductModel.main_image_2}" alt="product desc">
+                                                    </a>
+                                                    <a href="#">
+                                                        <!--<img src="assets/images/products/product-4-2-thumb.jpg" alt="product desc">-->
+                                                        <img src="data:image/*;base64, ${eachProductModel.logo_1}" alt="product desc">
+                                                    </a>
+
+                                                    <a href="#">
+                                                        <!--<img src="assets/images/products/product-4-3-thumb.jpg" alt="product desc">-->
+                                                        <img src="data:image/*;base64, ${eachProductModel.logo_2}" alt="product desc">
+                                                    </a>
+                                                </div><!-- End .product-nav -->
+                                            </div><!-- End .product-body -->
+                                        </div><!-- End .col-lg-6 -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .product -->
+
+
+                                <!--Modal for exhaustive information about the product and customizing-->
+                                <section class="modal fade" id="overview_customize_modal" tabindex="-1" role="page" aria-hidden="true">
+        							<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            							<div class="modal-content">
+                							<div class="modal-body">
+                    							<button type="button" class="close w3-text-red" data-dismiss="modal" aria-label="Close">
+                        							<span aria-hidden="true"><i class="icon-close"></i></span>
+                    							</button><br/>
+                    							 <div class="product-details-tab">
+                        <ul class="nav nav-pills justify-content-center" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active w3-myfont" id="product-desc-link" data-toggle="tab" href="#product-desc-tab" role="tab" aria-controls="product-desc-tab" aria-selected="true">Description</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link w3-myfont" id="product-info-link" data-toggle="tab" href="#product-info-tab" role="tab" aria-controls="product-info-tab" aria-selected="false">Additional information</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link w3-myfont" id="product-shipping-link" data-toggle="tab" href="#product-shipping-tab" role="tab" aria-controls="product-shipping-tab" aria-selected="false">Shipping & Returns</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link w3-myfont" id="product-customize-link" data-toggle="tab" href="#product-review-tab" role="tab" aria-controls="product-shipping-tab" aria-selected="false">Customize</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content w3-myfont">
+
+                            <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel" aria-labelledby="product-desc-link">
+                                <div class="product-desc-content">
+                                    <h3 class="w3-center w3-myfont"><b>Product Exhaustive Description</b></h3>
+                                    <div class="w3-center w3-myfont">${eachProductModel.product_description}</div>
+                                </div><!-- End .product-desc-content -->
+                            </div><!-- .End .tab-pane -->
+
+                            <div class="tab-pane fade" id="product-info-tab" role="tabpanel" aria-labelledby="product-info-link">
+                                <div class="product-desc-content">
+                                    <h3 class="w3-center w3-myfont"><b>Product Additional Information</b></h3>
+                                    <div class="w3-center w3-myfont">${eachProductModel.product_add_info}</div>
+                                </div><!-- End .product-desc-content -->
+                            </div><!-- .End .tab-pane -->
+
+                            <div class="tab-pane fade" id="product-shipping-tab" role="tabpanel" aria-labelledby="product-shipping-link">
+                                <div class="product-desc-content">
+                                    <h3 class="w3-center w3-myfont"><b>Product Delivery, Guarantee & Returns Information</b></h3>
+                                    <div class="w3-center w3-myfont">${eachProductModel.product_ship_guarantee_info}</div>
+                                </div><!-- End .product-desc-content -->
+                            </div><!-- .End .tab-pane -->
+
+                            <div class="tab-pane fade" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
+                                <div class="customize">
+                                <div class="row">
+
+                <div class="col-6">
+                    <figure class="product-media">
+                        <a href="product.html">
+                            <img src="data:image/*;base64, ${eachProductModel.main_image_1}" alt="Product image">
+                        </a>
+                    </figure><!-- End .product-media -->
+                    <h4 class="product-title w3-myfont w3-small">${eachProductModel.product_summary}</h4><!-- End .product-title -->
+                </div><!-- End .col-6 -->
+
+                <div class="col-6 justify-content-end">
+                    <div class="product-price">
+                        ${
+                            (eachProductModel.product_currency_of_payment === "USD")?'<span>$</span>':'<span>'+eachProductModel.product_currency_of_payment+'</span>'
+                        }
+                        <span>${eachProductModel.product_price}</span>
+                    </div><!-- End .product-price --><br/>
+
+                    <div class="product-details-quantity">
+                    	<b>Quantity(-ies):</b>
+                        <input type="number" id="sticky-cart-qty" placeholder="Quantity" class="form-control" value="1" min="1" step="1" data-decimals="0" required>
+                    </div><!-- End .product-details-quantity --><br/>
+
+                    <div class="product-details-action">
+                        <div href="#" class="w3-btn w3-ripple w3-deep-purple">
+                        	<span class="w3-myfont">
+                        		<span class="icon-cart"></span>
+                        		<b>Add to Cart</b>
+                        	</span>
+                        </div>
+                    </div><!-- End .product-details-action -->
+                </div><!-- End .col-6 -->
+            </div><!-- End .row -->
+                                </div>
+                            </div><!-- .End .tab-pane -->
+                        </div><!-- End .tab-content -->
+                    </div><!-- End .product-details-tab -->
+
+                    						</div>
+                    					</div>
+                    				</div>
+                    			</section>
+
+
+					`);
+				});
 
 				if(this.serverSyncModel.totalCount<4)
 				{
