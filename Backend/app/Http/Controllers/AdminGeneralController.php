@@ -178,7 +178,7 @@ final class AdminGeneralController extends Controller //implements AdminGeneralI
          $detailsFound = $this->AdminFetchEachProductDetailsService($request);
          if( empty($detailsFound) )
          {
-            throw new \Exception("Pending Cart Details not found! Ensure that this is not a Cleared Cart ID.");
+            throw new \Exception("Product Details not found! Ensure to create a new Product!");
          }
 
          $status = [
@@ -204,6 +204,51 @@ final class AdminGeneralController extends Controller //implements AdminGeneralI
       //}
    }
 
+    public function  DeleteEachProductDetails(Request $request): JsonResponse
+    {
+      $status = array();
+
+      try
+      {
+         //get rules from validator class:
+         $reqRules = $this->deleteEachProductDetailsRules();
+
+         //validate here:
+         $validator = Validator::make($request->all(), $reqRules);
+
+         if($validator->fails())
+         {
+            throw new \Exception("Invalid Product ID provided!");
+         }
+         
+         //this should return in chunks or paginate:
+         $productHasDeleted = $this->AdminDeleteEachProductDetailsService($request);
+         if(!$productHasDeleted)
+         {
+            throw new \Exception("Product not yet deleted, please try again!.");
+         }
+
+         $status = [
+            'code' => 1,
+            'serverStatus' => 'DeleteSuccess!',
+         ];
+
+      }
+      catch(\Exception $ex)
+      {
+
+         $status = [
+            'code' => 0,
+            'serverStatus' => 'DeleteError!',
+            'short_description' => $ex->getMessage()
+         ];
+
+      }
+      /*finally
+      {*/
+         return response()->json($status, 200);
+      //}
+   }
 
 
     //tested with get but not with put...

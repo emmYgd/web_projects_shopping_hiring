@@ -21,13 +21,13 @@ class CreateProductsTable extends Migration
             //texts:
             $table->string('product_category');
             $table->string('product_title');
-            $table->string('product_summary');
-            $table->string('product_description');
+            $table->longText('product_summary');
+            $table->longText('product_description');
             $table->string('product_currency_of_payment');
             $table->string('product_price');
             $table->string('product_shipping_cost');
-            $table->string('product_add_info')->nullable();
-            $table->string('product_ship_guarantee_info')->nullable();
+            $table->longText('product_add_info')->nullable();
+            $table->longText('product_ship_guarantee_info')->nullable();
 
             //images:
             $table->binary('main_image_1')->nullable();

@@ -101,7 +101,7 @@ trait AdminGeneralAbstraction {
 		$each_product_detail = $this->ProductReadSpecificService($queryKeysValues);
 		if(!$each_product_detail)
 		{
-			throw new \Exception("Product Details not found! Ensure you have created this cart as approriate.");
+			throw new \Exception("Product Details not found! Ensure you have created this product as approriate.");
 		}
 
 		//get the buyer id:
@@ -121,6 +121,32 @@ trait AdminGeneralAbstraction {
 		return $each_product_detail;
 	}
 
+	protected function AdminDeleteEachProductDetailsService(Request $request)
+	{
+		$deleteKeysValues = [
+			'product_token_id' => $request->product_token_id,
+		];
+
+		$each_product_detail = $this->ProductReadSpecificService($deleteKeysValues);
+		if(!$each_product_detail)
+		{
+			throw new \Exception("Product Details not found! Ensure you have created this product as approriate.");
+		}
+
+		//get the buyer id:
+		//begin to delete the images on server whose links are stored in our Model:
+		
+		//for images, fetch images whose db link is in the model:
+		Storage::delete($each_product_detail->main_image_1);
+		Storage::delete($each_product_detail->main_image_2);
+		Storage::delete($each_product_detail->logo_1);
+		Storage::delete($each_product_detail->logo_2);
+
+		//having deleted the images, delete the whole entry inside the database:
+		$product_has_deleted = $this->ProductDeleteSpecificService($deleteKeysValues);
+
+		return $product_has_deleted;
+	}
 
 	protected function AdminSaveBusinessDetailsService(Request $request) //: bool
 	{

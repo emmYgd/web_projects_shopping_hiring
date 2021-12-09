@@ -341,6 +341,9 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				$('span#referralBonus').text('');
 				$('span#referralBonus').text(this.serverSyncModel.referral_details.ref_bonus);
 
+				$('span#referralTotalSoFar').text('');
+				$('span#referralTotalSoFar').text(this.serverSyncModel.referral_details.bonus_generated_so_far);
+
 				$('div#dispStatus').text('');
 				$('div#dispStatus').text('Active!');
 

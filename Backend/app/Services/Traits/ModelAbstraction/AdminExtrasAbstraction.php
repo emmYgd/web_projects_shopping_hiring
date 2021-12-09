@@ -42,12 +42,17 @@ trait AdminExtrasAbstraction
         $ref_count = $buyer_info->count();
 
         //add all to the data array:
+        $all_buyer_collect =  $this->BuyerReadAllLazyService();
+        $all_bonus_gen_so_far = $all_buyer_collect->pluck('buyer_total_referral_bonus'); 
+
+        $sum_bonus_gen_so_far = $all_bonus_gen_so_far->sum();
         
         $referral_details = [
             'is_ref_active' => $adminRefDetails->is_referral_prog_activated,
             'ref_bonus_currency' => $adminRefDetails->referral_bonus_currency,
             'ref_bonus' =>  $adminRefDetails->referral_bonus,
-            'ref_links_total' => $ref_count
+            'ref_links_total' => $ref_count,
+            'bonus_generated_so_far' => $sum_bonus_gen_so_far
         ];
         
         //return $buyer_info;*/

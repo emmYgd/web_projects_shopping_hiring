@@ -215,8 +215,9 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				$('span#ref_bonus_currency').text('');
 				$('span#ref_bonus_currency').text(this.serverSyncModel.referral_bonus_details.ref_bonus_currency);
 
+				let ref_bonus = this.serverSyncModel.referral_bonus_details.ref_bonus_amount
 				$('span#ref_bonus_amount').text('');
-				$('span#ref_bonus_amount').text(this.serverSyncModel.referral_bonus_details.ref_bonus_amount);
+				$('span#ref_bonus_amount').text( (ref_bonus === null) ? 0 : ref_bonus );
 			}
 			else if(!this.fetch_success)
 			{

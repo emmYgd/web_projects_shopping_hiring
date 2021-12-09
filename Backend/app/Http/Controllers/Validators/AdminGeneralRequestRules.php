@@ -60,6 +60,18 @@ trait AdminGeneralRequestRules {
     }
 
 
+    protected function deleteEachProductDetailsRules(): array
+    {
+        //set validation rules:
+        $rules = [
+            'token_id'=> 'required | string | size:10 | exists:admins',
+            'product_token_id' => 'required | string | size:10 | exists:products'
+        ];
+
+        return $rules;
+    }
+
+
     protected function updateBusinessDetailsRules(): array
     {
         //set validation rules:

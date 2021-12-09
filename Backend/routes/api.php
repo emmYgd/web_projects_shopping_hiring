@@ -324,6 +324,12 @@ Route::group(['prefix' => 'v1/admin', /*'middleware' => ''*/], function()
     		'uses' => 'AdminGeneralController@FetchEachProductDetails'
 		]);
 
+		Route::post('delete/each/product/details', [
+			'as' => '', 
+			//'middleware' => 'init',
+    		'uses' => 'AdminGeneralController@DeleteEachProductDetails'
+		]);
+
 
 		Route::post('fetch/each/buyer/details', [
 			'as' => '',

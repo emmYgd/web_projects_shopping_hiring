@@ -34,6 +34,7 @@ import AbstractFileModel from "./../../Models/AbstractFileModel.js";
 		upload_success:false,
 		fetch_success:false,
 		fetch_each_success:false,
+		delete_each_succes:false,
 		
 		UploadProduct(targetClickElem)
 		{
@@ -248,8 +249,59 @@ import AbstractFileModel from "./../../Models/AbstractFileModel.js";
 				}
 			});
 		},
-		
 
+		DeleteEachProductDetails(targetClickElem)
+		{
+			//initialize:
+			this.Init();
+
+			$(targetClickElem).click((event)=>
+			{
+				//console.log("Hello Dearie");
+				event.preventDefault();
+
+				this.clicked_state = true;
+				this.LoadingUI();
+
+				this.SyncDeleteEachProductDetailsModel().then((serverModel)=>
+				{
+					//sync model:
+					this.serverSyncModel = serverModel;
+					//set state for watchers
+					this.clicked_state = false;
+					//UI loading function:
+					this.LoadingUI();
+
+					//now start conditionals:
+						if( 
+							(this.serverSyncModel.code === 1) &&
+							(this.serverSyncModel.serverStatus === 'DeleteSuccess!')
+						)
+						{
+							console.log("Success");
+							//Upload state:
+							this.delete_each_success = true;
+							//call reactors:
+							this.DeleteEachUI();
+						}
+						else if
+						( 
+							(this.serverSyncModel.code === 0) &&
+							(this.serverSyncModel.serverStatus === 'DeleteError!')
+						)
+						{
+							console.log("Error");
+							//Upload state:
+							this.delete_each_success = false;
+							//call reactors:
+							this.DeleteEachUI();
+						}
+				});
+
+			});
+
+		},
+		
 		Init()
 		{
 			//first get admin id:
@@ -270,6 +322,10 @@ import AbstractFileModel from "./../../Models/AbstractFileModel.js";
 			$('div#eachProductLoadingIcon').hide();
 			$('div#eachProductDetails').hide();
 			$('div#errorSuccessNotifyEachProduct').hide();
+
+			//for the delete icon:
+			$('div#productDeleteIcon').hide();
+			$('div#errorSuccessNotifyDeleteProduct').hide();
 		},
 
 		Collectibles()
@@ -405,6 +461,23 @@ import AbstractFileModel from "./../../Models/AbstractFileModel.js";
 			//console.log("Cleared Model Thingy", serverModel);
 		},
 
+		SyncDeleteEachProductDetailsModel()
+		{
+			let method = "POST";
+			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/admin/dashboard/utils/delete/each/product/details';
+			//prepare the JSON model:
+			let jsonRequestModel = 
+			{
+				'token_id' : this.admin_id,
+				'product_token_id' : this.eachUniqueProductID
+			}
+
+			let serverModel = AbstractModel(method, UploadServerUrl, jsonRequestModel);
+			return serverModel;
+			//this.serverSyncModel = serverModel;
+			//console.log("Cleared Model Thingy", serverModel);
+		},
+
 		LoadingUI()
 		{
 			if(this.clicked_state)
@@ -416,6 +489,10 @@ import AbstractFileModel from "./../../Models/AbstractFileModel.js";
 				//for search each:
 				$('button#viewProductDetails').hide();
 				$('div#eachProductLoadingIcon').show();
+
+				//for delete:
+				$('div#productDeleteIcon').show();
+				$('button#deleteProduct').hide();
 			}
 			else if(!this.clicked_state)
 			{
@@ -426,6 +503,10 @@ import AbstractFileModel from "./../../Models/AbstractFileModel.js";
 				//for search each:
 				$('div#eachProductLoadingIcon').hide();
 				$('button#viewProductDetails').show();
+
+				//for delete:
+				$('div#productDeleteIcon').hide();
+				$('button#deleteProduct').show();
 				
 			}
 		},
@@ -578,6 +659,33 @@ import AbstractFileModel from "./../../Models/AbstractFileModel.js";
 				$('div#fetchErrorEachProduct').text("Fetch Error!");
 				$('div#fetchErrorDetailsEachProduct').text(this.serverSyncModel.short_description);
 				//console.log(this.serverSyncModel.short_description);
+			}
+		},
+
+		DeleteEachUI()
+		{
+			if(this.delete_each_success)
+			{
+				$('div#eachProductDetails').hide();
+				$('div#errorSuccessNotifyEachProduct').hide();
+
+			 	$('div#errorSuccessNotifyDeleteProduct').show();
+			 	$('div#deleteSuccessProduct').text('');
+			 	$('div#deleteErrorProduct').text('');
+			 	$('div#deleteErrorDetailsProduct').text('');
+
+			 	$('div#deleteSuccessProduct').text('Product deleted successfully!');
+			}
+			else if(!this.delete_each_success)
+			{
+			 	$('div#errorSuccessNotifyDeleteProduct').show();
+
+			 	$('div#deleteSuccessProduct').text('');
+			 	$('div#deleteErrorProduct').text('');
+			 	$('div#deleteErrorDetailsProduct').text('');
+
+			 	$('div#deleteErrorProduct').text('Product deletion unsuccessful!');
+			 	$('div#deleteErrorDetailsProduct').text(this.serverSyncModel.short_description);
 			}
 		}
 	}

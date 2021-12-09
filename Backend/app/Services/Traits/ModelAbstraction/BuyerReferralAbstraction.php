@@ -43,7 +43,7 @@ trait BuyerReferralAbstraction
         else
         {
             //if it is activated, continue:
-            $sub_ref_url = "/public/api/v1/buyer/referral/{$buyer_id}";
+            $sub_ref_url = "/Hodaviah/Backend/public/api/v1/buyer/referral/{$buyer_id}";
 
             $current_domain = $request->getSchemeAndHttpHost();
             //returns https://hodaviah.com
@@ -66,6 +66,7 @@ trait BuyerReferralAbstraction
         return $ref_link;
         //return $db_ref_link;
     }
+    
 
     protected function BuyerGetReferralBonusService(Request $request)//: string
     {
@@ -96,7 +97,7 @@ trait BuyerReferralAbstraction
             'ref_bonus_amount' => $ref_bonus
         ];
 
-         return $ref_bonus_details;
+        return $ref_bonus_details;
     }
 
 

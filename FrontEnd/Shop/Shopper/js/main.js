@@ -72,6 +72,7 @@ const main = (()=> {
 			AdminProduct.RefreshProductIDs();
 			AdminProduct.FetchProductIDs();
 			AdminProduct.FetchEachProductDetails('button#viewProductDetails');
+			AdminProduct.DeleteEachProductDetails('button#deleteProduct');
 
 			//Business Address
 			AdminBusinessAddress.FetchBusinessAddress();
