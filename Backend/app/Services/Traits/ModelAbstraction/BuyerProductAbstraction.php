@@ -32,17 +32,19 @@ trait BuyerProductAbstraction
 			$eachProductDetailModel->logo_2 = base64_encode(Storage::get($eachProductDetailModel->logo_2));
 
 			//add all corrections back to the main collection:
-			$init = 0;
+			//$init = 0;
 			//because Collections count starts from 1, we subtract 1 in order to synchronize it with the array count style which starts from zero:
-			$array_count = $all_product_details->count() - 1;
-			for($init=0; $init<=$array_count; $init++)
-			{
-				$processed_product_details[$init] = $eachProductDetailModel;
-			}
-			
+			//$array_count = $all_product_details->count()-1;
+			/*for($init=0; $init<=$array_count; $init++)
+			{*/
+				array_push($processed_product_details, $eachProductDetailModel);
+			//}
+
+			//break;
 		}
 
 		return $processed_product_details;
+		//return $all_product_details;
     }
 
 }

@@ -1,5 +1,8 @@
 import AbstractModel from './../../Models/AbstractModel.js';
 	
+	//set up a global variable here for our Cart Map Model:
+	var currentCartModel = new Map();
+	
 	const BuyerFetchProducts = 
 	{	
 		//admin token:
@@ -532,8 +535,8 @@ import AbstractModel from './../../Models/AbstractModel.js';
 		{
 			/*if(addToCartBtn !== "")
 			{*/
-				//first set an empty cart representation:
-				let currentCart = new Map();
+				/*remember that a global currentCartModel representation has been set already: (currentCartModel) 
+				up in the very first line in our code...*/
 
 				//When user clicks the "Add to Cart Button":
 				$(addToCartBtn).click((event)=>
@@ -555,6 +558,10 @@ import AbstractModel from './../../Models/AbstractModel.js';
 					//once this has been added, we hide the button to add cart and show the button to remove from cart:
 					$('div#add_'+productTokenID).hide();
 					$('div#remove_'+productTokenID).show();
+
+					//show total goods still on so far after current deletion:
+					$('span#totalProductsAdded').text('');
+					$('span#totalProductsAdded').text(currentCart.size);
 				});
 			/*}
 			else if(removeFromCartBtn !== "")
@@ -568,9 +575,15 @@ import AbstractModel from './../../Models/AbstractModel.js';
 					//add the product token plus the quantity marked:
 					currentCart.delete(productTokenID);
 					console.log(currentCart);
+
 					//once this has been added, we hide the button to remove from cart and show the button to add to cart
 					$('div#remove_'+productTokenID).hide();
 					$('div#add_'+productTokenID).show();
+
+					//show total goods still on so far after current deletion:
+					$('span#totalProductsAdded').text('');
+					$('span#totalProductsAdded').text(currentCart.size);
+
 				});
 			//}
 
