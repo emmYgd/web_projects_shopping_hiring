@@ -14,14 +14,17 @@ import AbstractModel from './../../Models/AbstractModel.js';
 		clicked_state:false,
 		fetch_each_success:false,
 
-		/*RefreshPendingCartIDs()
+		RefreshAllProducts()
 		{
-			$('button#refreshPendingCartIDs').click((event)=>
+			$('button#refreshAllProducts').click((event)=>
 			{
+				console.log("Hey there!")
 				event.preventDefault();
-				this.FetchPendingCartIDs();
+				//first clear off the product display container:
+				$('div#dispAllProducts').text('');
+				this.FetchAllProducts();
 			});
-		},*/
+		},
 
 		FetchAllProducts()
 		{
@@ -288,7 +291,7 @@ import AbstractModel from './../../Models/AbstractModel.js';
                                                     <span class="product-label label-new w3-card-4 w3-deep-purple">New</span>
                                                 </b>
 
-                                                <a href="product.html">
+                                                <a href="#">
                                                     <!--<img src="assets/images/products/product-4.jpg" alt="Product image" class="product-image">-->
                                                     <img src="data:image/*;base64, ${eachProductModel.main_image_1}" alt="Product image" class="product-image">
                                                 </a>
@@ -333,9 +336,12 @@ import AbstractModel from './../../Models/AbstractModel.js';
                                                 	<span><b class="w3-myfont">add to cart</b></span>
                                                 </div>
 
-                                                <div id="remove_${eachProductModel.product_token_id}" class="w3-card w3-deep-purple btn-product btn-cart w3-ripple">
-                                                	<span><b class="w3-myfont">remove from cart</b></span>
-                                                </div>
+                                                 <div id="remove_${eachProductModel.product_token_id}" class="w3-btn w3-ripple w3-deep-purple">
+                        							<span class="w3-myfont">
+                        								<b>- Remove <span id="goodsQuantity" class="w3-white w3-circle">1</span></b>
+                        							</span>
+                        						</div>
+
 
                                             </div><!-- End .product-list-action -->
                                         </div><!-- End .col-sm-6 col-lg-3 -->
@@ -434,16 +440,19 @@ import AbstractModel from './../../Models/AbstractModel.js';
                             <img src="data:image/*;base64, ${eachProductModel.main_image_1}" alt="Product image">
                         </a>
                     </figure><!-- End .product-media -->
-                    <h4 class="product-title w3-myfont w3-small">${eachProductModel.product_summary}</h4><!-- End .product-title -->
+                    
                 </div><!-- End .col-6 -->
 
                 <div class="col-6 justify-content-end">
+                	<div>
+                		<h4 class="product-title w3-myfont w3-small">${eachProductModel.product_title}</h4><!-- End .product-title -->
+                	</div>
                     <div class="product-price">
                         ${
                             (eachProductModel.product_currency_of_payment === "USD")?'<span>$</span>':'<span>'+eachProductModel.product_currency_of_payment+'</span>'
                         }
-                        <span>${eachProductModel.product_price}</span>
-                    </div><!-- End .product-price --><br/>
+                        <span> ${eachProductModel.product_price} X <span id="goodsQuantity"> 1 </span></span>
+                    </div><!-- End .product-price -->
 
                     <div class="product-details-quantity">
                     	<b>Quantity(-ies):</b>
@@ -451,12 +460,21 @@ import AbstractModel from './../../Models/AbstractModel.js';
                     </div><!-- End .product-details-quantity --><br/>
 
                     <div class="product-details-action">
-                        <div id="${eachProductModel.product_token_id}" class="w3-btn w3-ripple w3-deep-purple">
+
+                        <div id="add_${eachProductModel.product_token_id}" class="w3-btn w3-ripple w3-deep-purple">
                         	<span class="w3-myfont">
                         		<span class="icon-cart"></span>
-                        		<b>Add to Cart</b>
+                        		<b>+ Add to Cart</b>
                         	</span>
                         </div>
+
+                        <div id="remove_${eachProductModel.product_token_id}" class="w3-btn w3-ripple w3-deep-purple">
+                        	<span class="w3-myfont">
+                        		<span class="icon-cart"></span>
+                        		<b>- Remove</b>
+                        	</span>
+                        </div>
+
                     </div><!-- End .product-details-action -->
                 </div><!-- End .col-6 -->
             </div><!-- End .row -->
@@ -529,6 +547,11 @@ import AbstractModel from './../../Models/AbstractModel.js';
 					//console.log(quantityMarked);
 					currentCart.set(productTokenID, quantityMarked);
 					console.log(currentCart);
+
+					//indicate the multiples:
+					$('span#goodsQuantity').text('');
+					$('span#goodsQuantity').text(quantityMarked);
+
 					//once this has been added, we hide the button to add cart and show the button to remove from cart:
 					$('div#add_'+productTokenID).hide();
 					$('div#remove_'+productTokenID).show();

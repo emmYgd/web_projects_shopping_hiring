@@ -97,6 +97,7 @@ const main = (()=> {
 
 			//console.log("About to!");
 			//for product listings:
+			BuyerFetchProducts.RefreshAllProducts();
 			BuyerFetchProducts.FetchAllProducts();
 		}
 
