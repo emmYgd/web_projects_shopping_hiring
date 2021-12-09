@@ -277,7 +277,7 @@ import AbstractModel from './../../Models/AbstractModel.js';
 				//Now display all received products:
 				/*for(let eachProductModel in this.serverSyncModel.products)*/
 				this.serverSyncModel.products.map(eachProductModel => {
-					
+					//display each product:
 					$('div#dispAllProducts').append(`
 
 						<div class="product product-list ">
@@ -329,9 +329,14 @@ import AbstractModel from './../../Models/AbstractModel.js';
                                                     	<span><b class="w3-myfont w3-small">Overview/Customize</b></span></a>
                                                 </div><!-- End .product-action -->
 
-                                                <div class="w3-card w3-deep-purple btn-product btn-cart w3-ripple">
+                                                <div id="add_${eachProductModel.product_token_id}" class="w3-card w3-deep-purple btn-product btn-cart w3-ripple">
                                                 	<span><b class="w3-myfont">add to cart</b></span>
                                                 </div>
+
+                                                <div id="remove_${eachProductModel.product_token_id}" class="w3-card w3-deep-purple btn-product btn-cart w3-ripple">
+                                                	<span><b class="w3-myfont">remove from cart</b></span>
+                                                </div>
+
                                             </div><!-- End .product-list-action -->
                                         </div><!-- End .col-sm-6 col-lg-3 -->
 
@@ -442,11 +447,11 @@ import AbstractModel from './../../Models/AbstractModel.js';
 
                     <div class="product-details-quantity">
                     	<b>Quantity(-ies):</b>
-                        <input type="number" id="sticky-cart-qty" placeholder="Quantity" class="form-control" value="1" min="1" step="1" data-decimals="0" required>
+                        <input type="number" id="product_quantity_${eachProductModel.product_token_id}" placeholder="Quantity" class="form-control" value="1" min="1" step="1" data-decimals="0" required>
                     </div><!-- End .product-details-quantity --><br/>
 
                     <div class="product-details-action">
-                        <div href="#" class="w3-btn w3-ripple w3-deep-purple">
+                        <div id="${eachProductModel.product_token_id}" class="w3-btn w3-ripple w3-deep-purple">
                         	<span class="w3-myfont">
                         		<span class="icon-cart"></span>
                         		<b>Add to Cart</b>
@@ -467,8 +472,14 @@ import AbstractModel from './../../Models/AbstractModel.js';
 
 
 					`);
-				});
 
+					//immediately, hide each remove button:
+					$('input#remove_'+eachProductModel.product_token_id).hide();
+
+					//after all things, monitor event for add to cart
+					this.MonitorAddToCart('div#add_'+ eachProductModel.product_token_id,  eachProductModel.product_token_id);
+				});
+				
 				if(this.serverSyncModel.totalCount<4)
 				{
 					$('li#totalProductCount').text('');
@@ -481,32 +492,45 @@ import AbstractModel from './../../Models/AbstractModel.js';
 					$('li#totalProductCount').text('');
 					$('li#totalProductCount').text(productPages);
 				}
-
-				//get the id details:
-				let allCartIDs = this.serverSyncModel.allCartIDs;
-				//$('div#cartBuyerIDs').text(allbuyerIDs);
-				for(let eachPendingID of allCartIDs)
-				{
-					console.log(eachPendingID);
-					$('div#allPendingCartIDs').append('<span>'+ eachPendingID + '</span><br/>');
-				}
-				
 			}
 			else if(!this.fetch_success)
 			{
-				$('div#pendingCartViewLoadingIcon').hide();
-				$('div#allPendingCartIDs').hide();
-				$('button#refreshPendingCartIDs').show();
+				$('div#dispAllProducts').hide();
+				$('button#refreshAllProducts').show();
+				$('div#fetchAllProductsLoadingIcon').hide();
+				$('nav#navigateIcons').hide();
+				$('div#errorSuccessNotifyAllProducts').show();
+				
+				$('div#fetchSuccessAllProducts').text('');
+				$('div#fetchErrorAllProducts').text('');
+				$('div#fetchErrorDetailsAllProducts').text('');
 
-				$('div#errorSuccessNotifyPending').show();
-				$('div#pendingFetchSuccess').text('');
-				$('div#pendingFetchError').text('');
-				$('div#pendingFetchErrorDetails').text('');
-
-				$('div#pendingFetchError').text('Fetch Error!');
-				$('div#pendingFetchErrorDetails').text(this.serverSyncModel.short_description);
+				$('div#fetchErrorAllProducts').text('Search Error!');
+				$('div#fetchErrorDetailsAllProducts').text(this.serverSyncModel.short_description);
 			}
 		},
+
+		MonitorAddToCart(addToCartBtn, productTokenID)
+		{
+			//first set an empty cart representation:
+			let currentCart = new Map();
+
+			//When user clicks the "Add to Cart Button":
+			$(addToCartBtn).click((event)=>
+			{
+				event.preventDefault();
+				
+				//console.log("I have been clicked!");
+
+				//add the product token plus the quantity marked:
+				let quantityMarked = $('input#product_quantity_'+productTokenID).val();
+				//console.log(quantityMarked);
+				currentCart.set(productTokenID, quantityMarked);
+				//console.log(currentCart);
+				//once this has been added, we show the button to remove from cart:
+				$('div#remove')
+			});
+		}
 	}
 		
 
