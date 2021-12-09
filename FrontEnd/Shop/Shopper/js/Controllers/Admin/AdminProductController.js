@@ -667,7 +667,12 @@ import AbstractFileModel from "./../../Models/AbstractFileModel.js";
 			if(this.delete_each_success)
 			{
 				$('div#eachProductDetails').hide();
-				$('div#errorSuccessNotifyEachProduct').hide();
+				$('div#errorSuccessNotifyEachProduct').show();
+				$('div#fetchSuccessEachProduct').text('');
+				$('div#fetchErrorEachProduct').text('');
+				$('div#fetchErrorDetailsEachProduct').text('');
+
+				$('div#fetchSuccessEachProduct').text('Product deleted successfully!');
 
 			 	$('div#errorSuccessNotifyDeleteProduct').show();
 			 	$('div#deleteSuccessProduct').text('');
