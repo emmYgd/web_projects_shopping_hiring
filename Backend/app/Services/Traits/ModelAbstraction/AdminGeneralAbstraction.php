@@ -3,7 +3,7 @@
 namespace App\Services\Traits\ModelAbstraction;
 
 use Illuminate\Http\Request;
-//use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Storage;
 
 use App\Services\Traits\ModelCRUD\PaymentCRUD;
 use App\Services\Traits\ModelCRUD\CartCRUD;
@@ -81,6 +81,44 @@ trait AdminGeneralAbstraction {
 		}
 
 		return true;
+	}
+
+	protected function AdminFetchAllProductIDsService($request)
+	{
+		$allProductDetails = $this->ProductReadAllLazyService();
+		
+		//the above returns a collection: loop through to get only the ids:
+		$allProductIDs = $allProductDetails->pluck('product_token_id');
+		return $allProductIDs;
+	}
+
+	protected function AdminFetchEachProductDetailsService($request)
+	{
+		$queryKeysValues = [
+			'product_token_id' => $request->product_token_id,
+		];
+
+		$each_product_detail = $this->ProductReadSpecificService($queryKeysValues);
+		if(!$each_product_detail)
+		{
+			throw new \Exception("Product Details not found! Ensure you have created this cart as approriate.");
+		}
+
+		//get the buyer id:
+		//now use this to get the buyer model:(this is in a bead to get buyer email and phone number)
+
+		//begin to prepare the return array:
+		
+		//for images, fetch images whose db link is in the model:
+		$each_product_detail->main_image_1 = base64_encode(Storage::get($each_product_detail->main_image_1));
+		$each_product_detail->main_image_2 = base64_encode(Storage::get($each_product_detail->main_image_2));
+		$each_product_detail->logo_1 = base64_encode(Storage::get($each_product_detail->logo_1));
+		$each_product_detail->logo_2 = base64_encode(Storage::get($each_product_detail->logo_2));
+
+		//get the date created because the feature is hidden:
+		$each_product_detail['product_created_at'] = $each_product_detail->created_at;
+
+		return $each_product_detail;
 	}
 
 

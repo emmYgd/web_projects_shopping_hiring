@@ -114,6 +114,97 @@ final class AdminGeneralController extends Controller //implements AdminGeneralI
     }
 
 
+    public function FetchAllProductIDs(Request $request): JsonResponse
+    {
+        $status = array();
+
+        try{
+            //get rules from validator class:
+            $reqRules = $this->fetchAllProductIDsRules();
+
+            //validate here:
+            $validator = Validator::make($request->all(), $reqRules);
+
+            if($validator->fails())
+            {
+                throw new \Exception("Access Error, can't connect!");
+            }
+
+            $allProductIDs= $this->AdminFetchAllProductIDsService($request);
+            
+            if(empty($allProductIDs))
+            {
+                throw new \Exception("Product IDs empty, create a new one!");
+            }
+
+            $status = [
+                'code' => 1,
+                'serverStatus' => 'FetchSuccess!',
+                'productDetails' => $allProductIDs
+            ];
+
+        }
+        catch(\Exception $ex)
+        {
+            $status = [
+                'code' => 0,
+                'serverStatus' => 'FetchError!',
+                'short_description' => $ex->getMessage()
+            ];
+
+        }//finally{
+            return response()->json($status, 200);
+        //}
+    }
+
+    public function FetchEachProductDetails(Request $request): JsonResponse
+    {
+      $status = array();
+
+      try
+      {
+         //get rules from validator class:
+         $reqRules = $this->fetchEachProductDetailsRules();
+
+         //validate here:
+         $validator = Validator::make($request->all(), $reqRules);
+
+         if($validator->fails())
+         {
+            throw new \Exception("Invalid Product ID provided!");
+         }
+         
+         //this should return in chunks or paginate:
+         $detailsFound = $this->AdminFetchEachProductDetailsService($request);
+         if( empty($detailsFound) )
+         {
+            throw new \Exception("Pending Cart Details not found! Ensure that this is not a Cleared Cart ID.");
+         }
+
+         $status = [
+            'code' => 1,
+            'serverStatus' => 'FetchSuccess!',
+            'productDetails' => $detailsFound
+         ];
+
+      }
+      catch(\Exception $ex)
+      {
+
+         $status = [
+            'code' => 0,
+            'serverStatus' => 'FetchError!',
+            'short_description' => $ex->getMessage()
+         ];
+
+      }
+      /*finally
+      {*/
+         return response()->json($status, 200);
+      //}
+   }
+
+
 
     //tested with get but not with put...
     public function UpdateBusinessDetails(Request $request): JsonResponse

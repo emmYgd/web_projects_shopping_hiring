@@ -571,6 +571,11 @@
                                                         <b>Save</b>
                                                         <span class="icon-cloud"></span>
                                                     </button>
+
+                                                    <button class="w3-right w3-btn w3-border w3-round-xxlarge w3-ripple w3-deep-purple" id="viewAllProduct" data-toggle="modal" data-target="#viewEditProductDetails">    
+                                                        <b>View/Edit</b>
+                                                        <span class="icon-cloud"></span>
+                                                    </button>
                                                 </div>
                                             
                                             </form>
@@ -1447,6 +1452,145 @@
                             </p>
                             <hr/>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="modal fade" id="viewEditProductDetails" tabindex="-1" role="page" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close w3-text-red" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="icon-close"></i></span>
+                    </button><br/>
+                    <div class="w3-container w3-padding w3-margin">
+
+                        <div class="w3-center w3-container w3-card-4 w3-padding w3-margin w3-myfont">
+                            <p><b class="w3-myfont">Product IDs are displayed here:</b></p><br/>
+                            <b><span id="allProductIDs"></span></b>
+                            <br/>
+
+                            <div id="errorSuccessNotifyAllProduct">
+                                <b><div class="w3-center w3-text-green" id="fetchSuccessAllProduct"></div></b>
+                                <b><div class="w3-center w3-text-red" id="fetchErrorAllProduct"></div></b>
+                                <div class="w3-center w3-text-red" id="fetchErrorDetailsAllProduct"></div>
+                            </div>
+
+                            <button id="refreshProductIDs" class="w3-card-4 w3-button w3-border w3-round-xxlarge w3-deep-purple w3-hover-deep-purple w3-ripple"><b>Refresh</b></button>
+
+                            <div class="spinner-grow text-primary" id="allProductLoadingIcon" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+
+                        </div><br/>
+
+                        <p class="w3-center w3-myfont">
+                            <b>Enter Product IDs here to display product information</b>
+                        </p>
+
+                        <form id="searchProductForm">
+                            <input type="text" class="form-control" id="uniqueProductID" name="" placeholder="Cart ID Here" required>
+
+                            <div id="errorSuccessNotifyEachProduct">
+                                <b><div class="w3-center w3-text-green" id="fetchSuccessEachProduct"></div></b>
+                                <b><div class="w3-center w3-text-red" id="fetchErrorEachProduct"></div></b>
+                                <div class="w3-center w3-text-red" id="fetchErrorDetailsEachProduct"></div>
+                            </div>
+
+                            <div class="w3-center">
+                                 <div class="spinner-grow text-primary" id="eachProductLoadingIcon" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <button id="viewProductDetails" type="submit" class="w3-card-4 w3-button w3-border w3-center w3-round-xxlarge w3-deep-purple w3-hover-deep-purple w3-ripple"><b>View</b></button>
+                            </div>
+
+                        </form>
+
+                        <div id="eachProductDetails" class="w3-card-4 w3-container w3-topbar w3-bottombar w3-border-right w3-border-left w3-round-large w3-border-deep-purple w3-padding w3-margin">
+
+                            <div class="w3-center w3-large">
+                               <b>ID: <span id="dispProductID"></span></b><br/><br/>
+                            </div>
+
+                            <p class="w3-myfont w3-medium"><b>Date Created:<br/>
+                                <span id="dispDateCreated"></span></b>
+                            </p>
+                            <hr/>
+                        
+                            <p class="w3-myfont w3-medium"><b>Main Image 1:</b><br/>
+                                <figure id="dispMainImage1"></figure>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Main Image 2:</b><br/>
+                                <figure id="dispMainImage2"></figure>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Logo 1:<br/>
+                                <figure id="dispLogo1"></figure>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Logo 2:<br/>
+                                <figure id="dispLogo2"></figure>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Category:<br/>
+                                <span id="dispProductCategory"></span></b>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Title:<br/>
+                                <span id="dispProductTitle"></span></b>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Short Description:<br/>
+                                <span id="dispShortDisc"></span></b>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Detailed Description:<br/>
+                                <span id="dispDetailedDisc"></span></b>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Currency of Acceptance:<br/>
+                                <span id="dispProductCurrency"></span></b>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Product Price:<br/>
+                                <span id="dispProductPrice"></span></b>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Shipping Cost: <br/>
+                                <span id="dispProductShippingCost"></span></b>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Additional Info: <br/>
+                                <span id="dispAddInfo"></span></b>
+                            </p>
+                            <hr/>
+
+                            <p class="w3-myfont w3-medium"><b>Shipping & Guarantee Info: <br/>
+                                <span id="dispShipGuarantee"></span></b>
+                            </p>
+                            <hr/>
+
+                                <div class="w3-center">
+                                    <div class="spinner-grow text-primary" id="eachProductDeleteIcon" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <button id="deleteEachProduct" class="w3-btn w3-card-4 w3-deep-purple w3-round-xxlarge w3-ripple">Delete</button>
+                                </div>
                         </div>
                     </div>
                 </div>

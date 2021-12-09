@@ -5,11 +5,14 @@ import AdminCartBuyer from "./Controllers/Admin/AdminCartBuyerController.js";
 import AdminPendingCart from "./Controllers/Admin/AdminPendingCartController.js";
 import AdminClearedCart from "./Controllers/Admin/AdminClearedCartController.js";
 
-import AdminProductUpload from "./Controllers/Admin/AdminProductUploadController.js";
+import AdminProduct from "./Controllers/Admin/AdminProductController.js";
+
 import AdminBusinessAddress from "./Controllers/Admin/AdminBusinessAddressController.js";
 import AdminBankAccount from "./Controllers/Admin/AdminBankAccountController.js";
 import AdminLocationsTracks from "./Controllers/Admin/AdminLocationsTracksController.js";
 import AdminReferral from "./Controllers/Admin/AdminReferralController.js"; 
+
+
 
 
 import BuyerRegister from "./Controllers/Buyer/BuyerRegisterController.js";
@@ -65,7 +68,10 @@ const main = (()=> {
 			AdminClearedCart.FetchEachClearedCartDetails('button#viewClearedCartDetails');
 
 			//Upload Products:
-			AdminProductUpload.UploadProduct('button#saveProductDetails');
+			AdminProduct.UploadProduct('button#saveProductDetails');
+			AdminProduct.RefreshProductIDs();
+			AdminProduct.FetchProductIDs();
+			AdminProduct.FetchEachProductDetails('button#viewProductDetails');
 
 			//Business Address
 			AdminBusinessAddress.FetchBusinessAddress();

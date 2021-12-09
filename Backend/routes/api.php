@@ -312,6 +312,19 @@ Route::group(['prefix' => 'v1/admin', /*'middleware' => ''*/], function()
     		'uses' => 'AdminGeneralController@UploadProductDetailsImage'
 		]);
 
+		Route::post('fetch/all/product/ids', [
+			'as' => '', 
+			//'middleware' => 'init',
+    		'uses' => 'AdminGeneralController@FetchAllProductIDs'
+		]);
+
+		Route::post('fetch/each/product/details', [
+			'as' => '', 
+			//'middleware' => 'init',
+    		'uses' => 'AdminGeneralController@FetchEachProductDetails'
+		]);
+
+
 		Route::post('fetch/each/buyer/details', [
 			'as' => '',
 			//'middleware' => 'init',

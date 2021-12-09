@@ -38,6 +38,28 @@ trait AdminGeneralRequestRules {
         return $rules;
     }
 
+    protected function fetchAllProductIDsRules(): array
+    {
+        //set validation rules:
+        $rules = [
+            'token_id'=> 'required | string | size:10 | exists:admins'
+        ];
+
+        return $rules;
+    }
+
+    protected function fetchEachProductDetailsRules(): array
+    {
+        //set validation rules:
+        $rules = [
+            'token_id'=> 'required | string | size:10 | exists:admins',
+            'product_token_id' => 'required | string | size:10 | exists:products'
+        ];
+
+        return $rules;
+    }
+
+
     protected function updateBusinessDetailsRules(): array
     {
         //set validation rules:

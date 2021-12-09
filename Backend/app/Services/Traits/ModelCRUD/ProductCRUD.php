@@ -18,7 +18,7 @@ trait ProductCRUD
 	}
 
 
-	protected function ProductReadSpecificService(array $queryKeysValues): array | null 
+	protected function ProductReadSpecificService(array $queryKeysValues): Product | null 
 	{	
 		$readModel = Product::where($queryKeysValues)->first();
 		return $readModel;
