@@ -474,10 +474,10 @@ import AbstractModel from './../../Models/AbstractModel.js';
 					`);
 
 					//immediately, hide each remove button:
-					$('input#remove_'+eachProductModel.product_token_id).hide();
+					$('div#remove_'+eachProductModel.product_token_id).hide();
 
 					//after all things, monitor event for add to cart
-					this.MonitorAddToCart('div#add_'+ eachProductModel.product_token_id,  eachProductModel.product_token_id);
+					this.MonitorAddToCart('div#add_'+eachProductModel.product_token_id, 'div#remove_'+eachProductModel.product_token_id, eachProductModel.product_token_id);
 				});
 				
 				if(this.serverSyncModel.totalCount<4)
@@ -510,26 +510,47 @@ import AbstractModel from './../../Models/AbstractModel.js';
 			}
 		},
 
-		MonitorAddToCart(addToCartBtn, productTokenID)
+		MonitorAddToCart(addToCartBtn, removeFromCartBtn, productTokenID)
 		{
-			//first set an empty cart representation:
-			let currentCart = new Map();
+			/*if(addToCartBtn !== "")
+			{*/
+				//first set an empty cart representation:
+				let currentCart = new Map();
 
-			//When user clicks the "Add to Cart Button":
-			$(addToCartBtn).click((event)=>
-			{
-				event.preventDefault();
+				//When user clicks the "Add to Cart Button":
+				$(addToCartBtn).click((event)=>
+				{
+					event.preventDefault();
 				
-				//console.log("I have been clicked!");
+					//console.log("I have been clicked!");
 
-				//add the product token plus the quantity marked:
-				let quantityMarked = $('input#product_quantity_'+productTokenID).val();
-				//console.log(quantityMarked);
-				currentCart.set(productTokenID, quantityMarked);
-				//console.log(currentCart);
-				//once this has been added, we show the button to remove from cart:
-				$('div#remove')
-			});
+					//add the product token plus the quantity marked:
+					let quantityMarked = $('input#product_quantity_'+productTokenID).val();
+					//console.log(quantityMarked);
+					currentCart.set(productTokenID, quantityMarked);
+					console.log(currentCart);
+					//once this has been added, we hide the button to add cart and show the button to remove from cart:
+					$('div#add_'+productTokenID).hide();
+					$('div#remove_'+productTokenID).show();
+				});
+			/*}
+			else if(removeFromCartBtn !== "")
+			{*/
+				$(removeFromCartBtn).click((event)=>
+				{
+					event.preventDefault();
+				
+					//console.log("I have been clicked!");
+
+					//add the product token plus the quantity marked:
+					currentCart.delete(productTokenID);
+					console.log(currentCart);
+					//once this has been added, we hide the button to remove from cart and show the button to add to cart
+					$('div#remove_'+productTokenID).hide();
+					$('div#add_'+productTokenID).show();
+				});
+			//}
+
 		}
 	}
 		
