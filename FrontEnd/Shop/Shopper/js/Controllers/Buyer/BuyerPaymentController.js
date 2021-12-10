@@ -14,12 +14,12 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		buyer_card_exp_year:"",
 		
 		//states:
-		is_all_null:false,
+		pay_init:false,
 		fetch_success:false,
 		clicked_state:false,
 		upload_success: false,
 
-		RefreshCardDetails()
+		/*RefreshCardDetails()
 		{
 			$('div#refreshCardDetails').click((event)=>
 			{
@@ -27,15 +27,39 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				this.FetchCardDetails();
 			});
 			
+		},*/
+
+		EnsurePaymentIntent(targetClickElem)
+		{
+			console.log('We are here!');
+			this.pay_init = false;
+			this.Init();
+
+			$(targetClickElem).click((event)=>
+			{
+				event.preventDefault();
+				this.pay_init = true;
+				this.Init();
+			});
+
+			$('button#declineCartPayBtn').click((event)=>
+			{
+				event.preventDefault();
+				this.pay_init=false;
+				this.Init();
+			});
 		},
 
-		FetchCardDetails()
+		MakePayment()
 		{
-			//console.log("Onto Fetching Things");
-			//initialize:
-			this.Init();
+			$('button#proceedCartPayBtn').click((event)=>
+			{
+				console.log('Cool Right')
+				this.clicked_state = true;
+				this.LoadingUI();
+
 				//first call the Sync Model:
-				this.SyncFetchCardDetailsModel().then((serverModel)=>
+				this.SyncMakePaymentModel().then((serverModel)=>
 				{
 					//sync model:
 					this.serverSyncModel = serverModel;
@@ -43,7 +67,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 					//now start conditionals:
 					if( 
 						(this.serverSyncModel.code === 1) &&
-						(this.serverSyncModel.serverStatus === 'FetchSuccess!')
+						(this.serverSyncModel.serverStatus === 'PaymentSuccess!')
 					)
 					{
 						console.log("Success");
@@ -55,7 +79,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 					else if
 					( 
 						(this.serverSyncModel.code === 0) &&
-						(this.serverSyncModel.serverStatus === 'FetchError!')
+						(this.serverSyncModel.serverStatus === 'PaymentError!')
 					)
 					{
 						console.log("Error");
@@ -65,94 +89,33 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 						this.FetchUI();
 					}
 				});
-		},
-		
-		UploadCardDetails(targetClickElem)
-		{
-			//initialize:
-			this.Init();
 
-			$(targetClickElem).click((event)=>
-			{
-
-				this.Collectibles();
-
-				if(
-					this.buyer_card_type == null ||
-					this.buyer_card_number == "" ||
-					this.buyer_card_cvv == "" ||
-					this.buyer_card_exp_month == "" ||
-					this.buyer_card_exp_year == ""
-				)
-				{
-					console.log("Empty!");
-					//lets the default handle this...
-					this.is_all_null = true;
-					this.FetchIsAllNullUI();
-				}
-				else
-				{
-					event.preventDefault();
-
-					this.is_all_null = false;
-					this.FetchIsAllNullUI();
-
-					//set state to true for watchers
-					this.clicked_state = true;
-
-					//UI loading function:
-					this.LoadingUI();
-
-					//call the server sync:
-					this.SyncUploadCardDetailsModel().then((serverModel)=>
-					{
-						//sync model:
-						this.serverSyncModel = serverModel;
-						//set state for watchers
-						this.clicked_state = false;
-						//UI loading function:
-						this.LoadingUI();
-
-						//now start conditionals:
-						if( 
-							(this.serverSyncModel.code === 1) &&
-							(this.serverSyncModel.serverStatus === 'UploadSuccess!')
-						)
-						{
-							console.log("Success");
-							//Upload state:
-							this.upload_success = true;
-							//call reactors:
-							this.UploadUI();
-						}
-						else if
-						( 
-							(this.serverSyncModel.code === 0) &&
-							(this.serverSyncModel.serverStatus === 'UploadError!')
-						)
-						{
-							console.log("Error");
-							//Upload state:
-							this.upload_success = false;
-							//call reactors:
-							this.UploadUI();
-						}
-					});
-				}
 			});
 		},
 
 		Init()
 		{
 			//console.log("Onto Fetching Things")
-			//first get admin id:
 			this.buyer_id = window.localStorage.getItem('buyerID');
+
+			if(this.pay_init)
+			{
+				$('div#settleCartPay').hide();
+				$('div#ensurePaymentIntent').show();
+				//$('div#notifyWithIcon').show();
+				/*
+				$('div#errorSuccessNotifyCardDetails').hide();
 			
-			$('div#allCardDetails').hide();
-			$('div#refreshCardDetails').hide();
-			$('div#errorSuccessNotifyCardDetails').hide();
+				$('div#cardDetailsUploadLoadingIcon').hide();*/
+			}
+			else if(!this.pay_init)
+			{
+				$('div#ensurePaymentIntent').hide();
+				$('div#settleCartPay').show();
+				$('div#notifyWithIcon').hide();
+			}
+
 			
-			$('div#cardDetailsUploadLoadingIcon').hide();
 		},
 
 		Collectibles()
@@ -204,15 +167,19 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		{
 			if(this.clicked_state)
 			{
-				$('button#uploadCardDetailsBtn').hide();
-				$('div#cardDetailsUploadLoadingIcon').show();
+				$('div#ensurePaymentIntent').hide();
+
+				$('div#notifyWithIcon').show();
+				$('div#paymentLoadingIcon').show();
+				$('div#errorSuccessNotifyPayment').hide();
 			}
 			else if(!this.clicked_state)
 			{
-				$('div#cardDetailsUploadLoadingIcon').hide();
-				$('button#uploadCardDetailsBtn').show();
+				$('div#paymentLoadingIcon').hide();
 
-				$('div#errorSuccessNotifyUploadCardDetails').show();
+				$('div#notifyWithIcon').show();
+				$('div#paymentLoadingIcon').hide();
+				$('div#errorSuccessNotifyPayment').show();
 			}
 		},
 		

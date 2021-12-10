@@ -1661,15 +1661,39 @@
                                 <!--</tbody>
 
                             </table><br/><br/>-->
+                            <div id="notifyWithIcon">
+                                <div id="errorSuccessNotifyPayment">
+                                    <b><div class="w3-center w3-text-green" id="fetchSuccessPayment"></div></b>
+                                    <b><div class="w3-center w3-text-red" id="fetchErrorEachPayment"></div></b>
+                                    <div class="w3-center w3-text-red" id="fetchErrorDetailsPayment"></div>
+                                </div>
 
-                            <div class="w3-center w3-padding w3-margin">
-                                <div>Settle your cart now! Carts when cleared, cease to be pending!</div><br/>
+                                <div class="spinner-grow text-primary" id="paymentLoadingIcon" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>  
+                            </div>
+
+                            <div id="settleCartPay" class="w3-center w3-padding w3-margin">
+                                <div><b>Settle your cart now! Carts when cleared, cease to be pending!</b></div><br/>
+
                                 <button id="settleCartPayBtn" class=" w3-btn w3-deep-purple w3-ripple">
                                     <b class="">Settle/Clear</b>
                                 </button>
                                 <!--<button id="remindBuyerMail" class="w3-right w3-btn w3-deep-purple w3-ripple">
                                     <b class="">Go Shopping</b>
                                 </button>-->
+                            </div>
+
+                            <div id="ensurePaymentIntent" class="w3-center w3-padding w3-margin">
+                                <div>Are you sure you want to proceed?<br/>Note that the the details of your debit card already inputed will be used for this transaction!<br/> <b>Go to the dashboard menu to edit your card details </b></div><br/>
+
+                                <button id="proceedCartPayBtn" class="w3-left w3-btn w3-deep-purple w3-ripple">
+                                    <b class="">Yes</b>
+                                </button>
+
+                                <button id="declineCartPayBtn" class="w3-right w3-btn w3-deep-purple w3-ripple">
+                                    <b class="">No</b>
+                                </button>
                             </div>
                         </div>
                     </div>

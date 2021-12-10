@@ -150,7 +150,8 @@ const main = (()=> {
 			BuyerClearedCart.FetchClearedCartIDs();
 			BuyerClearedCart.FetchEachClearedCartDetails('button#viewClearedCartDetails');
 
-
+			BuyerPayment.EnsurePaymentIntent('button#settleCartPayBtn');
+			BuyerPayment.MakePayment();
 
 		}
 
