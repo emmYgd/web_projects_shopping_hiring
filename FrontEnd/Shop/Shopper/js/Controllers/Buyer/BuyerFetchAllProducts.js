@@ -1,7 +1,7 @@
 import AbstractModel from './../../Models/AbstractModel.js';
 	
 	//set up a global variable here for our Cart Map Model:
-	var currentCartModel = new Map();
+	var globalCartModel = new Map();
 	
 	const BuyerFetchProducts = 
 	{	
@@ -16,6 +16,7 @@ import AbstractModel from './../../Models/AbstractModel.js';
 		fetch_success:false,
 		clicked_state:false,
 		fetch_each_success:false,
+		cart_added:false,
 
 		RefreshAllProducts()
 		{
@@ -382,8 +383,8 @@ import AbstractModel from './../../Models/AbstractModel.js';
                                                 </div><!-- End .product-nav -->
                                             </div><!-- End .product-body -->
                                         </div><!-- End .col-lg-6 -->
-                                    </div><!-- End .row -->
-                                </div><!-- End .product -->
+                                    </div><!-- End .row --><br/>
+                                </div><!-- End .product --><br/>
 
 
                                 <!--Modal for exhaustive information about the product and customizing-->
@@ -535,7 +536,7 @@ import AbstractModel from './../../Models/AbstractModel.js';
 		{
 			/*if(addToCartBtn !== "")
 			{*/
-				/*remember that a global currentCartModel representation has been set already: (currentCartModel) 
+				/*remember that a global Cart Model representation has been set already: (globalCartModel) 
 				up in the very first line in our code...*/
 
 				//When user clicks the "Add to Cart Button":
@@ -548,8 +549,9 @@ import AbstractModel from './../../Models/AbstractModel.js';
 					//add the product token plus the quantity marked:
 					let quantityMarked = $('input#product_quantity_'+productTokenID).val();
 					//console.log(quantityMarked);
-					currentCart.set(productTokenID, quantityMarked);
-					console.log(currentCart);
+					//add to the global Cart Model
+					globalCartModel.set(productTokenID, quantityMarked);
+					console.log(globalCartModel);
 
 					//indicate the multiples:
 					$('span#goodsQuantity').text('');
@@ -561,7 +563,12 @@ import AbstractModel from './../../Models/AbstractModel.js';
 
 					//show total goods still on so far after current deletion:
 					$('span#totalProductsAdded').text('');
-					$('span#totalProductsAdded').text(currentCart.size);
+					$('span#totalProductsAdded').text(globalCartModel.size);
+
+					this.cart_added = true;
+					//call the cartSummary Function(controls the upper part summary of the cart...)
+					this.SummarizeCart(productTokenID, this.serverSyncModel.products);
+
 				});
 			/*}
 			else if(removeFromCartBtn !== "")
@@ -573,8 +580,8 @@ import AbstractModel from './../../Models/AbstractModel.js';
 					//console.log("I have been clicked!");
 
 					//add the product token plus the quantity marked:
-					currentCart.delete(productTokenID);
-					console.log(currentCart);
+					globalCartModel.delete(productTokenID);
+					console.log(globalCartModel);
 
 					//once this has been added, we hide the button to remove from cart and show the button to add to cart
 					$('div#remove_'+productTokenID).hide();
@@ -582,12 +589,73 @@ import AbstractModel from './../../Models/AbstractModel.js';
 
 					//show total goods still on so far after current deletion:
 					$('span#totalProductsAdded').text('');
-					$('span#totalProductsAdded').text(currentCart.size);
+					$('span#totalProductsAdded').text(globalCartModel.size);
+
+					this.cart_added = false;
+					//call the cartSummary Function(controls the upper part summary of the cart...)
+					this.SummarizeCart(productTokenID, this.serverSyncModel.products);
 
 				});
 			//}
 
-		}
+		},
+
+		SummarizeCart(selectedProductID, allProductModels)
+		{
+			//find the specific product among all the prodcust collections received from the server side 
+			//where: product_id = selectedProductID;
+			console.log(selectedProductID);
+			console.log(allProductModels);
+
+			let productOnCart = allProductModels.find(eachProductModel => eachProductModel.product_token_id === selectedProductID);
+			console.log(productOnCart);
+			if(this.cart_added)
+			{
+				//Now start adding the product summary:
+				//$('div#selectedProductSummary').text('');
+				$('div#selectedProductSummary').append(`
+
+					<div id="summary_${productOnCart.product_token_id}" class="product">
+                    	<div class="product-cart-details">
+                        	<h4 class="product-title">
+                            	<a href="#" class="w3-myfont">
+                            		<b>${productOnCart.product_title}</b>
+                            	</a>
+                        	</h4>
+
+                        	<span class="cart-product-info w3-myfont">
+                            	<b><span class="cart-product-qty">${globalCartModel.get(selectedProductID)}</span>
+                            	x
+                            		${
+                            			(productOnCart.product_currency_of_payment === "USD")?'<span>$</span>':'<span>'+productOnCart.product_currency_of_payment+'</span>'
+                        			} 
+                        			${productOnCart.product_price}
+                        		</b>
+                        	</span><br/>
+                        	<span class="w3-tag w3-black"><span class="w3-tiny">Shipping:</span>${productOnCart.product_shipping_cost}</span>
+                    	</div><!-- End .product-cart-details -->
+
+                   		<figure class="product-image-container">
+                        	<a href="#" class="product-image">
+                            	<img src="data:image/*;base64, ${productOnCart.main_image_1}" alt="product">
+                        	</a>
+                    	</figure>
+                    	<a href="" id="removeFromCart" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                	</div><!-- End .product -->
+
+				`);
+			}
+			else if(!this.cart_added)
+			{
+				//target the product unselected:
+				$('div#summary_' + productOnCart.product_token_id).text('');
+				$('div#summary_' + productOnCart.product_token_id).hide();
+			}
+
+			//Now watch out for the summary cart cancel button:
+			this.MonitorAddToCart('', 'a#removeFromCart', productOnCart.product_token_id);
+		},
+
 	}
 		
 
