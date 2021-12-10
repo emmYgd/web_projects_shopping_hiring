@@ -106,6 +106,7 @@ const main = (()=> {
 			//for product listings:
 			BuyerFetchAndSelectProducts.RefreshAllProducts();
 			BuyerFetchAndSelectProducts.FetchAllProducts();
+			BuyerFetchAndSelectProducts.PersistPendingCartDetailsToFront('a#checkoutBtn');
 		}
 
 		if($('body#buyerDashboardPage').val() !== undefined )

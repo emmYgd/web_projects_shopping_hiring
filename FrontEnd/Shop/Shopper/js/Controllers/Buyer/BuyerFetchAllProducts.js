@@ -3,7 +3,9 @@ import AbstractModel from './../../Models/AbstractModel.js';
 	//set up a global variable here for our Cart Map Model:
 	var globalCartModel = new Map();
 	var globalTotalPrice = 0;//total price
+	var globalCurrencyOfPayment = "";
 	var toBeDeletedTotalPrice = 0;//price to be deleted, will eventually help our computations:
+
 	
 	const BuyerFetchAndSelectProducts = 
 	{	
@@ -70,67 +72,39 @@ import AbstractModel from './../../Models/AbstractModel.js';
 				});
 		},
 		
-		FetchEachPendingCartDetails(targetClickElem)
+
+		PersistPendingCartDetailsToFront(targetClickElem)
 		{
-			//initialize:
-			this.Init();
 
 			$(targetClickElem).click((event)=>
 			{
-
-				this.Collectibles();
-
-				if(
-					this.uniquePendingID==''
-				)
+				event.preventDefault();
+				//console.log("Cute Cart")
+				//first check if the cart and total product price are intact:
+				if( (globalCartModel.size>0) && (globalTotalPrice>0) )
 				{
-					console.log('Empty!');
-					//lets the default handle this...
+					console.log("Cute Cart!");
+					//console.log("Cute Cart!");
+					//persist these data:
+
+					//for storage purposes 
+
+					//first to the frontend LocalStorage:
+					window.localStorage.clear();
+					window.localStorage.setItem('allProductModels', JSON.stringify(this.serverSyncModel.products));
+					//convert the global cart model to php compartible Collection model:
+					let collectGlobalCartModel = [...globalCartModel].map(([key,value])=> ({key,value}));
+					window.localStorage.setItem('globalCartModel', JSON.stringify(collectGlobalCartModel));
+					window.localStorage.setItem('totalPrice', globalTotalPrice);
+					window.localStorage.setItem('cartCurrencyOfPayment', globalCurrencyOfPayment);
+
+					console.log(globalCartModel)
+
 				}
 				else
 				{
-					event.preventDefault();
-					//set state to true for watchers
-					this.clicked_state = true;
-
-					//UI loading function:
-					this.LoadingUI();
-
-					//call the server sync:
-					this.SyncFetchEachPendingCartDetailsModel().then((serverModel)=>
-					{
-						//sync model:
-						this.serverSyncModel = serverModel;
-						//set state for watchers
-						this.clicked_state = false;
-						//UI loading function:
-						this.LoadingUI();
-
-						//now start conditionals:
-						if( 
-							(this.serverSyncModel.code === 1) &&
-							(this.serverSyncModel.serverStatus === 'FetchSuccess!')
-						)
-						{
-							console.log('Success');
-							//Upload state:
-							this.fetch_each_success = true;
-							//call reactors:
-							this.FetchEachUI();
-						}
-						else if
-						( 
-							(this.serverSyncModel.code === 0) &&
-							(this.serverSyncModel.serverStatus === 'FetchError!')
-						)
-						{
-							console.log('Error');
-							//Upload state:
-							this.fetch_each_success = false;
-							//call reactors:
-							this.FetchEachUI();
-						}
-					});
+					alert(`You haven't selected any Product into your cart!`);
+					//then the modal will take its work...
 				}
 			});
 		},
@@ -169,24 +143,8 @@ import AbstractModel from './../../Models/AbstractModel.js';
 			return serverModel;
 			//this.serverSyncModel = serverModel;
 		},
-			
-		SyncFetchEachPendingCartDetailsModel()
-		{
-			let method = 'POST';
-			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/buyer/dashboard/utils/fetch/each/buyer/cart/details';
-			//prepare the JSON model:
-			let jsonRequestModel = 
-			{
-				'unique_buyer_id' : this.buyer_id,
-				'unique_cart_id' : this.uniquePendingID,
-				'payment_status' : 'pending',
-			}
-
-			let serverModel = AbstractModel(method, UploadServerUrl, jsonRequestModel);
-			return serverModel;
-			//this.serverSyncModel = serverModel;
-		},
-
+		
+		
 		LoadingUI()
 		{
 			if(this.clicked_state)
@@ -496,6 +454,9 @@ import AbstractModel from './../../Models/AbstractModel.js';
 
 
 					`);
+
+				//save the currency of payment in a global variable:
+				globalCurrencyOfPayment = eachProductModel.product_currency_of_payment;
 
 					//immediately, hide each remove button:
 					$('div#remove_'+eachProductModel.product_token_id).hide();

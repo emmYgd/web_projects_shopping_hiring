@@ -7,6 +7,12 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		buyer_email: "",
 		buyer_password: "",
 
+		//for pending cart:
+		globalCartModel:"",
+		totalPrice:"",
+		allProductModels:"",
+		cartCurrencyOfPayment:"",
+
 		//states:
 		clicked_state:false,
 		is_all_null:false,
@@ -65,6 +71,9 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 
 							//save Token Received to Local Storage:
 							this.PersistTokenLocal(); 
+
+							//use this token together with user cart details to create cart:
+							this.PersistPendingCartToBackend();
 
 							//now, redirect:
 							this.RedirectToDashboard();
@@ -176,6 +185,26 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			//this.serverSyncModel = serverModel;
 		},
 
+		SyncPendingCartDetails()
+		{
+			let method = 'POST';
+			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/buyer/dashboard/utils/save/pending/cart/details';
+			//prepare the JSON model:
+			let jsonRequestModel = 
+			{
+				'unique_buyer_id' : this.serverSyncModel.unique_buyer_id,	
+				'attached_goods_ids' : this.globalCartModel,
+				'purchase_currency' : this.cartCurrencyOfPayment,
+				'purchase_price' : this.totalPrice,
+				'payment_status' : 'pending',
+			}
+
+			let serverModel = AbstractModel(method, UploadServerUrl, jsonRequestModel);
+			return serverModel;
+			//this.serverSyncModel = serverModel;
+		},
+
+
 		UpdateIsAllNullUI()
 		{
 			if(this.is_all_null)
@@ -248,6 +277,26 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		{
 			window.localStorage.clear();
 		},
+
+		PersistPendingCartToBackend()
+		{
+			this.globalCartModel = window.localStorage.getItem('globalCartModel');
+			this.totalPrice = window.localStorage.getItem('totalPrice');
+			this.cartCurrencyOfPayment = window.localStorage.getItem('cartCurrencyOfPayment');
+
+			if((globalCartModel!==undefined || globalCartModel!==null || globalCartModel!=="") && 
+				(totalPrice!==undefined || totalPrice!==null || totalPrice !==""))
+			{
+				//persist to database silently:
+				this.SyncPendingCartDetails();
+			}
+			else
+			{
+				//continue:
+				continue;
+			}
+
+		}
 		
 		RedirectToDashboard()
 		{
