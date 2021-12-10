@@ -2,8 +2,10 @@ import AbstractModel from './../../Models/AbstractModel.js';
 	
 	//set up a global variable here for our Cart Map Model:
 	var globalCartModel = new Map();
+	var globalTotalPrice = 0;//total price
+	var toBeDeletedTotalPrice = 0;//price to be deleted, will eventually help our computations:
 	
-	const BuyerFetchProducts = 
+	const BuyerFetchAndSelectProducts = 
 	{	
 		//admin token:
 		buyer_id:null,
@@ -499,7 +501,7 @@ import AbstractModel from './../../Models/AbstractModel.js';
 					$('div#remove_'+eachProductModel.product_token_id).hide();
 
 					//after all things, monitor event for add to cart
-					this.MonitorAddToCart('div#add_'+eachProductModel.product_token_id, 'div#remove_'+eachProductModel.product_token_id, eachProductModel.product_token_id);
+					this.MonitorAddToCart('div#add_'+eachProductModel.product_token_id, 'div#remove_'+eachProductModel.product_token_id, eachProductModel);
 				});
 				
 				if(this.serverSyncModel.totalCount<4)
@@ -514,6 +516,7 @@ import AbstractModel from './../../Models/AbstractModel.js';
 					$('li#totalProductCount').text('');
 					$('li#totalProductCount').text(productPages);
 				}
+
 			}
 			else if(!this.fetch_success)
 			{
@@ -532,12 +535,17 @@ import AbstractModel from './../../Models/AbstractModel.js';
 			}
 		},
 
-		MonitorAddToCart(addToCartBtn, removeFromCartBtn, productTokenID)
+
+		MonitorAddToCart(addToCartBtn, removeFromCartBtn, eachProductModel)
 		{
 			/*if(addToCartBtn !== "")
 			{*/
 				/*remember that a global Cart Model representation has been set already: (globalCartModel) 
 				up in the very first line in our code...*/
+
+				let productTokenID = eachProductModel.product_token_id;
+				let productPrice = eachProductModel.product_price;
+				let productShippingCost = eachProductModel.product_shipping_cost;
 
 				//When user clicks the "Add to Cart Button":
 				$(addToCartBtn).click((event)=>
@@ -578,27 +586,23 @@ import AbstractModel from './../../Models/AbstractModel.js';
 					event.preventDefault();
 				
 					//console.log("I have been clicked!");
+					//before deleting from cart, ensure you save total product price to a global Variable:
+					//first get the product quantity:
+					let productQuantity = globalCartModel.get(productTokenID);
+					let totalPriceBasedOnQty = parseInt(productQuantity) * parseFloat(productPrice);
+					toBeDeletedTotalPrice =  totalPriceBasedOnQty + parseFloat(productShippingCost);
+					console.log('Price to be deleted: '+ toBeDeletedTotalPrice);
 
-					//add the product token plus the quantity marked:
-					globalCartModel.delete(productTokenID);
-					console.log(globalCartModel);
-
-					//once this has been added, we hide the button to remove from cart and show the button to add to cart
-					$('div#remove_'+productTokenID).hide();
-					$('div#add_'+productTokenID).show();
-
-					//show total goods still on so far after current deletion:
-					$('span#totalProductsAdded').text('');
-					$('span#totalProductsAdded').text(globalCartModel.size);
+					//now, delete from Map and UI:
+					this.DeleteProductAndUIFromCart(productTokenID);
 
 					this.cart_added = false;
 					//call the cartSummary Function(controls the upper part summary of the cart...)
 					this.SummarizeCart(productTokenID, this.serverSyncModel.products);
-
 				});
 			//}
-
 		},
+
 
 		SummarizeCart(selectedProductID, allProductModels)
 		{
@@ -640,8 +644,8 @@ import AbstractModel from './../../Models/AbstractModel.js';
                             	<img src="data:image/*;base64, ${productOnCart.main_image_1}" alt="product">
                         	</a>
                     	</figure>
-                    	<a href="" id="removeFromCart" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                	</div><!-- End .product -->
+                    	<!--<a href="" id="removeFromCart" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                	</div>--><!-- End .product -->
 
 				`);
 			}
@@ -652,14 +656,87 @@ import AbstractModel from './../../Models/AbstractModel.js';
 				$('div#summary_' + productOnCart.product_token_id).hide();
 			}
 
+			//Get the total price(+Shipping):
+			this.ComputeCartTotalPrice(productOnCart, productOnCart.product_token_id);
+
 			//Now watch out for the summary cart cancel button:
-			this.MonitorAddToCart('', 'a#removeFromCart', productOnCart.product_token_id);
+			//this.cart_added=false;
+			/*$('a#removeFromCart').click((event)=>
+			{
+				event.preventDefault();
+
+				//this.cart_added = false;
+				this.DeleteProductAndUIFromCart(productOnCart.product_token_id);
+
+				//target the product unselected:
+				$('div#summary_' + productOnCart.product_token_id).text('');
+				$('div#summary_' + productOnCart.product_token_id).hide();
+				this.ComputeCartTotalPrice(productOnCart, productOnCart.product_token_id);
+			}); */
 		},
 
-	}
-		
 
-export default BuyerFetchProducts;
+		DeleteProductAndUIFromCart(productTokenID)
+		{
+			//now, delete from cart:
+			globalCartModel.delete(productTokenID);
+			console.log(globalCartModel);
+
+			//once this has been added, we hide the button to remove from cart and show the button to add to cart
+			$('div#remove_'+productTokenID).hide();
+			$('div#add_'+productTokenID).show();
+
+			//show total goods still on so far after current deletion:
+			$('span#totalProductsAdded').text('');
+			$('span#totalProductsAdded').text(globalCartModel.size);
+		},
+
+		ComputeCartTotalPrice(productOnCart, productID)
+		{
+			if(this.cart_added)
+			{
+				//get each product quantity on cart:
+				let productQuantity = globalCartModel.get(productID);
+				//current product price:
+				let currentProductPrice = productOnCart.product_price;
+
+				//total product price:
+				let totalProductPrice = parseInt(productQuantity) * parseInt(currentProductPrice);
+				//current shipping cost:
+				let currentShippingCost = productOnCart.product_shipping_cost;
+
+				//total price for now:
+				globalTotalPrice += totalProductPrice + parseInt(currentShippingCost);
+				console.log(globalTotalPrice);
+
+				/*display the total count:=> This has been computed in the 
+				ComputeCartTotalPrice(productOnCart) function located downwards*/
+				$('span#totalCartCurrency').text('');
+				$('span#totalCartPrice').text(globalTotalPrice);
+			}
+			else if(!this.cart_added)
+			{
+				//get each product quantity on cart:
+
+				//current total price - obtained by deducting already calculated toBeDeletedTotalPrice from the globalTotalPrice:
+				let current_price = globalTotalPrice - toBeDeletedTotalPrice;
+				globalTotalPrice = current_price;
+				console.log(current_price);
+				//console.log(toBeDeletedTotalPrice);
+
+				/*display the total count:=> This has been computed in the 
+				ComputeCartTotalPrice(productOnCart) function located downwards*/
+				$('span#totalCartCurrency').text('');
+				$('span#totalCartPrice').text('');
+
+				$('span#totalCartCurrency').text('');
+				$('span#totalCartPrice').text(globalTotalPrice);
+
+			}
+		}
+	}
+
+export default BuyerFetchAndSelectProducts;
 	
 	
 	

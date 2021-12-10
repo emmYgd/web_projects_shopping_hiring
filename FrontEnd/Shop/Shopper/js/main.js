@@ -31,7 +31,7 @@ import BuyerReferral from "./Controllers/Buyer/BuyerReferralController.js";
 import BuyerPendingCart from "./Controllers/Buyer/BuyerPendingCartController.js";
 import BuyerClearedCart from "./Controllers/Buyer/BuyerClearedCartController.js";
 
-import BuyerFetchProducts from "./Controllers/Buyer/BuyerFetchAllProducts.js";
+import BuyerFetchAndSelectProducts from "./Controllers/Buyer/BuyerFetchAllProducts.js";
 
 
 //Now start the app with IIFE main():
@@ -104,8 +104,8 @@ const main = (()=> {
 
 			//console.log("About to!");
 			//for product listings:
-			BuyerFetchProducts.RefreshAllProducts();
-			BuyerFetchProducts.FetchAllProducts();
+			BuyerFetchAndSelectProducts.RefreshAllProducts();
+			BuyerFetchAndSelectProducts.FetchAllProducts();
 		}
 
 		if($('body#buyerDashboardPage').val() !== undefined )
