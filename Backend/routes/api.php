@@ -180,16 +180,23 @@ Route::group(['prefix' => 'v1/buyer/', /*'middleware' => ''*/], function(){
     		'uses' => 'BuyerCartController@ViewCartsByCategory'//Pending or Cleared
 		]);
 
+		//This has been handled on frontend:
 		Route::get('edit/pending/carts', [
 			//'as' => 'edit_pending_carts', 
 			//'middleware' => 'init',
     		'uses' => 'BuyerCartController@EditPendingCartGoods'//Pending or Cleared
 		]);
-
+		//this has been handled on frontend:
 		Route::get('delete/pending/carts', [
 			//'as' => 'delete_pending_carts', 
 			//'middleware' => 'init',
     		'uses' => 'BuyerCartController@DeletePendingCart'//Pending or Cleared
+		]);
+
+		Route::post('save/pending/cart/details', [
+			//'as' => 'delete_pending_carts', 
+			//'middleware' => 'init',
+    		'uses' => 'BuyerCartController@SavePendingCartDetails'//Pending or Cleared
 		]);
 
 		//use guzzlehttp to connect to external API to make payment:

@@ -76,7 +76,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 							this.PersistPendingCartToBackend();
 
 							//now, redirect:
-							this.RedirectToDashboard();
+							//this.RedirectToDashboard();
 						}
 						else if
 						( 
@@ -192,7 +192,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			//prepare the JSON model:
 			let jsonRequestModel = 
 			{
-				'unique_buyer_id' : this.serverSyncModel.unique_buyer_id,	
+				'unique_buyer_id' : this.serverSyncModel.uniqueToken,	
 				'attached_goods_ids' : this.globalCartModel,
 				'purchase_currency' : this.cartCurrencyOfPayment,
 				'purchase_price' : this.totalPrice,
@@ -280,23 +280,22 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 
 		PersistPendingCartToBackend()
 		{
-			this.globalCartModel = window.localStorage.getItem('globalCartModel');
+			this.globalCartModel = JSON.parse(window.localStorage.getItem('globalCartModel'));
 			this.totalPrice = window.localStorage.getItem('totalPrice');
 			this.cartCurrencyOfPayment = window.localStorage.getItem('cartCurrencyOfPayment');
 
-			if((globalCartModel!==undefined || globalCartModel!==null || globalCartModel!=="") && 
-				(totalPrice!==undefined || totalPrice!==null || totalPrice !==""))
+			if((this.globalCartModel!==undefined || this.globalCartModel!==null || this.globalCartModel!=="") && 
+				(this.totalPrice!==undefined || this.totalPrice!==null || this.totalPrice !==""))
 			{
 				//persist to database silently:
 				this.SyncPendingCartDetails();
 			}
-			else
+			/*else
 			{
 				//continue:
-				continue;
-			}
+			}*/
 
-		}
+		},
 		
 		RedirectToDashboard()
 		{

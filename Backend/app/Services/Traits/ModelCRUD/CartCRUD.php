@@ -11,7 +11,7 @@ use Illuminate\Support\LazyCollection;
 trait CartCRUD
 {
 	//CRUD for services:
-	protected function CartCreateAllService(Request | array $paramsToBeSaved): bool
+	protected function CartCreateAllService(array $paramsToBeSaved): bool
 	{ 
 		Cart::create($paramsToBeSaved);
 		return true;		

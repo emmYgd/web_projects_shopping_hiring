@@ -8,12 +8,28 @@ use App\Services\Traits\ModelCRUD\ProductCRUD;
 use App\Services\Traits\ModelCRUD\CartCRUD;
 use App\Services\Traits\ModelCRUD\BuyerCRUD;
 
+use App\Services\Traits\Utilities\ComputeUniqueIDService;
+
 trait BuyerCartAbstraction
 {
 	//inherits all their methods:
 	use ProductCRUD;
 	use CartCRUD;
 	use BuyerCRUD;
+
+	use ComputeUniqueIDService;
+
+	public function BuyerSavePendingCartDetailsService(Request $request)
+	{ 
+		//first compute the unique cart id:
+		$unique_cart_id = $this->genUniqueAlphaNumID();
+		//now add this to the incoming request:
+		$request['unique_cart_id'] = $unique_cart_id;
+
+		//persist in database:
+		$is_cart_created = $this->CartCreateAllService($request->all());
+		return $is_cart_created;
+	}
 
 	private function FetchPendingOrClearedCartDetails(Request $request)
 	{
