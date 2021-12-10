@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Services\Traits\ModelCRUD\ProductCRUD;
 use App\Services\Traits\ModelCRUD\CartCRUD;
 use App\Services\Traits\ModelCRUD\BuyerCRUD;
+use App\Services\Traits\ModelAbstraction\BuyerProductAbstraction;
 
 use App\Services\Traits\Utilities\ComputeUniqueIDService;
 
@@ -16,6 +17,7 @@ trait BuyerCartAbstraction
 	use ProductCRUD;
 	use CartCRUD;
 	use BuyerCRUD;
+	use BuyerProductAbstraction;
 
 	use ComputeUniqueIDService;
 
@@ -64,25 +66,33 @@ trait BuyerCartAbstraction
 		}
 
 		//get the attached goods is:
-		$array_all_product_ids = $cart_model->attached_goods_ids;
+		$all_cart_product_summaries = $cart_model->attached_goods_ids;
 		//now use these obtained ids to get the product info from the corresponding Product table:
-		if(empty($array_all_product_ids))
+		if(empty($all_cart_product_summaries))
 		{
 			$this->DeleteEmptyPendingCarts($request);
-			throw new \Exception("This is an invalid Cart! Panding Cart goods content cannot be empty!");
+			throw new \Exception("This is an invalid Cart! Pending Cart goods content cannot be empty!");
 		}
-		foreach ($array_all_product_ids as $each_product_id) 
+
+		//Also, return all products so that frontend can query:
+		$all_product_model = $this->BuyerFetchAvailableProductsService();
+
+		//first start by plucking all keys and values:
+		/*$all_product_ids = $all_cart_product_summaries->pluck('key');
+		foreach ($all_product_ids as $each_product_id) 
 		{
 			$queryKeysValues = ['product_token_id' => $each_product_id];
-			$product_model = $this->ProductReadAllLazySpecificService($queryKeysValues);
-			$product_model_specific = $product_model->pluck(['product_title', 'product_currency_of_payment', 'product_price', 'product_shipping_cost']);
-		}
+			$product_model = $this->ProductReadSpecificService($queryKeysValues);
+			$product_ = $product_model->product_title 
+			'product_price', 'product_shipping_cost']);
+		}*/
 	
 		//begin to prepare the return array:
+		$cart_model['all_product_models'] = $all_product_model;
 		$cart_model['cart_created_at'] = $cart_model->created_at;
 		$cart_model['cart_updated_at'] = $cart_model->updated_at;
 
-		$cart_model['assoc_products_summary'] = $product_model_specific;
+		//$cart_model['cart_summary'] = $product_model_specific;
 
 		return $cart_model;
 	}	

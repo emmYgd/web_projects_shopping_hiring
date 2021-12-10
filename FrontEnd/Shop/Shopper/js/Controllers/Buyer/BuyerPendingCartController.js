@@ -235,11 +235,62 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				$('span#dispBuyerID').text('');
 				$('span#dispBuyerID').text(this.serverSyncModel.cart_details.unique_buyer_id);
 
-				$('span#dispBuyerEmail').text('');
+			$('div#cartProductListing').text('');
+
+			//Now, to display pending cart images and brief listings,
+			let allProductModels = this.serverSyncModel.cart_details.all_product_models;
+			let attached_goods_ids_qty = this.serverSyncModel.cart_details.attached_goods_ids;
+			//console.log('About to go', attached_goods_ids_qty);
+			attached_goods_ids_qty.map((eachAttachedGoodIdQty)=>
+			{
+				//console.log(eachAttachedGoodIdQty);
+				let product_id_on_cart = eachAttachedGoodIdQty.key;
+				//search for the keys from allProductModels:
+				let productOnCart = allProductModels.find(eachProductModel => eachProductModel.product_token_id === product_id_on_cart);
+				console.log(product_id_on_cart);
+				
+					//Now start adding the product summary:
+					//$('div#selectedProductSummary').text('');
+				$('div#cartProductListing').append(`
+
+					<div id="summary_${productOnCart.product_token_id}" class="product">
+                    	<div class="product-cart-details">
+                        	<h4 class="product-title">
+                            	<a href="#" class="w3-myfont">
+                            		<b>${productOnCart.product_title}</b>
+                            	</a>
+                        	</h4>
+
+                        	<span class="cart-product-info w3-myfont">
+                            	<b><span class="cart-product-qty">${eachAttachedGoodIdQty.value}</span>
+                            	x
+                            		${
+                            			(productOnCart.product_currency_of_payment === "USD")?'<span>$</span>':'<span>'+productOnCart.product_currency_of_payment+'</span>'
+                        			} 
+                        			${productOnCart.product_price}
+                        		</b>
+                        	</span><br/>
+                        	<span class="w3-tag w3-black"><span class="w3-tiny">Shipping:</span>${productOnCart.product_shipping_cost}</span>
+                    	</div><!-- End .product-cart-details -->
+
+                   		<figure class="product-image-container w3-left">
+                        	<a href="#" class="product-image">
+                            	<img src="data:image/*;base64, ${productOnCart.main_image_1}" alt="product">
+                        	</a>
+                    	</figure>
+                    	<!--<a href="" id="removeFromCart" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                	</div>--><!-- End .product -->
+
+				`);
+
+			});
+			
+
+				/*$('span#dispBuyerEmail').text('');
 				$('span#dispBuyerEmail').text(this.serverSyncModel.cart_details.buyer_email);
 
 				$('span#dispBuyerPhoneNumber').text('');
-				$('span#dispBuyerPhoneNumber').text(this.serverSyncModel.cart_details.buyer_phone_number);
+				$('span#dispBuyerPhoneNumber').text(this.serverSyncModel.cart_details.buyer_phone_number);*/
 				
 			}
 			else if(!this.fetch_each_success)

@@ -33,6 +33,8 @@ import BuyerClearedCart from "./Controllers/Buyer/BuyerClearedCartController.js"
 
 import BuyerFetchAndSelectProducts from "./Controllers/Buyer/BuyerFetchAllProducts.js";
 
+import BuyerPayment from "./Controllers/Buyer/BuyerPaymentController.js";
+
 
 //Now start the app with IIFE main():
 const main = (()=> {
@@ -147,6 +149,8 @@ const main = (()=> {
 			BuyerClearedCart.RefreshClearedCartIDs();
 			BuyerClearedCart.FetchClearedCartIDs();
 			BuyerClearedCart.FetchEachClearedCartDetails('button#viewClearedCartDetails');
+
+
 
 		}
 

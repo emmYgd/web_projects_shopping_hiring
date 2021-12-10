@@ -76,7 +76,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 							this.PersistPendingCartToBackend();
 
 							//now, redirect:
-							//this.RedirectToDashboard();
+							this.RedirectToDashboard();
 						}
 						else if
 						( 
