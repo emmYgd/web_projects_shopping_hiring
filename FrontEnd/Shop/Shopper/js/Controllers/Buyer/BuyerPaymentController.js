@@ -51,6 +51,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		{
 			$('button#proceedCartPayBtn').click((event)=>
 			{
+				this.Init();
 				//console.log('Cool Right')
 				this.clicked_state = true;
 				this.LoadingUI();
@@ -101,8 +102,6 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			//console.log("Onto Fetching Things")
 			this.buyer_id = window.localStorage.getItem('buyerID');
 			this.current_to_clear_cart_id = window.localStorage.getItem('currentDisplayedPendingCartID');
-
-			$('div#transact_success').hide();
 
 			if(this.pay_init)
 			{

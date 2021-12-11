@@ -141,6 +141,13 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			$('div#eachPendingCartDetails').hide();
 			$('div#eachPendingCartLoadingIcon').hide();
 			$('div#errorSuccessNotifyEachPendingCart').hide();
+
+			console.log('I should be here')
+			//show or hide futher directives to the next steps(make payment)
+			$('div#transact_success').text('');
+			$('div#transact_success').hide();
+			$('div#notifyWithIcon').hide();
+			$('div#settleCartPay').show();
 		},
 
 		Collectibles()
