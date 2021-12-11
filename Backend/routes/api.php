@@ -205,7 +205,7 @@ Route::group(['prefix' => 'v1/buyer/', /*'middleware' => ''*/], function(){
 		Route::post('make/payment', [
 			//'as' => 'make_payment',
 			//'middleware' => 'init',
-    		'uses' => 'BuyerPaymentController@MakePayment'
+    		'uses' => 'BuyerPaymentExecuteController@MakePayment'
 		]);
 
 		/*Buyer's Credit Card or other details of means of payment ....

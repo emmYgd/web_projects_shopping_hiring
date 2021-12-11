@@ -103,6 +103,8 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 						)
 						{
 							console.log("Success");
+							//set local storage for this value:this will be used by other modules:
+							window.localStorage.setItem('currentDisplayedPendingCartID', this.uniquePendingID);
 							//Upload state:
 							this.fetch_each_success = true;
 							//call reactors:

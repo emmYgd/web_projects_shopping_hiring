@@ -4,20 +4,17 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 	{	
 		//admin token:
 		buyer_id:null,
+		current_to_clear_cart_id:null,
 
 		//values:
 		serverSyncModel:"",
-		buyer_card_type:"",
-		buyer_card_number:"",
-		buyer_card_cvv:"",
-		buyer_card_exp_month:"",
-		buyer_card_exp_year:"",
+		total_price:"",
+
 		
 		//states:
 		pay_init:false,
-		fetch_success:false,
+		transact_success:false,
 		clicked_state:false,
-		upload_success: false,
 
 		/*RefreshCardDetails()
 		{
@@ -54,39 +51,45 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		{
 			$('button#proceedCartPayBtn').click((event)=>
 			{
-				console.log('Cool Right')
+				//console.log('Cool Right')
 				this.clicked_state = true;
 				this.LoadingUI();
+
+				//collect info:
+				this.Collectibles();
 
 				//first call the Sync Model:
 				this.SyncMakePaymentModel().then((serverModel)=>
 				{
+					this.clicked_state = false;
+					this.LoadingUI();
+					
 					//sync model:
 					this.serverSyncModel = serverModel;
 
 					//now start conditionals:
 					if( 
 						(this.serverSyncModel.code === 1) &&
-						(this.serverSyncModel.serverStatus === 'PaymentSuccess!')
+						(this.serverSyncModel.serverStatus === 'TransactionSuccess!')
 					)
 					{
 						console.log("Success");
 						//fetch state:
-						this.fetch_success = true;
+						this.transact_success = true;
 						//call reactors:
-						this.FetchUI();
+						this.TransactUI();
 					}
 					else if
 					( 
 						(this.serverSyncModel.code === 0) &&
-						(this.serverSyncModel.serverStatus === 'PaymentError!')
+						(this.serverSyncModel.serverStatus === 'TransactionError!')
 					)
 					{
 						console.log("Error");
 						//fetch state:
-						this.fetch_success = false;
+						this.transact_success = false;
 						//call reactors:
-						this.FetchUI();
+						this.TransactUI();
 					}
 				});
 
@@ -97,6 +100,9 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		{
 			//console.log("Onto Fetching Things")
 			this.buyer_id = window.localStorage.getItem('buyerID');
+			this.current_to_clear_cart_id = window.localStorage.getItem('currentDisplayedPendingCartID');
+
+			$('div#transact_success').hide();
 
 			if(this.pay_init)
 			{
@@ -120,42 +126,20 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 
 		Collectibles()
 		{
-			//set values:
-			this.buyer_card_type = $('select#card_type').val();
-			this.buyer_card_number = $('input#card_number_edit').val(),
-			this.buyer_card_cvv = $('input#card_cvv_edit').val(),
-			this.buyer_card_exp_month = $('input#card_exp_month_edit').val();
-			this.buyer_card_exp_year = $('input#card_exp_year_edit').val();
+			this.total_price = $('span#dispTotalPendingCost').val();
+			console.log('Collected Total Pending Cost! ', this.total_price);
 		},
-
-		SyncFetchCardDetailsModel()
+		
+		SyncMakePaymentModel()
 		{
 			let method = "POST";
-			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/buyer/dashboard/utils/fetch/card/details';
+			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/buyer/dashboard/utils/make/payment';
 			//prepare the JSON model:
 			let jsonRequestModel = 
 			{
 				'unique_buyer_id' : this.buyer_id,
-			}
-
-			let serverModel = AbstractModel(method, UploadServerUrl, jsonRequestModel);
-			return serverModel;
-			//this.serverSyncModel = serverModel;
-		},
-			
-		SyncUploadCardDetailsModel()
-		{
-			let method = "POST";
-			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/buyer/dashboard/utils/upload/card/details';
-			//prepare the JSON model:
-			let jsonRequestModel = 
-			{
-				'unique_buyer_id' : this.buyer_id,
-				'buyer_bank_card_type' : this.buyer_card_type,
-				'buyer_bank_card_number' : this.buyer_card_number,
-				'buyer_bank_card_cvv' : this.buyer_card_cvv,
-				'buyer_bank_card_expiry_month' : this.buyer_card_exp_month,
-				'buyer_bank_card_expiry_year': this.buyer_card_exp_year,
+				'unique_cart_id' : this.current_to_clear_cart_id
+				//'purchase_price' : this.total_price,
 			}
 
 			let serverModel = AbstractModel(method, UploadServerUrl, jsonRequestModel);
@@ -183,116 +167,52 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			}
 		},
 		
-		UploadUI()
-		{	
-			if(this.upload_success)
-			{
-				//clear all forms:
-				$('form#allCardDetailsUpload').trigger('reset');
-
-				//clear first:
-				$('div#errorSuccessNotifyUploadCardDetails').show();
-				$('div#cardDetailsUploadSuccess').text("");
-				$('div#cardDetailsUploadError').text("");
-				$('div#cardDetailsUploadErrorDetails').text("");
-				//Upload Success Message:
-				$('div#cardDetailsUploadSuccess').text("Card Details Uploaded successfully!");
-			}
-			else if(!this.upload_success)
-			{
-				//console.log("Cool Right!");
-				$('div#eachCardDetailsDetails').hide();
-				//clear first:
-				$('div#errorSuccessNotifyUploadCardDetails').show();
-				$('div#cardDetailsUploadSuccess').text("");
-				$('div#cardDetailsUploadError').text("");
-				$('div#cardDetailsUploadErrorDetails').text("");
-
-				//Upload Error Message:
-				$('div#cardDetailsUploadError').text("Upload Error!");
-				$('div#cardDetailsUploadErrorDetails').text(this.serverSyncModel.short_description);
-				//console.log(this.serverSyncModel.short_description);
-			}
-		},
-
-		FetchUI()
+		TransactUI()
 		{
-			if(this.fetch_success)
+			if(this.transact_success)
 			{
-				$('div#cardDetailsViewLoadingIcon').hide();
-				$('div#refreshCardDetails').show();
+				$('div#eachPendingCartDetails').hide();
 
-				if(this.serverSyncModel.buyers == "Empty!")
-				{
-					$('div#errorSuccessNotifyCardDetails').show();
-					$('div#cardDetailsFetchSuccess').text('');
-					$('div#cardDetailsFetchError').text('');
-					$('div#cardDetailsFetchErrorDetails').text('');
+				$('div#transact_success').show();
+				$('div#transact_success').text('');
+				$('div#transact_success').append(`
+					<div class="w3-center w3-card-4 w3-green w3-padding w3-margin w3-round"><b>Transaction Successful!</b></div> 
+					<br/>
+					<div class="w3-center w3-large">
+                       	<b>ID: <span>${this.serverSyncModel.transDetails.unique_cart_id}</span></b><br/><br/>
+                    </div>
+                    <p class="w3-myfont w3-medium"><b>Purchase Currency:<br/>
+                        <span>${this.serverSyncModel.transDetails.purchase_currency}</span></b>
+                    </p>
+                    <hr/>
+                    <p class="w3-myfont w3-medium"><b>Purchase Price:<br/>
+                        <span>${this.serverSyncModel.transDetails.purchase_price}</span></b>
+                    </p>
+                    <hr/>
+                   	<p class="w3-myfont w3-medium"><b>Discount(Referral Bonus):<br/>
+                        <span>${this.serverSyncModel.transDetails.discount === null ? 0 : this.serverSyncModel.transDetails.discount}</span></b>
+                    </p>
+				`)
+			}
+			else if(!this.transact_success)
+			{
+				$('div#ensurePaymentIntent').hide();
 
-					$('div#cardDetailsFetchSuccess').html('Card Details Empty! <br/>Please create new.');
-				}
-				else
-				{
-					$('div#errorSuccessNotifyCardDetails').show();
-					$('div#cardDetailsFetchSuccess').text('');
-					$('div#cardDetailsFetchError').text('');
-					$('div#cardDetailsFetchErrorDetails').text('');
+				$('div#settleCartPay').show();
+				$('div#notifyWithIcon').show();
+				$('div#paymentLoadingIcon').hide();
 
-					$('div#cardDetailsFetchSuccess').html('Fetch Success!');
+				$('div#errorSuccessNotifyPayment').show();
+				$('div#fetchSuccessPayment').text();
+				$('div#fetchErrorPayment').text();
+				$('div#fetchErrorDetailsPayment').text();
 
-					//start displaying the details:
-					$('div#allCardDetails').show();
-
-					$('span#card_type').text('');
-					$('span#card_type').text(this.serverSyncModel.buyers.card_type);
-
-					$('span#card_number').text('');
-					$('span#card_number').text(this.serverSyncModel.buyers.card_number);
-
-					$('span#card_cvv').text('');
-					$('span#card_cvv').text(this.serverSyncModel.buyers.card_cvv);
-
-					$('span#card_exp_month').text('');
-					$('span#card_exp_month').text(this.serverSyncModel.buyers.exp_month);
-
-					$('span#card_exp_year').text('');
-					$('span#card_exp_year').text(this.serverSyncModel.buyers.exp_year);
-				}
+				$('div#fetchErrorPayment').text("Transaction Unsuccessful!");
+				$('div#fetchErrorDetailsPayment').text(`${this.serverSyncModel.short_description}`);
+			}	
 				
-			}
-			else if(!this.fetch_success)
-			{
-				$('div#cardDetailsViewLoadingIcon').hide();
-				$('div#allCardDetails').hide();
-				$('div#refreshCardDetails').show();
-
-				$('div#errorSuccessNotifyCardDetails').show();
-				$('div#cardDetailsFetchSuccess').text('');
-				$('div#cardDetailsFetchError').text('');
-				$('div#cardDetailsFetchErrorDetails').text('');
-
-				$('div#cardDetailsFetchError').text('Fetch Error!');
-				$('div#cardDetailsFetchErrorDetails').text(this.serverSyncModel.short_description);
-			}
 		},
 
-		FetchIsAllNullUI()
-		{
-			if(this.is_all_null)
-			{
-				$('div#errorSuccessNotifyUploadCardDetails').show();
-				$('div#cardDetailsUploadSuccess').text('');
-				$('div#cardDetailsUploadError').text('');
-				$('div#cardDetailsUploadErrorDetails').text('');
-
-				$('div#cardDetailsUploadError').text('Upload Error!');
-				$('div#cardDetailsUploadErrorDetails').text('Please fill up all fields!');
-			}
-			else if(!this.is_all_null)
-			{
-				$('div#errorSuccessNotifyUploadCardDetails').hide();
-			}
-		}
 	}
 		
 

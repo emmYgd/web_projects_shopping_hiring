@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Services\Traits\ModelAbstraction;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+
+use App\Services\Traits\ModelCRUD\CartCRUD;
+use App\Services\Traits\ModelCRUD\BuyerCRUD;
+use App\Services\Traits\ModelCRUD\PaymentCRUD;
+
+use App\Services\Hooks\StripePaymentHook;
+
+trait BuyerPaymentExecuteAbstraction
+{
+	//inherits all their methods:
+	use CartCRUD;
+	use BuyerCRUD;
+	use PaymentCRUD;
+	use StripePaymentHook;
+
+	protected function BuyerMakePaymentService(Request $request): array 
+	{
+		//init:
+		//first get the specific card details of this buyer:
+		$queryKeysValues = ['unique_buyer_id' => $request->unique_buyer_id];
+
+		$buyerDetails = $this->BuyerReadSpecificService($queryKeysValues);
+
+		$userCardDetails = [];
+		//first call all card details and put them in an array:
+		$userCardDetails['buyer_card_type'] = Crypt::decryptString($buyerDetails?->buyer_bank_card_type);
+		$userCardDetails['buyer_card_number'] = Crypt::decryptString($buyerDetails?->buyer_bank_card_number);
+		$userCardDetails['buyer_card_cvv'] = Crypt::decryptString($buyerDetails?->buyer_bank_card_cvv);
+		$userCardDetails['buyer_card_exp_year'] =  Crypt::decryptString($buyerDetails?->buyer_bank_card_expiry_year);
+		$userCardDetails['buyer_card_exp_month'] = Crypt::decryptString($buyerDetails?->buyer_bank_card_expiry_month);
+
+		$cartModel = $this->CartReadSpecificService($queryKeysValues);
+		$userCardDetails['cart_purchase_currency'] = $cartModel?->purchase_currency;
+		$userCardDetails['cart_purchase_price'] = $cartModel?->purchase_price;
+		$userCardDetails['buyer_total_referral_bonus'] = $buyerDetails?->buyer_total_referral_bonus;
+
+		
+		//call our payment hooks that will interact with the API:
+		$is_payment_made = $this->CallStripeService($userCardDetails);
+		if($is_payment_made)
+		{
+			//change the cart state from pending to cleared:
+			$cartQueryKeysValues  = [
+				'unique_buyer_id' => $request->unique_buyer_id, 
+				'unique_cart_id' => $request->unique_cart_id
+			];
+			$newKeysValues = ['payment_status' => 'cleared'];
+			$this->CartUpdateSpecificService($cartQueryKeysValues , $newKeysValues);
+
+			//make the referral bonus equal to null because it has been used:
+			$newKeysValues = ['buyer_total_referral_bonus' => null];
+			$this->BuyerUpdateSpecificService($queryKeysValues, $newKeysValues);
+		}
+		
+		return [
+			'is_payment_made' => $is_payment_made,
+			'unique_cart_id' => $request->unique_cart_id,
+			'purchase_currency' => $userCardDetails['cart_purchase_currency'],
+			'purchase_price' => $userCardDetails['cart_purchase_price'],
+			'discount' => $userCardDetails['buyer_total_referral_bonus']
+		];
+			
+		//return $userCardDetails;
+	}
+}
