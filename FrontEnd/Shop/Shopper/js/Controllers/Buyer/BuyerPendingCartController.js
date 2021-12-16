@@ -63,8 +63,14 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		
 		FetchEachPendingCartDetails(targetClickElem)
 		{
+
 			//initialize:
 			this.Init();
+			//just to test:
+			$('div#transact_success').hide();
+			$('div#notifyWithIcon').hide();
+			$('div#ensurePaymentIntent').hide();
+			$('div#settleCartPay').show();
 
 			$(targetClickElem).click((event)=>
 			{
@@ -142,11 +148,12 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			$('div#eachPendingCartLoadingIcon').hide();
 			$('div#errorSuccessNotifyEachPendingCart').hide();
 
-			console.log('I should be here')
+			console.log('I should be here');
 			//show or hide futher directives to the next steps(make payment)
-			$('div#transact_success').text('');
+			
 			$('div#transact_success').hide();
 			$('div#notifyWithIcon').hide();
+			$('div#ensurePaymentIntent').hide();
 			$('div#settleCartPay').show();
 		},
 
@@ -215,6 +222,12 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				//clear all forms:
 				$('form#searchCartForm').trigger('reset');
 
+				//for test:
+				$('div#transact_success').hide();
+				$('div#notifyWithIcon').hide();
+				$('div#ensurePaymentIntent').hide();
+				$('div#settleCartPay').show();
+
 				//clear first:
 				$('div#errorSuccessNotifyEachPendingCart').show();
 				$('div#fetchSuccessEachPendingCart').text("");
@@ -256,10 +269,16 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				let product_id_on_cart = eachAttachedGoodIdQty.key;
 				//search for the keys from allProductModels:
 				let productOnCart = allProductModels.find(eachProductModel => eachProductModel.product_token_id === product_id_on_cart);
-				console.log(product_id_on_cart);
+				//console.log(product_id_on_cart);
+
+				/*if(productOnCart.product_token_id === undefined || productOnCart.product_token_id === null
+					|| productOnCart.product_token_id === "")
+				{
+					continue;
+				}*/
 				
-					//Now start adding the product summary:
-					//$('div#selectedProductSummary').text('');
+				//Now start adding the product summary:
+				//$('div#selectedProductSummary').text('');
 				$('div#cartProductListing').append(`
 
 					<div id="summary_${productOnCart.product_token_id}" class="product">

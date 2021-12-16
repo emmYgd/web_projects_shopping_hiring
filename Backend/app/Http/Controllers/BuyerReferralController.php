@@ -119,6 +119,8 @@ final class BuyerReferralController extends Controller //implements BuyerExtrasI
    {
       $status = array();
 
+      //redirect to our homepage:
+      $redirect_link = redirect()->to('http://localhost/Hodaviah/FrontEnd/Shop/Shopper/buyerShopCategory.html');
       try
       {
          //get rules from validator class:
@@ -139,16 +141,17 @@ final class BuyerReferralController extends Controller //implements BuyerExtrasI
            //not expecting error here
          }
 
-         //redirect to our homepage:
-         $redirect_link = redirect()->to('http://localhost/Hodaviah/FrontEnd/Shop/Shopper/buyerShopCategory.html');
+         
+         //$redirect_link = 
 
-         /*$status = [
+         $status = [
             'code' => 1,
             'serverStatus' => 'UpdateSuccess!',
             'referral_link' =>$request->getHttpHost()//$bonus_has_recorded//$unique_buyer_id,//
-         ];*/
+         ];
 
-      }catch(\Exception $ex)
+      }
+      catch(\Exception $ex)
       {
 
          $status = [
@@ -157,13 +160,12 @@ final class BuyerReferralController extends Controller //implements BuyerExtrasI
             'short_description' => $ex->getMessage(),
          ];
 
-      }/*finally
-      {*/
-         return $redirect_link;
-         //return response()->json($status, 200);
+      }
+      finally
+      {
          //redirect to our homepage:
-
-      //}
+         return $redirect_link; 
+      }
       
    }
 

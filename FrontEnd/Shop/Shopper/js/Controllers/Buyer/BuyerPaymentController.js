@@ -106,7 +106,9 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			if(this.pay_init)
 			{
 				$('div#settleCartPay').hide();
+				$('div#transact_success').hide();
 				$('div#ensurePaymentIntent').show();
+
 				//$('div#notifyWithIcon').show();
 				/*
 				$('div#errorSuccessNotifyCardDetails').hide();
@@ -191,7 +193,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
                    	<p class="w3-myfont w3-medium"><b>Discount(Referral Bonus):<br/>
                         <span>${this.serverSyncModel.transDetails.discount === null ? 0 : this.serverSyncModel.transDetails.discount}</span></b>
                     </p>
-				`)
+				`);
 			}
 			else if(!this.transact_success)
 			{
@@ -209,7 +211,6 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				$('div#fetchErrorPayment').text("Transaction Unsuccessful!");
 				$('div#fetchErrorDetailsPayment').text(`${this.serverSyncModel.short_description}`);
 			}	
-				
 		},
 
 	}
