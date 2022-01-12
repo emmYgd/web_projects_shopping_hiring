@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 
 use App\Http\Controllers\Validators\BuyerExtrasRequestRules;
 
@@ -40,7 +42,8 @@ final class BuyerExtrasController extends Controller //implements BuyerExtrasInt
 
          //this should return in chunks or paginate:
          $locationDetails = $this->BuyerTrackGoodsService($request);
-         if( empty($locationDetails) ) {
+         if( empty($locationDetails) ) 
+         {
             throw new \Exception("Tracking Details Not Found!");
          }
 
@@ -65,6 +68,53 @@ final class BuyerExtrasController extends Controller //implements BuyerExtrasInt
       {
          return response()->json($status, 200);
       }
+
+   }
+
+   public function FetchGeneralStatistics(Request $request): JsonResponse
+   {
+      $status = array();
+
+      try
+      {
+         //get rules from validator class:
+         $reqRules = $this->fetchGeneralStatisticsRules();
+
+         //validate here:
+         $validator = Validator::make($request->all(), $reqRules);
+
+         if($validator->fails()){
+            throw new \Exception("Access Error, Not Logged In Yet!");
+         }
+
+         //this should return in chunks or paginate:
+         $generalStatisticsDetails = $this->BuyerFetchGeneralStatisticsService($request);
+         if( empty($generalStatisticsDetails) ) 
+         {
+            throw new \Exception("Dashboard statistics details Not Found!");
+         }
+
+         $status = [
+            'code' => 1,
+            'serverStatus' => 'DetailsFound!',
+            'statDetails' =>  $generalStatisticsDetails,
+
+         ];
+
+      }
+      catch(\Exception $ex)
+      {
+         $status = [
+            'code' => 0,
+            'serverStatus' => 'DetailsNotFound!',
+            'short_description' => $ex->getMessage(),
+         ];
+
+      }
+      /*finally
+      {*/
+         return response()->json($status, 200);
+      //}
 
    }
 

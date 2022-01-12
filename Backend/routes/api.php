@@ -58,10 +58,10 @@ Route::group(['prefix' => 'v1/buyer/', /*'middleware' => ''*/], function(){
     		'uses' => 'BuyerAccessController@ConfirmLoginState'
 		]);
 
-		Route::post('forgot/password', [
+		Route::post('reset/password', [
     		//'as' => 'forgot_password',
     		//'middleware' => 'init',
-    		'uses' => 'BuyerAccessController@ForgotPassword'
+    		'uses' => 'BuyerAccessController@ResetPassword'
 		]);
 
 		//this might include payment details like credit card info..
@@ -221,6 +221,12 @@ Route::group(['prefix' => 'v1/buyer/', /*'middleware' => ''*/], function(){
 			'as' => 'payment_history',
 			//'middleware' => 'init',
     		'uses' => 'BuyerPaymentController@ViewPaymentHistory'
+		]);
+
+		Route::post('fetch/general/statistics', [
+			'as' => 'general_statistics', 
+			//'middleware' => 'init',
+    		'uses' => 'BuyerExtrasController@FetchGeneralStatistics'
 		]);
 		
 		//real time location of the goods as updated by the admin:
@@ -418,6 +424,14 @@ Route::group(['prefix' => 'v1/admin', /*'middleware' => ''*/], function()
 		
 		/*some of these data will be used for plotting charts on the frontend:
 			include - month, total payment made*/
+
+		Route::post('fetch/general/statistics', [
+			'as' => 'general_statistics', 
+			//'middleware' => 'init',
+    		'uses' => 'AdminExtrasController@FetchGeneralStatistics'
+		]);
+		
+
 		Route::get('sales/chart/data', [
 			'as' => 'sales_data', 
 			//'middleware' => 'init',

@@ -136,7 +136,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				});
 			});
 		},
-
+		
 		Init()
 		{
 			//hide loading icon:

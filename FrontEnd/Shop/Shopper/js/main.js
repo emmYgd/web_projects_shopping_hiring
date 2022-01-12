@@ -35,6 +35,9 @@ import BuyerFetchAndSelectProducts from "./Controllers/Buyer/BuyerFetchAllProduc
 
 import BuyerPayment from "./Controllers/Buyer/BuyerPaymentController.js";
 
+import AdminGeneralStatistics from "./Controllers/Admin/AdminGeneralStatisticsController.js"; 
+import BuyerGeneralStatistics from "./Controllers/Buyer/BuyerGeneralStatisticsController.js"; 
+
 
 //Now start the app with IIFE main():
 const main = (()=> {
@@ -53,6 +56,8 @@ const main = (()=> {
 		if( $('body#adminDashboardPage').val() !== undefined )
 		{
 			AdminDashboardSecurity.SecureDashboard();
+
+			AdminGeneralStatistics.FetchStatistics();
 
 			//for Carts:
 			AdminCartBuyer.RefreshCartBuyerIDs();
@@ -104,6 +109,10 @@ const main = (()=> {
 			BuyerRegister.RegisterBuyer('button#buyerRegisterBtn');
 			BuyerLoginLogout.LoginDashboard('button#buyerLoginBtn');
 
+			BuyerRegister.ShowForgotPassUI('a#forgot_pass');
+			BuyerRegister.HideForgotPassUI('a#login_show');
+			BuyerRegister.ForgotPassword('button#resetPassBtn');
+
 			//console.log("About to!");
 			//for product listings:
 			BuyerFetchAndSelectProducts.RefreshAllProducts();
@@ -153,6 +162,7 @@ const main = (()=> {
 			BuyerPayment.EnsurePaymentIntent('button#settleCartPayBtn');
 			BuyerPayment.MakePayment();
 
+			BuyerGeneralStatistics.FetchStatistics();
 		}
 
 	});

@@ -28,6 +28,8 @@ trait BuyerPaymentExecuteAbstraction
 		$buyerDetails = $this->BuyerReadSpecificService($queryKeysValues);
 
 		$userCardDetails = [];
+		
+		$userCardDetails['customer'] = $request->unique_buyer_id;
 		//first call all card details and put them in an array:
 		$userCardDetails['buyer_card_type'] = Crypt::decryptString($buyerDetails?->buyer_bank_card_type);
 		$userCardDetails['buyer_card_number'] = Crypt::decryptString($buyerDetails?->buyer_bank_card_number);
@@ -35,10 +37,22 @@ trait BuyerPaymentExecuteAbstraction
 		$userCardDetails['buyer_card_exp_year'] =  Crypt::decryptString($buyerDetails?->buyer_bank_card_expiry_year);
 		$userCardDetails['buyer_card_exp_month'] = Crypt::decryptString($buyerDetails?->buyer_bank_card_expiry_month);
 
-		$cartModel = $this->CartReadSpecificService($queryKeysValues);
+		$userCardDetails['buyer_email'] = $buyerDetails?->buyer_email;
+
+		$cartQueryKeysValues = [
+			'unique_buyer_id' => $request->unique_buyer_id,
+			'unique_cart_id' => $request->unique_cart_id
+		];
+
+		$cartModel = $this->CartReadSpecificService($cartQueryKeysValues);
 		$userCardDetails['cart_purchase_currency'] = $cartModel?->purchase_currency;
-		$userCardDetails['cart_purchase_price'] = $cartModel?->purchase_price;
-		$userCardDetails['buyer_total_referral_bonus'] = $buyerDetails?->buyer_total_referral_bonus;
+
+		$cart_purchase_price = $cartModel?->purchase_price;
+		$buyer_total_referral_bonus = $buyerDetails?->buyer_total_referral_bonus;
+
+		$userCardDetails['charge_price'] = $cart_purchase_price - $buyer_total_referral_bonus;
+
+		$userCardDetails['pending_cart_id'] = $request->unique_cart_id;
 
 		
 		//call our payment hooks that will interact with the API:
@@ -62,8 +76,8 @@ trait BuyerPaymentExecuteAbstraction
 			'is_payment_made' => $is_payment_made,
 			'unique_cart_id' => $request->unique_cart_id,
 			'purchase_currency' => $userCardDetails['cart_purchase_currency'],
-			'purchase_price' => $userCardDetails['cart_purchase_price'],
-			'discount' => $userCardDetails['buyer_total_referral_bonus']
+			'purchase_price' => $cart_purchase_price,
+			'discount' => $buyer_total_referral_bonus
 		];
 			
 		//return $userCardDetails;

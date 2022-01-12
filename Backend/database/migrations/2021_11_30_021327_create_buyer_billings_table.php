@@ -23,8 +23,8 @@ class CreateBuyerBillingsTable extends Migration
             $table->string('billing_country')->nullable();
             $table->string('billing_state');
             $table->string('billing_city_or_town');
-             $table->string('billing_street_or_close');
-            $table->string('billing_home_apartment_suite_or_unit')->nullable();
+             $table->longText('billing_street_or_close');
+            $table->longText('billing_home_apartment_suite_or_unit')->nullable();
             $table->string('billing_phone_number')->unique();
             $table->string('billing_email')->unique();
 

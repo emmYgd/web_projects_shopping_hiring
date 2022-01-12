@@ -40,4 +40,14 @@ trait AdminExtrasRequestRules {
         return $rules;
     }
 
+    protected function fetchGeneralStatisticsRules(): array
+    {
+        //set validation rules:
+        $rules = [
+            'token_id' => 'required | string | exists:admins',
+        ];
+
+        return $rules;
+    }
+
 }

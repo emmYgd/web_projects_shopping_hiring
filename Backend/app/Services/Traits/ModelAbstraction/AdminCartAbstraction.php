@@ -6,12 +6,16 @@ use Illuminate\Http\Request;
 
 use App\Services\Traits\ModelCRUD\CartCRUD;
 use App\Services\Traits\ModelCRUD\BuyerCRUD;
+use App\Services\Traits\ModelCRUD\BuyerBillingCRUD;
+use App\Services\Traits\ModelCRUD\BuyerShippingCRUD;
 
 trait AdminCartAbstraction
 {
 	//inherits all their methods:
 	use CartCRUD;
 	use BuyerCRUD;
+	use BuyerBillingCRUD;
+	use BuyerShippingCRUD;
 
 	protected function AdminFetchEachBuyerDetailsService(Request $request)
 	{
@@ -26,8 +30,10 @@ trait AdminCartAbstraction
 		$total_price_purchased = $assoc_cart_details->pluck('purchase_price')->sum();
 
 		//obtain associated billing address
+		$each_buyer_detail['buyer_billing_detail'] = $this?->BuyerBillingReadSpecificService($queryKeysValues);
 
 		//obtain associated shipping address  
+		$each_buyer_detail['buyer_shipping_detail'] = $this?->BuyerShippingReadSpecificService($queryKeysValues);
 
 		//prepare final return:
 		$each_buyer_detail['assoc_cart_ids'] = $assoc_cart_ids;//->toArray();

@@ -244,46 +244,48 @@
                                     </div>
                                     <div class="tab-pane fade show active w3-center" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
                                         <div class="w3-center row">
-                                            <div class="col-sm-4 w3-card-4 w3-container w3-padding w3-margin w3-border w3-round-xxlarge w3-topbar w3-bottombar w3-border-left w3-border-right w3-border-deep-purple">
+                                            <div class="col-sm-6 w3-card-4 w3-container w3-padding w3-margin w3-border w3-round-xxlarge w3-topbar w3-bottombar w3-border-left w3-border-right w3-border-deep-purple">
                                                 <div>
                                                     <b class="w3-large">Order Statistics</b>
                                                 </div><br/>
                                                 <div class="card-stats-items">
                                                     <div class="w3-third card-stats-item w3-card-4"><b>
-                                                        <div class="card-stats-item-count">
-                                                            24
+                                                        <div class="card-stats-item-count" id="pending_cart_num">
+                                                            
                                                         </div>
                                                         <div class="card-stats-item-label">
                                                             Pending
                                                         </div></b>
                                                     </div>
                                                     <div class="w3-third card-stats-item w3-card-4"><b>
-                                                        <div class="card-stats-item-count">12</div>
-                                                        <div class="card-stats-item-label">In-Transit</div></b>
+                                                        <div class="card-stats-item-count" id="cleared_cart_num"></div>
+                                                        <div class="card-stats-item-label">Cleared</div></b>
                                                     </div>
                                                     <div class="w3-third card-stats-item w3-card-4"><b>
-                                                        <div class="card-stats-item-count">23</div>
-                                                        <div class="card-stats-item-label">Delivered</div></b>
+                                                        <div class="card-stats-item-count" id="in_transit_num"></div>
+                                                        <div class="card-stats-item-label">In-Transit</div></b>
                                                     </div><br/><br/><br/>
                                                 </div>
                                             </div>
                                            
-                                            <div class="col-sm-3 w3-card-4 w3-padding w3-margin w3-border w3-round-xxlarge w3-topbar w3-bottombar w3-border-left w3-border-right w3-border-deep-purple">
+                                            <div class="col-sm-4 w3-card-4 w3-padding w3-margin w3-border w3-round-xxlarge w3-topbar w3-bottombar w3-border-left w3-border-right w3-border-deep-purple">
                                                 <b class="w3-medium w3-large">
                                                     Total Transactions (USD)
                                                 </b><br/><br/>
-                                                <b><span class="card-stats-item-count w3-card-4 w3-margin w3-padding">4000</span></b><br/><br/>
-                                            </div>
-                                            
-                                            <div class="col-md-3 w3-card-4 w3-padding w3-margin w3-border w3-round-xxlarge w3-topbar w3-bottombar w3-border-left w3-border-right w3-border-deep-purple">
-                                                <b class="w3-medium">Sales Volume</b><br/><br/><br/>
-                                                <b><span class="card-stats-item-count w3-card-4 w3-margin w3-padding">5</span>%</b><br/><br/>
+                                                <b><span class="card-stats-item-count w3-card-4 w3-margin w3-padding" id="total_transaction"></span></b><br/><br/>
                                             </div>
                                         </div>
 
                                         <div class="row">
+
                                             <div class="col-sm-6">
-                                                <div class="w3-card-4 w3-container w3-padding w3-margin w3-border w3-myfont w3-ripple">
+                                                <div class="w3-card-4 w3-padding w3-margin w3-border w3-round-xxlarge w3-topbar w3-bottombar w3-border-left w3-border-right w3-border-deep-purple">
+                                                    <b class="w3-medium">Sales Volume Average</b><br/><br/><br/>
+                                                    <b><span class="card-stats-item-count w3-card-4 w3-margin w3-padding" id="sales_volume_average"></span>%</b><br/><br/>
+                                                </div>
+                                            </div>
+
+                                        <!--<div class="w3-card-4 w3-container w3-padding w3-margin w3-border w3-myfont w3-ripple">
                                                     <b class="w3-left w3-medium">
                                                         Top Products <span class="w3-tag w3-tiny w3-margin-bottom">Frequently Sold</span>
                                                     </b>
@@ -318,8 +320,8 @@
                                                         </div>
                                                         </b>
                                                     </div>
-                                                </div>
-                                            </div>
+                                                </div>-->
+                                            
                                             <div class="col-sm-6">
                                                 <div class="w3-card-4 w3-container w3-padding w3-margin w3-border">
                                                     <div class="w3-large w3-border-bottom w3-border-deep-purple">
@@ -328,7 +330,7 @@
                                                 
                                                     <div class="w3-container w3-padding">
                                                         <span class="">
-                                                            <a href="#" class="w3-btn w3-deep-purple w3-ripple w3-myfont w3-round-xxlarge">
+                                                            <a class="w3-btn w3-deep-purple w3-ripple w3-myfont w3-round-xxlarge" id="tab-uploads-link" data-toggle="tab" href="#tab-uploads" aria-selected="true">
                                                                 <b>Upload Items</b>
                                                             </a>
                                                         </span>
@@ -346,14 +348,14 @@
                                                             </a>      
                                                         </span>
                                                         <span class="w3-margin">
-                                                            <a href="#" class="w3-btn w3-deep-purple w3-ripple w3-myfont w3-round-xxlarge">
+                                                            <a class="w3-btn w3-deep-purple w3-ripple w3-myfont w3-round-xxlarge" id="tab-referral-link" data-toggle="tab" href="#tab-referral" role="tab" aria-controls="tab-referral" aria-selected="false">
                                                                 <b>Referral</b>
                                                             </a>      
                                                         </span>
                                                     </div>
                                                     <div class="w3-margin">
                                                         <span class="w3-margin">
-                                                            <a href="#" class="w3-btn w3-deep-purple w3-ripple w3-myfont w3-round-xxlarge">
+                                                            <a class="w3-btn w3-deep-purple w3-ripple w3-myfont w3-round-xxlarge" id="tab-track-link" data-toggle="tab" href="#tab-track" role="tab" aria-controls="tab-track" aria-selected="false">
                                                                 <b>Update Track Details</b>
                                                             </a>      
                                                         </span>
@@ -1289,11 +1291,52 @@
                             </p>
                             <hr/>
                             <p class="w3-myfont w3-medium">
-                                <b>Buyer's Billing Address:<br/><span  id="dispBuyerBillingAddress"></span></b>
+                                <b>Buyer's Billing Address:<br/>
+                                    <div id="dispAllBilling">
+                                        <span id="billingName">User Name</span>
+                                        <br>
+                                        <span id="billingCompany">User Company</span>
+                                        <br>
+                                        <span id="billingCountry">John str</span>
+                                        <br>
+                                        <span id="billingState">New York, NY 10001</span><br>
+                                        <span id="billingCityOrTown">New York, NY 10001</span><br>
+                                        <span id="billingStreetOrClose">New York, NY 10001</span>
+                                        <br>
+                                        <span id="billingHomeApartmentSuiteUnit">New York, NY 10001</span>
+                                        <br>
+                                        <span id="billingPhoneNumber">1-234-987-6543</span>
+                                        <br>
+                                        <span id="billingEmail">yourmail@mail.com</span>
+                                        <br>
+                                        <hr/>
+                                    </div>
+
+                                </b>
                             </p>
                             <hr/>
                             <p class="w3-myfont w3-medium">
-                                <b>Buyer's Shipping Address:<br/><span id="dispBuyerShippingAddress"></span></b>
+                                <b>Buyer's Shipping Address:<br/>
+                                    <div id="dispAllShipping">
+                                        <span id="shippingName">User Name</span>
+                                        <br>
+                                        <span id="shippingCompany">User Company</span>
+                                        <br>
+                                        <span id="shippingCountry">John str</span>
+                                        <br>
+                                        <span id="shippingState">New York, NY 10001</span><br>
+                                        <span id="shippingCityOrTown">New York, NY 10001</span><br>
+                                        <span id="shippingStreetOrClose">New York, NY 10001</span>
+                                        <br>
+                                        <span id="shippingHomeApartmentSuiteUnit">New York, NY 10001</span>
+                                        <br>
+                                        <span id="shippingPhoneNumber">1-234-987-6543</span>
+                                        <br>
+                                        <span id="shippingEmail">yourmail@mail.com</span>
+                                        <br>
+                                        <hr/>
+                                    </div>
+                                </b>
                             </p>
                             <hr/>
                             <p class="w3-myfont w3-medium">
@@ -1455,8 +1498,8 @@
                                 <span id="dispBuyerPhoneNumber"></span></b>
                             </p>
                             <hr/>
-
                         </div>
+
                     </div>
                 </div>
             </div>

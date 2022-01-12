@@ -32,7 +32,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			this.pay_init = false;
 			this.Init();
 
-			$(targetClickElem).click((event)=>
+			$(targetClickElem).click((event) =>
 			{
 				event.preventDefault();
 				this.pay_init = true;

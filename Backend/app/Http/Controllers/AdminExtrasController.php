@@ -161,5 +161,52 @@ final class AdminExtrasController extends Controller //implements ExtrasExtrasIn
 
    }
 
+   public function FetchGeneralStatistics(Request $request): JsonResponse
+   {
+      $status = array();
+
+      try
+      {
+         //get rules from validator class:
+         $reqRules = $this->fetchGeneralStatisticsRules();
+
+         //validate here:
+         $validator = Validator::make($request->all(), $reqRules);
+
+         if($validator->fails()){
+            throw new \Exception("Access Error, Not Logged In Yet!");
+         }
+
+         //this should return in chunks or paginate:
+         $generalStatisticsDetails = $this->AdminFetchGeneralStatisticsService($request);
+         if( empty($generalStatisticsDetails) ) 
+         {
+            throw new \Exception("Dashboard statistics details Not Found!");
+         }
+
+         $status = [
+            'code' => 1,
+            'serverStatus' => 'DetailsFound!',
+            'statDetails' =>  $generalStatisticsDetails,
+
+         ];
+
+      }
+      catch(\Exception $ex)
+      {
+         $status = [
+            'code' => 0,
+            'serverStatus' => 'DetailsNotFound!',
+            'short_description' => $ex->getMessage(),
+         ];
+
+      }
+      /*finally
+      {*/
+         return response()->json($status, 200);
+      //}
+
+   }
+
 
 }

@@ -39,18 +39,18 @@ trait BuyerAccessRequestRules {
         return $rules;
     }
 
-    protected function forgotPassRules():array
+    protected function resetPasswordRules(): array
     {
         //set validation rules:
         $rules = [
-            'email_or_username' => 'required | different:new_pass',
-            'new_pass' => 'required | alpha_num | min:7 | max:15 | different:email_or_username'
+            'buyer_email' => 'required | different:new_password | exists:buyers',
+            'new_password' => 'required | different:buyer_email'
         ];
 
         return $rules;
     }
 
-    protected function editRules():array
+    protected function editRules(): array
     {
         //set validation rules:
         $rules = [

@@ -218,7 +218,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				$('div#eachBuyerDetails').show();
 
 				$('span#dispBuyerID').text('');
-				$('span#dispBuyerID').text(this.admin_id);
+				$('span#dispBuyerID').text(this.uniqueBuyerID);
 
 				$('span#dispBuyerFirstName').text('');
 				$('span#dispBuyerFirstName').text(this.serverSyncModel.buyer_details.buyer_first_name);
@@ -246,6 +246,33 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				$('span#dispBuyerPhoneNumber').text('');
 				$('span#dispBuyerPhoneNumber').text(this.serverSyncModel.buyer_details.buyer_phone_number);
 
+				//begin insert:
+				$('span#billingName').text('');
+				$('span#billingName').text(this.serverSyncModel.buyer_details.buyer_billing_detail.billing_username);
+
+				$('span#billingCompany').text('');
+				$('span#billingCompany').text(this.serverSyncModel.buyer_details.buyer_billing_detail.billing_user_company);
+
+				$('span#billingCountry').text('');
+				$('span#billingCountry').text(this.serverSyncModel.buyer_details.buyer_billing_detail.billing_country);
+
+				$('span#billingState').text('');
+				$('span#billingState').text(this.serverSyncModel.buyer_details.buyer_billing_detail.billing_state);
+
+				$('span#billingCityOrTown').text('');
+				$('span#billingCityOrTown').text(this.serverSyncModel.buyer_details.buyer_billing_detail.billing_city_or_town);
+
+				$('span#billingStreetOrClose').text('');
+				$('span#billingStreetOrClose').text(this.serverSyncModel.buyer_details.buyer_billing_detail.billing_street_or_close);
+
+				$('span#billingHomeApartmentSuiteUnit').text('');
+				$('span#billingHomeApartmentSuiteUnit').text(this.serverSyncModel.buyer_details.buyer_billing_detail.billing_home_apartment_suite_or_unit);
+
+				$('span#billingPhoneNumber').text('Cool');
+				$('span#billingPhoneNumber').text(this.serverSyncModel.buyer_details.buyer_billing_detail.billing_phone_number);
+
+				$('span#billingEmail').text('');
+				$('span#billingEmail').text(this.serverSyncModel.buyer_details.buyer_billing_detail.billing_email);
 				/*let billingAddress = this.serverSyncModel.buyer_details.buyer_billing_address;
 				for(let eachBillingAddressInfo of billingAddress)
 				{
@@ -260,11 +287,40 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 					$('span#dispBuyerShippingAddress').append(eachShippingAddressInfo);
 				}*/
 
+				//begin insert:
+				$('span#shippingName').text('');
+				$('span#shippingName').text(this.serverSyncModel.buyer_details.buyer_shipping_detail.shipping_username);
+
+				$('span#shippingCompany').text('');
+				$('span#shippingCompany').text(this.serverSyncModel.buyer_details.buyer_shipping_detail.shipping_user_company);
+
+				$('span#shippingCountry').text('');
+				$('span#shippingCountry').text(this.serverSyncModel.buyer_details.buyer_shipping_detail.shipping_country);
+
+				$('span#shippingState').text('');
+				$('span#shippingState').text(this.serverSyncModel.buyer_details.buyer_shipping_detail.shipping_state);
+
+				$('span#shippingCityOrTown').text('');
+				$('span#shippingCityOrTown').text(this.serverSyncModel.buyer_details.buyer_shipping_detail.shipping_city_or_town);
+
+				$('span#shippingStreetOrClose').text('');
+				$('span#shippingStreetOrClose').text(this.serverSyncModel.buyer_details.buyer_shipping_detail.shipping_street_or_close);
+
+				$('span#shippingHomeApartmentSuiteUnit').text('');
+				$('span#shippingHomeApartmentSuiteUnit').text(this.serverSyncModel.buyer_details.buyer_shipping_detail.shipping_home_apartment_suite_or_unit);
+
+				$('span#shippingPhoneNumber').text('');
+				$('span#shippingPhoneNumber').text(this.serverSyncModel.buyer_details.buyer_shipping_detail.shipping_phone_number);
+
+				$('span#shippingEmail').text('');
+				$('span#shippingEmail').text(this.serverSyncModel.buyer_details.buyer_shipping_detail.shipping_email);
+				
+
 				$('span#dispBuyerReferralLink').text('');
 				$('span#dispBuyerReferralLink').text(this.serverSyncModel.buyer_details.buyer_referral_link);
 
-				/*$('span#dispBuyerReferralBonus').text('');
-				$('span#dispBuyerReferralBonus').text(this.serverSyncModel.buyer_details.buyer_referral_bonus);*/
+				$('span#dispBuyerReferralBonus').text('');
+				$('span#dispBuyerReferralBonus').text(this.serverSyncModel.buyer_details.buyer_total_referral_bonus);
 			}
 			else if(!this.fetch_each_success)
 			{

@@ -15,6 +15,17 @@ trait BuyerExtrasRequestRules
         return $rules;
     }
 
+    protected function fetchGeneralStatisticsRules(): array
+    {
+        //set validation rules:
+        $rules = [
+            'unique_buyer_id' => 'required | string |  exists:buyers',
+        ];
+
+        return $rules;
+    }
+
+
 
     protected function confirmDeliveryRules(): array
     {

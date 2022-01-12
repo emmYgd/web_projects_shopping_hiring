@@ -80,25 +80,21 @@ trait BuyerAccessAbstraction
 
 	protected function BuyerUpdatePasswordService(Request $request): bool
 	{
-		$email_or_username = $request->input('email_or_username');
-        $new_pass = $request->input('new_pass');
+		$email = $request->input('buyer_email');
+        $new_pass = $request->input('new_password');
 
 		//hash password before save:
-        $hashedPass = $this->HashPassword($new_pass);
+        $hashedPass = $this->BuyerTransformPassService($new_pass);
 
         //query KeyValue Pair:
-        $queryKeysValues = ['email' => $email_or_username];
+        $queryKeysValues = ['buyer_email' => $email];
 		
-		$newKeysValues = ['password' => $hashedPass];
+		$newKeysValues = ['buyer_password' => $hashedPass];
 
 		//attempt at email, then password:
-        $has_updated = $this->BuyerUpdateSpecificService($queryKeysValues, $newKeysValues);
-        if(!$has_updated){
-        	$queryKeysValues = ['username' => $email_or_username];	
-        	$this->BuyerUpdateSpecificService($queryKeysValues, $newKeysValues);
-        }
+        $is_pass_updated = $this->BuyerUpdateSpecificService($queryKeysValues, $newKeysValues);
 
-        return true;
+        return $is_pass_updated;
 	}
 
 

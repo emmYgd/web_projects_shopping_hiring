@@ -61,8 +61,8 @@ trait BuyerCRUD
 
 	protected function BuyerUpdateSpecificService(array $queryKeysValues, array $newKeysValues): bool
 	{
-		Buyer::where($queryKeysValues)->update($newKeysValues);
-		return true;
+		$has_updated = Buyer::where($queryKeysValues)->update($newKeysValues);
+		return $has_updated;
 	}
 
 	protected function BuyerDeleteSpecificService(array $deleteKeysValues): bool

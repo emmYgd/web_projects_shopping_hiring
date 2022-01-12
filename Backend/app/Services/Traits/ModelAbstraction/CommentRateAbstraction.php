@@ -4,13 +4,13 @@ namespace App\Services\Traits\ModelAbstraction;
 
 use Illuminate\Http\Request;
 
-use App\Services\Traits\CommentRateCRUD;
-use App\Services\Utilities\ComputeUniqueIDService;
+/*use App\Services\Traits\CommentRateCRUD;
+use App\Services\Utilities\ComputeUniqueIDService;*/
 
 
 trait CommentRateAbstraction
 {
-	use CommentRateCRUD;
+	/*use CommentRateCRUD;
 	use ComputeUniqueIDService;
 	
 	protected function BuyerCommentRateService(Request $request): bool
@@ -26,14 +26,14 @@ trait CommentRateAbstraction
 			'buyer_id' => $buyer_id,
 			'comment_rate_id' => $comment_rate_id,
 			'comment' => $comment,
-			'rate' => $rate
+			'rate' => $rate,
 			'is_approved_for_view' => false
 			//admin has to approve this for view before it can be displayed to other customers
 		];
 
 		//now save first in the comment_rate_table:
 		$this->CommentRateCreateAllService($toBeSavedParams);
-		return true
+		return true;
 	}
 
 	protected function BuyerViewOtherBuyersCommentRateService(Request $request): array
@@ -49,7 +49,7 @@ trait CommentRateAbstraction
 		//now save first in the comment_rate_table:
 		$other_buyers_comments_rates = $this->CommentRateReadAllExceptLazyService($buyer_id);
 		return $other_buyers_comments_rates;
-	}
+	}*/
 
 }
 

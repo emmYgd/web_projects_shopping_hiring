@@ -11,10 +11,19 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 	 	buyer_email:"",
 	 	buyer_password:"",
 
+	 	reset_email:"",
+	 	reset_password:"",
+	 	confirm_password:"",
+
 		//states:
+		pass_reset:false,
+		pass_confirm_check:false,
+
 		is_all_null:false,
 		clicked_state:false,
 		update_success:false,
+		reset_clicked:false,
+		show_pass:false,
 		
 		RegisterBuyer(targetClickElem)
 		{
@@ -66,7 +75,6 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 						//UI loading function:
 						this.LoadingUI();
 
-
 						//now start conditionals:
 						if( 
 							(this.serverSyncModel.code === 1) &&
@@ -96,11 +104,131 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			});
 		},
 
+		ShowForgotPassUI(targetClickElem)
+		{
+			$('form#resetPassForm').hide();
+			$(targetClickElem).click((event)=>
+			{
+				//first call init:
+				this.show_pass = true;
+				this.Init();
+			});
+		},
+
+		HideForgotPassUI(targetClickElem)
+		{
+			$(targetClickElem).click((event)=>
+			{
+				console.log("Hello there");
+				event.preventDefault();
+				//first call init:
+				this.show_pass = false;
+				this.Init();
+			}); 
+		},
+
+		ForgotPassword(targetClickElem)
+		{
+			this.reset_clicked = false;
+			this.LoadingUI();
+
+			$(targetClickElem).click((event) => 
+			{ 
+				//event.preventDefault();
+
+				//get collectibles:
+				this.Collectibles();
+
+				if
+				(
+					this.reset_email == "" ||
+					this.reset_password == "" ||
+					this.confirm_password == "" 
+				)
+				{
+					//use default error message:
+					/*console.log("Hello Cutie!");
+					console.log(this.reset_email);
+					console.log(this.reset_password);
+					console.log(this.confirm_password);*/
+				}
+				else 
+				{
+					if
+					(
+						this.reset_password !== this.confirm_password
+					)
+					{
+						event.preventDefault();
+						//console.log("Not Cool")
+						this.pass_confirm_check = true; 
+						this.UpdateConfirmPassUI();
+					}
+					else
+					{
+						event.preventDefault();
+						
+						this.pass_confirm_check = false;
+						this.UpdateConfirmPassUI();
+
+						this.reset_clicked = true;
+						this.LoadingUI();	
+
+						this.SyncForgotPasswordModel().then((serverModel)=>{
+							//console.log(serverModel);
+							//sync model:
+							this.serverSyncModel = serverModel;
+
+							this.reset_clicked = false;
+							this.LoadingUI();	
+
+							//now start conditionals:
+							if( 
+								(this.serverSyncModel.code === 1) &&
+								(this.serverSyncModel.serverStatus === 'PassUpdateSuccess!')
+							)
+							{
+								console.log("Success");
+								//update state:
+								this.pass_reset = true;
+								//call reactors:
+								this.UpdateResetUI();
+							}
+							else if
+							( 
+								(this.serverSyncModel.code === 0) &&
+								(this.serverSyncModel.serverStatus === 'PassUpdateFailed!')
+							)
+							{
+								console.log("Error");
+								//update state:
+								this.pass_reset = false;
+								//call reactors:
+								this.UpdateResetUI();
+							}
+						});
+					}
+				}
+			});
+		},
+
 		Init()
 		{
 			//hide loading icon:
 			$('div#registerLoadingIcon').hide();
 			$('div#errorSuccessNotifyBuyerRegister').hide();
+
+			//hide forgot password form:
+			if(this.show_pass)
+			{
+				$('form#loginForm').hide();
+				$('form#resetPassForm').show();
+			}
+			else if(!this.show_pass)
+			{
+				$('form#loginForm').show();
+				$('form#resetPassForm').hide();
+			}
 		},
 
 		Collectibles()
@@ -111,6 +239,15 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 	 		this.buyer_phone_number = $('input#register_phone_number').val();
 	 		this.buyer_email = $('input#register_email').val();
 	 		this.buyer_password = $('input#register_password').val();
+
+	 		//for reset password:
+	 		this.reset_email = $('input#reset_email').val();
+	 		this.reset_password = $('input#reset_password').val();
+	 		this.confirm_password = $('input#confirm_password').val();
+
+	 		console.log(this.reset_email);
+			console.log(this.reset_password);
+			console.log(this.confirm_password);
 		},
 			
 		SyncRegisterModel()
@@ -127,6 +264,23 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 	 			'buyer_phone_number' : this.buyer_phone_number,
 	 			'buyer_email' : this.buyer_email,
 	 			'buyer_password' : this.buyer_password,
+			}
+
+			let serverModel = AbstractModel(method, updateServerUrl, jsonRequestModel);
+			return serverModel;
+			//this.serverSyncModel = serverModel;
+		},
+
+		SyncForgotPasswordModel()
+		{
+			let method = "POST";
+			let updateServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/buyer/auth/reset/password';
+		
+			//prepare the JSON model:
+			let jsonRequestModel = 
+			{
+				buyer_email : this.reset_email,
+	 			new_password : this.reset_password,
 			}
 
 			let serverModel = AbstractModel(method, updateServerUrl, jsonRequestModel);
@@ -154,7 +308,8 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 
 		LoadingUI()
 		{
-			if(this.clicked_state)
+
+			if(this.reset_pass_error)
 			{
 				$('button#buyerRegisterBtn').hide();
 				$('div#registerLoadingIcon').show();
@@ -164,6 +319,17 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				$('div#registerLoadingIcon').hide();
 				$('button#buyerRegisterBtn').show();
 			}
+			if(this.reset_clicked)
+			{
+				$('button#resetPassBtn').hide();
+				$('div#resetPassLoadingIcon').show();	
+			}
+			else if(!this.clicked_state)
+			{
+				$('div#resetPassLoadingIcon').hide();
+				$('button#resetPassBtn').show();
+			}
+
 		},
 		
 		UpdateUI()
@@ -201,10 +367,52 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			}
 		},
 
+		UpdateConfirmPassUI()
+		{
+			if(this.pass_confirm_check)
+			{
+				$('div#errorSuccessResetPass').show();
+				$('div#resetPassSuccess').text('');
+				$('div#resetPassError').text('');
+				$('div#resetPassErrorDetails').text('');
+
+				$('div#resetPassError').text('Reset Error!');
+				$('div#resetPassErrorDetails').text('Password not the same as Confirm Password');
+			}
+			else if(!this.pass_confirm_check)
+			{
+				$('div#resetPassSuccess').text('');
+				$('div#resetPassError').text('');
+				$('div#resetPassErrorDetails').text('');
+				$('div#errorSuccessResetPass').hide();
+			}
+		},
+
+		UpdateResetUI()
+		{ 
+			if(this.pass_reset)
+			{
+				$('form#resetPassForm').trigger('reset');
+				$('div#errorSuccessResetPass').show();
+				$('div#resetPassSuccess').text('');
+				$('div#resetPassError').text('');
+				$('div#resetPassErrorDetails').text('');
+
+				$('div#resetPassSuccess').text('Password Reset Successful!');
+			}
+			else if(!this.pass_reset)
+			{
+				$('div#errorSuccessResetPass').show();
+				$('div#resetPassSuccess').text('');
+				$('div#resetPassError').text('');
+				$('div#resetPassErrorDetails').text('');
+
+				$('div#resetPassError').text('Password Reset Error!');
+				$('div#resetPassErrorDetails').text(this.serverSyncModel.short_description);
+			}
+		}
+
 	}
 		
 
-export default BuyerRegister;
-	
-	
-	
+export default BuyerRegister;     

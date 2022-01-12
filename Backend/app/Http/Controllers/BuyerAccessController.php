@@ -235,7 +235,7 @@ final class BuyerAccessController extends Controller //implements BuyerAccessInt
     
 
 
-    public function forgotPassword(Request $request): JsonResponse
+    public function ResetPassword(Request $request): JsonResponse
     {
 
         $status = array();
@@ -243,31 +243,33 @@ final class BuyerAccessController extends Controller //implements BuyerAccessInt
         try{
 
             //get rules from validator class:
-            $reqRules = $this->forgotPassRules();
+            $reqRules = $this->resetPasswordRules();
 
             //validate here:'new_pass'
             $validator = Validator::make($request->all(), $reqRules);
 
-            if($validator->fails()){
+            if($validator->fails())
+            {
                 throw new \Exception("Invalid Input provided!");
             }
 
             $has_updated = $this->BuyerUpdatePasswordService($request);
 
-            if(!$has_updated){
+            if(!$has_updated)
+            {
                 throw new \Exception("Password could not be changed");
             }
 
             $status = [
                 'code' => 1,
-                'serverStatus' => 'passUpdated',
+                'serverStatus' => 'PassUpdateSuccess!',
             ];
 
         }catch(\Exception $ex){
 
             $status = [
                 'code' => 0,
-                'serverStatus' => 'updateFailed',
+                'serverStatus' => 'PassUpdateFailed!',
                 'short_description' => $ex->getMessage()
             ];
 

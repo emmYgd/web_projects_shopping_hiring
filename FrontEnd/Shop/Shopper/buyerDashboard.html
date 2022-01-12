@@ -299,58 +299,131 @@
 								    <div class="tab-pane fade show active w3-center" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link"><br/>
                                         <div class="w3-center w3-border w3-padding w3-margin w3-large">
                                             <span><b>Welcome 
-                                                <span id="gen_firstname">Emmanuel</span> 
-                                                <span id="gen_lastname">Adediji</span></b></span>
+                                                <span id="gen_firstname"></span> 
+                                                <span id="gen_lastname"></span></b></span>
                                         </div>
 								    	
-								    	<span class="w3-tiny">
-                                            From your account dashboard, you can view your <a href="#tab-orders" class="tab-trigger-link link-underline w3-myfont">recent orders</a>, <br/>manage your <a href="#tab-address" class="tab-trigger-link link-underline w3-myfont">shipping and billing addresses</a>, <br/>and <a href="#tab-account" class="tab-trigger-link link-underline w3-myfont">edit your password and account details</a>.
+								    	<span class="">
+                                            <b>
+                                                From your account dashboard, you can view your <a href="#tab-orders" class="tab-trigger-link link-underline w3-myfont">recent orders</a>, <br/>manage your <a href="#tab-address" class="tab-trigger-link link-underline w3-myfont">shipping and billing addresses</a>, <br/>and <a href="#tab-account" class="tab-trigger-link link-underline w3-myfont">edit your password and account details</a>.
+                                            </b>
                                         </span>
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="w3-card-4 w3-container w3-padding w3-margin w3-border w3-round-xxlarge w3-deep-purple">
-                                                    <b class="w3-medium">Spent So far</b>
-                                                    <div class="total_amount_spent">700 USD</div>
+                                        <div class="w3-center row">
+                                            <div class="col-sm-6 w3-card-4 w3-container w3-padding w3-margin w3-border w3-round-xxlarge w3-topbar w3-bottombar w3-border-left w3-border-right w3-border-deep-purple">
+                                                <div>
+                                                    <b class="w3-large">Order Statistics</b>
+                                                </div><br/>
+                                                <div class="card-stats-items">
+                                                    <div class="w3-third card-stats-item w3-card-4"><b>
+                                                        <div class="card-stats-item-count" id="pending_cart_num">
+                                                            
+                                                        </div>
+                                                        <div class="card-stats-item-label">
+                                                            Pending
+                                                        </div></b>
+                                                    </div>
+                                                    <div class="w3-third card-stats-item w3-card-4"><b>
+                                                        <div class="card-stats-item-count" id="cleared_cart_num"></div>
+                                                        <div class="card-stats-item-label">Cleared</div></b>
+                                                    </div>
+                                                    <div class="w3-third card-stats-item w3-card-4"><b>
+                                                        <div class="card-stats-item-count" id="in_transit_num"></div>
+                                                        <div class="card-stats-item-label">In-Transit</div></b>
+                                                    </div><br/><br/><br/>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
-                                                <div class="w3-card-4 w3-container w3-padding w3-margin w3-border w3-round-xxlarge w3-deep-purple">
-                                                    <b class="w3-medium">Carts Cleared</b>
-                                                    <div class="total_amount_spent">4</div>
-                                                </div>
+                                           
+                                            <div class="col-sm-4 w3-card-4 w3-padding w3-margin w3-border w3-round-xxlarge w3-topbar w3-bottombar w3-border-left w3-border-right w3-border-deep-purple">
+                                                <b class="w3-medium w3-large">
+                                                    Total Transactions (USD)
+                                                </b><br/><br/>
+                                                <b><span class="card-stats-item-count w3-card-4 w3-margin w3-padding" id="total_transaction"></span></b><br/><br/>
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-sm-6">
-                                                <a data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">
-                                                    <div class="w3-card-4 w3-container w3-padding w3-margin w3-border w3-round-xxlarge w3-deep-purple w3-myfont w3-ripple">
-                                                        <b class="w3-medium">Pending Cart</b>
-                                                        <div class="current_cart">1</div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="w3-card-4 w3-container w3-padding w3-margin w3-border w3-round-xxlarge w3-deep-purple">
-                                                    <b class="w3-medium">In Transit (Tracked) </b>
-                                                    <div class="in_transit">4</div>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="row">
                                             <div class="col-sm-6">
-                                                <a data-toggle="tab" href="#tab-referral" role="tab" aria-controls="tab-referral" aria-selected="false">
-                                                    <div class="w3-card-4 w3-container w3-padding w3-margin w3-border w3-round-xxlarge w3-deep-purple w3-myfont w3-ripple">
-                                                        <b class="w3-medium">Referrals</b>
-                                                        <div class="referrals">0</div>
+                                                <div class="w3-card-4 w3-padding w3-margin w3-border w3-round-xxlarge w3-topbar w3-bottombar w3-border-left w3-border-right w3-border-deep-purple">
+                                                    <b class="w3-medium">Purchase Volume Average</b><br/><br/><br/>
+                                                    <b><span class="card-stats-item-count w3-card-4 w3-margin w3-padding" id="purchase_volume_average"></span>%</b><br/><br/>
+                                                </div>
+                                                <!--<div class="w3-card-4 w3-container w3-padding w3-margin w3-border w3-myfont w3-ripple">
+                                                    <b class="w3-left w3-medium">
+                                                        Top Products <span class="w3-tag w3-tiny w3-margin-bottom">Frequently Sold</span>
+                                                    </b>
+                                                    <b class="w3-right w3-small w3-tag w3-circle w3-pink">
+                                                        20
+                                                    </b>
+                                                    <hr class="w3-border-deep-purple" /><br/>
+                                                    <div>
+                                                        <b>
+                                                        <div class="w3-container">
+                                                            <span class="w3-left">
+                                                                <figure>Image1</figure>
+                                                            </span>
+                                                            <span class="w3-center">
+                                                                Product1 
+                                                            </span>
+                                                            <span class="w3-right">
+                                                                Price1
+                                                            </span>
+                                                        </div>
+
+                                                        <div class="w3-container">
+                                                            <span class="w3-left">
+                                                                <figure>Image1</figure>
+                                                            </span>
+                                                            <span class="w3-center">
+                                                                Product1 
+                                                            </span>
+                                                            <span class="w3-right">
+                                                                Price1
+                                                            </span>
+                                                        </div>
+                                                        </b>
                                                     </div>
-                                                </a>
+                                                </div>-->
                                             </div>
                                             <div class="col-sm-6">
-                                                <div class="w3-card-4 w3-container w3-padding w3-margin w3-border w3-round-xxlarge w3-deep-purple">
-                                                    <b class="w3-medium">Referral Bonus</b><br/>
-                                                    <span class="ref_bonus">0</span> USD
+                                                <div class="w3-card-4 w3-container w3-padding w3-margin w3-border">
+                                                    <div class="w3-large w3-border-bottom w3-border-deep-purple">
+                                                        <b>Miscellaneous</b>
+                                                    </div> <br/>
+                                                
+                                                    <div class="w3-container w3-padding">
+                                                        <span class="">
+                                                            <a class="w3-btn w3-deep-purple w3-ripple w3-myfont w3-round-xxlarge" id="tab-payments-link" data-toggle="tab" href="#tab-payments" role="tab" aria-controls="tab-payments" aria-selected="true">
+                                                                <b>Payment</b>
+                                                            </a>
+                                                        </span>
+                                                        <span class="w3-margin">
+                                                            <a class="w3-btn w3-deep-purple w3-ripple w3-myfont w3-round-xxlarge" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="true">
+                                                                <b>View Carts</b>
+                                                            </a>    
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <!--<span class="w3-margin">
+                                                            <a href="#" class="w3-btn w3-deep-purple w3-ripple w3-myfont w3-round-xxlarge">
+                                                                <b>Issues</b>
+                                                                <span class="w3-small w3-tag w3-circle w3-pink"><b>5</b></span>
+                                                            </a>      
+                                                        </span>-->
+                                                        <span class="w3-margin">
+                                                            <a class="w3-btn w3-deep-purple w3-ripple w3-myfont w3-round-xxlarge" data-toggle="tab" href="#tab-referral" role="tab" aria-controls="tab-referral" aria-selected="true">
+                                                                <b>Referral</b>
+                                                            </a>      
+                                                        </span>
+                                                    </div>
+                                                    <div class="w3-margin">
+                                                        <span class="w3-margin">
+                                                            <a class="w3-btn w3-deep-purple w3-ripple w3-myfont w3-round-xxlarge" data-toggle="tab" href="#tab-track" role="tab" aria-controls="tab-track" aria-selected="true">
+                                                                <b>Track</b>
+                                                            </a>      
+                                                        </span>
+                                                    </div>
+                                                    <br/>
                                                 </div>
                                             </div>
                                         </div>
