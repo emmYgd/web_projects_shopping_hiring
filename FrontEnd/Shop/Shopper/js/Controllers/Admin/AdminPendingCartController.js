@@ -8,11 +8,15 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 		//values:
 		serverSyncModel:"",
 		uniquePendingID:"",
+
+		remind_email:"",
 		
 		//states:
 		fetch_success:false,
 		clicked_state:false,
 		fetch_each_success:false,
+		remind_clicked:false,
+		remind_success:false,
 
 		RefreshPendingCartIDs()
 		{
@@ -126,6 +130,57 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			});
 		},
 
+		RemindBuyer(targetClickElem)
+		{
+			$(targetClickElem).click((event)=>
+			{
+				event.preventDefault();
+
+				//get the present user email:
+				//due to the UI flow, the user email is still in the serverSyncModel:
+				this.remind_email = this.serverSyncModel.cart_details.buyer_email
+
+				//set up the animations:
+				this.remind_clicked = true;
+				this.RemindUI();
+
+				this.SyncRemindPendingBuyer().then((serverModel) => 
+				{
+					//use the serverModel locally here:
+
+						this.remind_clicked = false;
+						this.RemindUI();
+
+						//now start conditionals:
+						if( 
+							(this.serverModel.code === 1) &&
+							(this.serverModel.serverStatus === 'RemindSuccess!')
+						)
+						{
+							console.log("Success");
+							//Upload state:
+							this.remind_success = true;
+							//call reactors:
+							this.RemindUI();
+						}
+						else if
+						( 
+							(this.serverSyncModel.code === 0) &&
+							(this.serverSyncModel.serverStatus === 'RemindError!')
+						)
+						{
+							console.log("Error");
+							//Upload state:
+							//Upload state:
+							this.remind_success = false;
+							//call reactors:
+							this.RemindUI();
+						}
+
+				});
+			});
+		},
+
 		Init()
 		{
 			//console.log("Onto Fetching Things")
@@ -176,6 +231,22 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				'token_id' : this.admin_id,
 				'unique_cart_id' : this.uniquePendingID,
 				'payment_status' : 'pending',
+			}
+
+			let serverModel = AbstractModel(method, UploadServerUrl, jsonRequestModel);
+			return serverModel;
+			//this.serverSyncModel = serverModel;
+		},
+
+		SyncRemindPendingBuyer()
+		{
+			let method = "POST";
+			let UploadServerUrl = 'http://localhost/Hodaviah/Backend/public/api/v1/admin/dashboard/utils/remind/pending/buyer';
+			//prepare the JSON model:
+			let jsonRequestModel = 
+			{
+				'token_id' : this.admin_id,
+				'buyer_email' : this.remind_email,
 			}
 
 			let serverModel = AbstractModel(method, UploadServerUrl, jsonRequestModel);
@@ -301,6 +372,47 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				$('div#pendingFetchErrorDetails').text(this.serverSyncModel.short_description);
 			}
 		},
+
+		RemindUI()
+		{
+			if(this.remind_clicked)
+			{
+				$('button#remindBuyerMail').hide();
+				$('div#remindLoadingIcon').show();
+			}
+			else if(!this.remind_clicked)
+			{
+				$('div#errorSuccessNotifyRemindPending').hide();
+				$('div#remindLoadingIcon').hide();
+			}
+
+			if(this.remind_success)
+			{
+				$('div#remindLoadingIcon').hide();
+				$('button#remindBuyerMail').show();
+				$('div#errorSuccessNotifyRemindPending').show()
+
+				$('div#remindSuccess').text('');
+				$('div#remindError').text('');
+				$('div#remindErrorDetails').text('');
+
+				$('div#remindSuccess').text('Pending Buyer Successfully Reminded!');
+			}
+			else if(!this.remind_success)
+			{
+				$('div#remindLoadingIcon').hide();
+				$('button#remindBuyerMail').show();
+				$('div#errorSuccessNotifyRemindPending').show()
+
+				$('div#remindSuccess').text('');
+				$('div#remindError').text('');
+				$('div#remindErrorDetails').text('');
+
+				$('div#remindError').text('Pending Buyer Reminding Error!');
+				$('div#remindErrorDetails').text(this.serverSyncModel.
+			}
+			
+		}
 	}
 		
 

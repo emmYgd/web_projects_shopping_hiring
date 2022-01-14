@@ -68,6 +68,7 @@ const main = (()=> {
 			AdminPendingCart.RefreshPendingCartIDs();
 			AdminPendingCart.FetchPendingCartIDs();
 			AdminPendingCart.FetchEachPendingCartDetails('button#viewPendingCartDetails');
+			AdminPendingCart.RemindBuyer('button#remindBuyerMail');
 
 			//for cleared Carts:
 			AdminClearedCart.RefreshClearedCartIDs();

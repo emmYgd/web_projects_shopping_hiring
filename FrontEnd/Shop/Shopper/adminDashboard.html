@@ -1422,9 +1422,21 @@
 
                             <div class="w3-center w3-padding w3-margin">
                                 <div>Remind the buyer to clear (pay up for) his goods on this pending cart </div>
+
+                                <div id="errorSuccessNotifyRemindPending">
+                                    <b><div class="w3-center w3-text-green" id="remindSuccess"></div></b>
+                                    <b><div class="w3-center w3-text-red" id="remindError"></div></b>
+                                    <div class="w3-center w3-text-red" id="remindErrorDetails"></div>
+                                </div>
+
                                 <button id="remindBuyerMail" class="w3-btn w3-deep-purple w3-ripple">
                                     <b class="">Remind Buyer</b>
                                 </button>
+
+                                 <div class="spinner-grow text-primary" id="remindLoadingIcon" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+
                             </div>
                         </div>
                     </div>

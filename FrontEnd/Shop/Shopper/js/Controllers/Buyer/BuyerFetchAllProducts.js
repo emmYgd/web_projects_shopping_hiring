@@ -293,7 +293,7 @@ import AbstractModel from './../../Models/AbstractModel.js';
 
                                                 <div class="product-action w3-margin-left w3-padding">
                                                     <a href="#overview_customize_modal" data-toggle="modal" class="btn-product btn-quickview" title="Quick view">
-                                                    	<span><b class="w3-myfont w3-small">Overview/Customize</b></span></a>
+                                                    	<span><b class="w3-myfont w3-medium">Overview/Customize</b></span></a>
                                                 </div><!-- End .product-action -->
 
                                                 <div id="add_${eachProductModel.product_token_id}" class="w3-card w3-deep-purple btn-product btn-cart w3-ripple">
@@ -344,7 +344,7 @@ import AbstractModel from './../../Models/AbstractModel.js';
                                             </div><!-- End .product-body -->
                                         </div><!-- End .col-lg-6 -->
                                     </div><!-- End .row --><br/>
-                                </div><!-- End .product --><br/>
+                                </div><!-- End .product --><br/><br/>
 
 
                                 <!--Modal for exhaustive information about the product and customizing-->
