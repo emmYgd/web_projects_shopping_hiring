@@ -132,41 +132,45 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 
 		RemindBuyer(targetClickElem)
 		{
+			//set up the initial flows:
+			this.remind_clicked = false;
+			this.RemindUIinit();
+
 			$(targetClickElem).click((event)=>
 			{
-				event.preventDefault();
+				//event.preventDefault();
+				console.log("Hello Cutie");
+
+				this.remind_clicked = true;
+				this.RemindUIinit();
 
 				//get the present user email:
 				//due to the UI flow, the user email is still in the serverSyncModel:
 				this.remind_email = this.serverSyncModel.cart_details.buyer_email
-
-				//set up the animations:
-				this.remind_clicked = true;
-				this.RemindUI();
-
+				
 				this.SyncRemindPendingBuyer().then((serverModel) => 
 				{
 					//use the serverModel locally here:
 
 						this.remind_clicked = false;
-						this.RemindUI();
+						this.RemindUIinit();
 
 						//now start conditionals:
 						if( 
-							(this.serverModel.code === 1) &&
-							(this.serverModel.serverStatus === 'RemindSuccess!')
+							(serverModel.code === 1) &&
+							(serverModel.serverStatus === 'RemindSuccess!')
 						)
 						{
 							console.log("Success");
 							//Upload state:
 							this.remind_success = true;
 							//call reactors:
-							this.RemindUI();
+							this.RemindUIsync();
 						}
 						else if
 						( 
-							(this.serverSyncModel.code === 0) &&
-							(this.serverSyncModel.serverStatus === 'RemindError!')
+							(serverModel.code === 0) &&
+							(serverModel.serverStatus === 'RemindError!')
 						)
 						{
 							console.log("Error");
@@ -174,9 +178,8 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 							//Upload state:
 							this.remind_success = false;
 							//call reactors:
-							this.RemindUI();
+							this.RemindUIsync();
 						}
-
 				});
 			});
 		},
@@ -373,7 +376,7 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 			}
 		},
 
-		RemindUI()
+		RemindUIinit()
 		{
 			if(this.remind_clicked)
 			{
@@ -385,13 +388,16 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				$('div#errorSuccessNotifyRemindPending').hide();
 				$('div#remindLoadingIcon').hide();
 			}
+		},
 
+		RemindUIsync()
+		{
 			if(this.remind_success)
 			{
 				$('div#remindLoadingIcon').hide();
 				$('button#remindBuyerMail').show();
 				$('div#errorSuccessNotifyRemindPending').show()
-
+ 
 				$('div#remindSuccess').text('');
 				$('div#remindError').text('');
 				$('div#remindErrorDetails').text('');
@@ -408,11 +414,10 @@ import AbstractModel from "./../../Models/AbstractModel.js";
 				$('div#remindError').text('');
 				$('div#remindErrorDetails').text('');
 
-				$('div#remindError').text('Pending Buyer Reminding Error!');
-				$('div#remindErrorDetails').text(this.serverSyncModel.
-			}
-			
+				$('div#remindError').text('Pending Buyer Reminding Error! Please try again!');
+			}	
 		}
+
 	}
 		
 
