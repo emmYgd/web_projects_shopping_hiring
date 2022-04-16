@@ -14,12 +14,12 @@ class BuyerObserver
      */
     public function created(Buyer $buyer)
     {
-        $buyer_email = $buyer->buyer_email
-
-        //send mail: //NOTE: In a cart just created, the default value is pending:
+        //send mail: 
         $mail_from = env('ADMIN_EMAIL');
+
+        //start sending mail:
         $mail_header = "From:".  $mail_from;
-        $mail_to = $buyer_email;
+        $mail_to = $buyer->buyer_email;
         $mail_subject = "You Just Signed Up with Us!";
         $mail_message = "KUDOS! You have just created your Account with Us. Dont stop there - Select our products, clear your cart, and keep enjoying our amazing offers. Best Regards!";
         

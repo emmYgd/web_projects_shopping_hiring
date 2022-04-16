@@ -19,6 +19,7 @@ trait BuyerCartRequestRules
         return $rules;   
     }
 
+
     //pending or cleared
     protected function fetchAllBuyerCartIDsRules(): array
     {
@@ -31,6 +32,7 @@ trait BuyerCartRequestRules
         return $rules;   
     }
 
+
     protected function fetchEachCartDetailsRules(): array
     {
         //set validation rules:
@@ -42,5 +44,4 @@ trait BuyerCartRequestRules
 
         return $rules;   
     }
-
 }

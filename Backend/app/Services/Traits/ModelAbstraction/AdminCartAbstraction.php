@@ -100,4 +100,24 @@ trait AdminCartAbstraction
 
 		return $all_unique_cart_ids;
 	}
+
+	protected function  BuyerRemindPendingService($request)
+	{
+		//set SMTP server and port:
+		ini_set('SMTP', env('GOOGLE_MAIL_SERVER'));
+		ini_set('smtp_port', env('MAIL_PORT'));
+		
+		//NOTE: In a cart just created, the default value is pending:
+        $mail_from = env('ADMIN_EMAIL');
+        $mail_header = "From:".  $mail_from;
+        $mail_to = $request->buyer_email;
+        $mail_subject = "Clear your pending Carts!";
+        $mail_message = "You have created a pending Cart. Dont stop there - Clear your cart and keep enjoying our amazing offers. Best Regards!";
+        
+        $mail_was_sent = mail($mail_to, $mail_subject, $mail_message, $mail_header);
+        if($mail_was_sent)
+        {
+            return true;
+        }
+	}
 }

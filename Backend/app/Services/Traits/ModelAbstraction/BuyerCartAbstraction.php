@@ -100,7 +100,6 @@ trait BuyerCartAbstraction
 
 	protected function BuyerFetchAllCartIDsService(Request $request)
 	{
-	
 		//assign:
 		$queryKeysValues = [
 			'unique_buyer_id' => $request->unique_buyer_id,
@@ -113,4 +112,5 @@ trait BuyerCartAbstraction
 
 		return $all_unique_cart_ids;
 	}
+
 }

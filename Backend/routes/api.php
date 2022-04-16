@@ -451,9 +451,9 @@ Route::group(['prefix' => 'v1/admin', /*'middleware' => ''*/], function()
 		]);
 
 		//send messages as reminders to the owner of these goods to complete their purchases:
-		Route::post('remind/cart/owners', [
+		Route::post('remind/pending/buyer', [
 			//'as' => 'remind_cart_owners', 
-    		'uses' => 'AdminCartController@RemindPendingCartOwners'
+    		'uses' => 'AdminCartController@RemindPendingBuyer'
 		]);
 
 		//view all goods in motion and their respective locations:

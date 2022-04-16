@@ -50,5 +50,16 @@ trait AdminCartRequestRules {
         return $rules;   
     }
 
+    protected function remindPendingBuyerRules(): array
+    {
+        //set validation rules:
+        $rules = [
+            'token_id' => 'required | exists:admins',
+            'buyer_email' => 'required | exists:buyers',
+        ];
+
+        return $rules;  
+    }
+
    
 }
